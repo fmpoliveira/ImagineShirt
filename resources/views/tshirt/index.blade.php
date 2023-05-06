@@ -64,6 +64,10 @@
         @endforeach
     </div>
 
+    <div>
+        {{ $tshirts->withQueryString()->links() }}
+    </div>
+
 
 
 @endsection

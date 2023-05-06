@@ -13,8 +13,10 @@ class TshirtController extends Controller
     public function index()
     {
         $allTshirts = Tshirt::all();
+        $tshirtsQuery = Tshirt::query();
         //debug($allTshirts);
         // Log::debug('Cursos has been loaded on the controller.', ['$allTshirts' => $allTshirts]);
+        $allTshirts = $tshirtsQuery->paginate(5);
         return view('tshirt.index')->with('tshirts', $allTshirts);
     }
 
