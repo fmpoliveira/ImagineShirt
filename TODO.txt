@@ -1,0 +1,7 @@
+- páginas de utilizadpr
+Guilherme - login
+Guilherme - registo de novo utilizador
+Guilherme - informação de conta de utilizador
+Francisco - listagem tshirts
+Alexandre - encomendas (histórico, detalhes)
+Alexandre - página carrinho de compras 
