@@ -4,6 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CursoController;
 use App\Http\Controllers\DisciplinaController;
 use App\Http\Controllers\TshirtController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\OrderItemController;
+use App\Http\Controllers\PriceController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -21,6 +24,14 @@ Route::view('/', 'home')->name('root');
 // Route::delete('cursos/{curso}', [CursoController::class, 'destroy'])->name('cursos.destroy');
 
 // WITH A SINGLE LINE OF CODE:
+// Route::get('cart/{customer}', [TshirtController::class, 'index'])->name('tshirts.index');
+
+Route::resource('prices', PriceController::class);
+
+Route::resource('orderItems', OrderItemController::class);
+
+Route::resource('orders', OrderController::class);
+
 Route::resource('tshirts', TshirtController::class);
 
 Route::resource('disciplinas', DisciplinaController::class);

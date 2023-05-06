@@ -10,7 +10,7 @@ class Order extends Model
     const DEFAULT_STATUS = "pending";
 
     use HasFactory;
-    protected $fillable = ['date', 'total_price', 'nif'];
+    protected $fillable = ['status', 'notes', 'nif', 'address', 'payment_type', 'payment_ref', 'receipt_url'];
 
     /**
      * The model's default values for attributes.
