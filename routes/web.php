@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CursoController;
 use App\Http\Controllers\DisciplinaController;
@@ -7,6 +8,8 @@ use App\Http\Controllers\TshirtController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderItemController;
 use App\Http\Controllers\PriceController;
+use App\Http\Controllers\ColorController;
+use App\Http\Controllers\CustomerController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -35,6 +38,12 @@ Route::resource('orders', OrderController::class);
 Route::resource('tshirts', TshirtController::class);
 
 Route::resource('disciplinas', DisciplinaController::class);
+
+Route::resource('colors', ColorController::class);
+
+Route::resource('customers', CustomerController::class);
+
+Route::resource('categories', CategoryController::class);
 
 Auth::routes();
 
