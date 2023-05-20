@@ -4,7 +4,7 @@ use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CursoController;
 use App\Http\Controllers\DisciplinaController;
-use App\Http\Controllers\TshirtController;
+use App\Http\Controllers\TshirtImageController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderItemController;
 use App\Http\Controllers\PriceController;
@@ -35,7 +35,7 @@ Route::resource('orderItems', OrderItemController::class);
 
 Route::resource('orders', OrderController::class);
 
-Route::resource('tshirts', TshirtController::class);
+Route::resource('tshirts', TshirtImageController::class);
 
 Route::resource('disciplinas', DisciplinaController::class);
 

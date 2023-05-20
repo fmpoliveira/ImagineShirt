@@ -3,17 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Tshirt;
+use App\Models\TshirtImage;
 
-class TshirtController extends Controller
+class TshirtImageController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $allTshirts = Tshirt::all();
-        $tshirtsQuery = Tshirt::query();
+        $allTshirts = TshirtImage::all();
+        $tshirtsQuery = TshirtImage::query();
         //debug($allTshirts);
         // Log::debug('Cursos has been loaded on the controller.', ['$allTshirts' => $allTshirts]);
         $allTshirts = $tshirtsQuery->paginate(5);

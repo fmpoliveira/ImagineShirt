@@ -10,4 +10,6 @@ class Disciplina extends Model
     use HasFactory;
     public $timestamps = false;
     protected $fillable = ['curso', 'ano', 'semestre', 'abreviatura', 'nome', 'ECTS', 'horas', 'opcional'];
+
+    
 }
