@@ -2,22 +2,39 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Models\TshirtImage;
+use Illuminate\View\View;
 
 class TshirtImageController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request): View
     {
-        $allTshirts = TshirtImage::all();
-        $tshirtsQuery = TshirtImage::query();
-        //debug($allTshirts);
-        // Log::debug('Cursos has been loaded on the controller.', ['$allTshirts' => $allTshirts]);
-        $allTshirts = $tshirtsQuery->paginate(5);
-        return view('tshirt.index')->with('tshirts', $allTshirts);
+        $categories = Category::all(); // buscar todas as categorias para imprimir no form
+        $tshirts = TshirtImage::all();
+        $tshirtsQuery = TshirtImage::query(); // returns empty query builder
+
+        $filterByCategory = $request->category ?? '';
+        $filterByText = $request->text ?? '';
+
+        // Checks the category passed through the request in the Category Table. If it exists, populates the tshirtQuery with the name.
+        if ($filterByCategory !== '') {
+            $tshirtsQuery->whereHas('category', function ($category) use ($filterByCategory) {
+                $category->where('name', $filterByCategory);
+            });
+        }
+
+        if ($filterByText !== '') {
+            $tshirtIDs = TshirtImage::where('name', 'like', "%$filterByText%")->orWhere('description', 'like', "%$filterByText%")->pluck('id');
+            $tshirtsQuery->whereIntegerInRaw('id', $tshirtIDs);
+        }
+
+        $tshirts = $tshirtsQuery->whereNot('category_id', null)->paginate(8); // Only sends the logos which have a value in costumer_id
+        return view('tshirt.index', compact('categories', 'filterByCategory', 'tshirts', 'filterByText'));
     }
 
     /**
