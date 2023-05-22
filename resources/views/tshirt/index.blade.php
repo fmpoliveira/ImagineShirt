@@ -64,7 +64,12 @@
                                 <hr>
                                 <h5 class="card-title">{{ $tshirt->name }}</h5>
                                 <p class="card-text">{{ $tshirt->description }}</p>
-                                <a href="# {{-- 1******************* ADD ROTA PARA O CARRINHO *******************1 --}}" class="btn btn-primary mt-auto">Add to Cart</a>
+                                {{-- <a href="{{ route('cart.add', ['tshirt' => $tshirt]) }}"
+                                    class="btn btn-primary mt-auto">Add to Cart</a> --}}
+                                <form class="w-100 p-3" method="POST" action="{{ route('cart.add', ['tshirt' => $tshirt]) }}">
+                                    @csrf
+                                    <button type="submit" name="addToCart" class="btn btn-primary mt-auto w-100">Add to Cart</button>
+                                </form>
                             </div>
                         </div>
                     </div>
