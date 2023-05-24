@@ -10,6 +10,7 @@ use App\Http\Controllers\OrderItemController;
 use App\Http\Controllers\PriceController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\CartController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -34,6 +35,7 @@ Route::resource('prices', PriceController::class);
 Route::resource('orderItems', OrderItemController::class);
 
 Route::resource('orders', OrderController::class);
+Route::get('order/mine', [OrderController::class, 'myOrders'])->name('order.mine');
 
 Route::resource('tshirts', TshirtImageController::class);
 
@@ -50,3 +52,14 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::view('teste', 'template.layout');
+
+// Show the cart:
+Route::get('cart', [CartController::class, 'show'])->name('cart.show');
+
+Route::post('cart/{tshirt}', [CartController::class, 'addToCart'])->name('cart.add');
+
+Route::delete('cart/{tshirt}', [CartController::class, 'removeFromCart'])->name('cart.remove');
+
+Route::post('cart', [CartController::class, 'store'])->name('cart.store');
+
+Route::delete('cart', [CartController::class, 'destroy'])->name('cart.destroy');

@@ -5,3 +5,7 @@ Guilherme - informação de conta de utilizador
 Francisco - listagem tshirts
 Alexandre - encomendas (histórico, detalhes)
 Alexandre - página carrinho de compras 
+    - ao clickar em checkout, verificar se user está logado, se não, redirecionar para login/registo
+        - de notar que, se o user tiver de se registar, o carrinho de compras deve ser guardado para este novo user
+    - depois do checkout, iniciar processo de confirmação de pagamento e morada
+    - falta fazer sub total, total, preview da tshirt, lógica de confirmação

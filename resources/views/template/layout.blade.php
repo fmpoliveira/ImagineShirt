@@ -130,9 +130,14 @@
                             Candidaturas
                         </a>
                         <div class="sb-sidenav-menu-heading">Espaço Privado</div>
-                        <a class="nav-link" href="#">
+                        <a class="nav-link {{ Route::currentRouteName() == 'order.mine' ? 'active' : '' }}"
+                            href="{{ route('order.mine') }}">
                             <div class="sb-nav-link-icon"><i class="fas fa-file-text"></i></div>
-                            Minhas disciplinas
+                            Minhas encomendas
+                        </a>
+                        <a class="nav-link {{ Route::currentRouteName() == 'cart.show' ? 'active' : '' }}"
+                            href="{{ route('cart.show') }}">
+                            <div class="sb-nav-link-icon"><i class="fas fa-shopping-cart"></i></div>Carrinho
                         </a>
                     </div>
                 </div>
