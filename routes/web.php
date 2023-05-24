@@ -45,8 +45,11 @@ Route::resource('customers', CustomerController::class);
 
 Route::resource('categories', CategoryController::class);
 
-Auth::routes();
+Auth::routes(['verify' => true]);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::view('teste', 'template.layout');
+
+Route::get('/password/change', [App\Http\Controllers\auth\ChangePasswordController::class, 'show'])->name('password.change.show');
+Route::post('/password/change', [App\Http\Controllers\auth\ChangePasswordController::class, 'store'])->name('password.change.store');
