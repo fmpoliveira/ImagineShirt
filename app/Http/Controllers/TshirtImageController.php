@@ -20,6 +20,7 @@ class TshirtImageController extends Controller
 
         $filterByCategory = $request->category ?? '';
         $filterByText = $request->text ?? '';
+        $display = $request->display ?? '';
 
         // Checks the category passed through the request in the Category Table. If it exists, populates the tshirtQuery with the name.
         if ($filterByCategory !== '') {
@@ -32,7 +33,7 @@ class TshirtImageController extends Controller
             $tshirtIDs = TshirtImage::where('name', 'like', "%$filterByText%")->orWhere('description', 'like', "%$filterByText%")->pluck('id');
             $tshirtsQuery->whereIntegerInRaw('id', $tshirtIDs);
         }
-
+        
         $tshirts = $tshirtsQuery->whereNot('category_id', null)->paginate(8); // Only sends the logos which have a value in costumer_id
         return view('tshirt.index', compact('categories', 'filterByCategory', 'tshirts', 'filterByText'));
     }
