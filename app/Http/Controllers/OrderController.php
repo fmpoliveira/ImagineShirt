@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -18,6 +19,22 @@ class OrderController extends Controller
         // Log::debug('Cursos has been loaded on the controller.', ['$allorders' => $allorders]);
         // $allorders = $ordersQuery->paginate(5);
         return view('order.index')->with('orders', $allOrders);
+    }
+
+    public function myOrders(Request $request): View
+    {
+        // $tipo = 'O';
+        // if ($request->user()) {
+        //     $tipo = $request->user()->tipo ?? 'O';
+        // }
+        // if ($tipo == 'D') {
+        //     $disciplinas = $request->user()->docente->disciplinas;
+        // } elseif ($tipo == 'A') {
+        //     $disciplinas = $request->user()->aluno->disciplinas;
+        // } else {
+        //     $disciplinas = null;
+        // }
+        return view('order.mine');
     }
 
     /**
