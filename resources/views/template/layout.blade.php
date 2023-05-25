@@ -77,9 +77,9 @@
             <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                 <div class="sb-sidenav-menu">
                     <div class="nav">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="{{ route('tshirts.index') }}">
                             <div class="sb-nav-link-icon"><i class="fas fa-home"></i></div>
-                            Dashboard
+                            Shop
                         </a>
                         <a class="nav-link" href="#">
                             <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
