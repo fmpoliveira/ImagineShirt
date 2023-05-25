@@ -47,7 +47,7 @@ Route::resource('customers', CustomerController::class);
 
 Route::resource('categories', CategoryController::class);
 
-Auth::routes();
+Auth::routes(['verify' => true]);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
@@ -63,3 +63,6 @@ Route::delete('cart/{tshirt}', [CartController::class, 'removeFromCart'])->name(
 Route::post('cart', [CartController::class, 'store'])->name('cart.store');
 
 Route::delete('cart', [CartController::class, 'destroy'])->name('cart.destroy');
+
+Route::get('/password/change', [App\Http\Controllers\auth\ChangePasswordController::class, 'show'])->name('password.change.show');
+Route::post('/password/change', [App\Http\Controllers\auth\ChangePasswordController::class, 'store'])->name('password.change.store');

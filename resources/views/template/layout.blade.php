@@ -47,13 +47,19 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
                         data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="/img/avatar_unknown.png" alt="Avatar" class="bg-dark rounded-circle" width="45"
-                            height="45">
+                        <img src="{{ Auth::user()->fullPhotoUrl }}" alt="Avatar" class="bg-dark rounded-circle"
+                            width="45" height="45">
                     </a>
 
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#">Perfil</a></li>
-                        <li><a class="dropdown-item" href="#">Alterar Senha</a></li>
+
+                        {{-- Colocar aqui para profiles de cliente também --}}
+                        @if ((Auth::user()->user_type ?? '') == 'A')
+                            <li><a class="dropdown-item"
+                                    href="{{ route('customers.index') }}">Profile</a></li>
+                        @endif
+
+                        <li><a class="dropdown-item" href="{{ route('password.change.show') }}">Change Password</a></li>
                         <li>
                             <hr class="dropdown-divider" />
                         </li>
