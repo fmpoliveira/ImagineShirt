@@ -11,7 +11,7 @@
                     <h5 class="card-title">{{ $tshirt->name }}</h5>
                     <p class="card-text">{{ $tshirt->description }}</p>
                     <div class="mt-auto text-center">
-                        <form class="w-100 p-3" method="POST" {{-- action="{{ route('cart.add', ['tshirt' => $tshirt]) }}" --}}>
+                        <form class="w-100 p-3" method="POST" action="{{ route('cart.add', ['tshirt' => $tshirt]) }}">
                             @csrf
                             <button type="submit" name="addToCart" class="btn btn-primary w-100">Add to Cart</button>
                         </form>
