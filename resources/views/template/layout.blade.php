@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>asd</title>
+    <title>ImagineShirt</title>
     @vite('resources/sass/app.scss')
     <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
 </head>
@@ -125,7 +125,8 @@
                             data-bs-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav">
                                 <a class="nav-link" href="#">Departamentos</a>
-                                <a class="nav-link" href="#">Customers</a>
+                                <a class="nav-link {{ Route::currentRouteName() == 'customers.index' ? 'active' : '' }}"
+                                href="{{ route('customers.index') }}">Customers</a>
                             </nav>
                         </div>
                         <div class="sb-sidenav-menu-heading">Candidaturas</div>
