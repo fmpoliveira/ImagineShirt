@@ -56,7 +56,9 @@
                         {{-- Colocar aqui para profiles de cliente também --}}
                         @if ((Auth::user()->user_type ?? '') == 'A')
                             <li><a class="dropdown-item"
-                                    href="{{ route('customers.index') }}">Profile</a></li>
+                                {{-- não está a funcionar aqui --}}
+                                {{-- href="{{ route('customers.show', ['customer' => Auth::user()->customer]) }}">Profile</a></li> --}}
+                                href="{{ route('customers.index') }}">Profile</a></li>
                         @endif
 
                         <li><a class="dropdown-item" href="{{ route('password.change.show') }}">Change Password</a></li>
@@ -123,7 +125,7 @@
                             data-bs-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav">
                                 <a class="nav-link" href="#">Departamentos</a>
-                                <a class="nav-link" href="#">Docentes</a>
+                                <a class="nav-link" href="#">Customers</a>
                             </nav>
                         </div>
                         <div class="sb-sidenav-menu-heading">Candidaturas</div>

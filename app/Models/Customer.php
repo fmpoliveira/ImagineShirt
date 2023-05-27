@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Customer extends User
 {
     use HasFactory, SoftDeletes;
+    // Disables auto increment primary key
     public $incrementing = false;
     protected $fillable = ['nif', 'address', 'default_payment_type', 'default_payment_ref'];
 
@@ -24,8 +25,14 @@ class Customer extends User
         return $this->hasMany(Order::class, 'customer_id', 'id');
     }
 
-    public function user(): HasOne
+    // public function user(): HasOne
+    // {
+    //     return $this->hasOne(User::class);
+    // }
+
+   
+    public function user()
     {
-        return $this->hasOne(User::class);
+        return $this->belongsTo(User::class, 'id');
     }
 }
