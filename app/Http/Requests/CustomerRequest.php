@@ -27,7 +27,7 @@ class CustomerRequest extends FormRequest
             'email' => [
                 'required',
                 'email',
-                Rule::unique('users', 'email'),
+                Rule::unique('users', 'email')->ignore($this->id),
             ],
             'address' => 'required',
             'nif' => 'required',

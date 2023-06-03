@@ -60,19 +60,19 @@
                             </li>
                         @endif
 
-                        {{-- Employee --}}
+                        {{-- Employee
                         @if ((Auth::user()->user_type ?? '') == 'E')
                             <li><a class="dropdown-item"
                                     href="{{ route('customers.show', ['customer' => Auth::user()->customer]) }}">Profile</a>
                             </li>
                         @endif
 
-                        {{-- Administrator --}}
+                        Administrator
                         @if ((Auth::user()->user_type ?? '') == 'A')
                             <li><a class="dropdown-item"
                                     href="{{ route('customers.show', ['customer' => Auth::user()->customer]) }}">Profile</a>
                             </li>
-                        @endif
+                        @endif --}}
 
                         <li><a class="dropdown-item" href="{{ route('password.change.show') }}">Change Password</a></li>
                         <li>
