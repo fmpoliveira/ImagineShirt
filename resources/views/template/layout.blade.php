@@ -53,12 +53,25 @@
 
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
 
-                        {{-- Colocar aqui para profiles de cliente também --}}
+                        {{-- Customer --}}
+                        @if ((Auth::user()->user_type ?? '') == 'C')
+                            <li><a class="dropdown-item"
+                                    href="{{ route('customers.show', ['customer' => Auth::user()->customer]) }}">Profile</a>
+                            </li>
+                        @endif
+
+                        {{-- Employee --}}
+                        @if ((Auth::user()->user_type ?? '') == 'E')
+                            <li><a class="dropdown-item"
+                                    href="{{ route('customers.show', ['customer' => Auth::user()->customer]) }}">Profile</a>
+                            </li>
+                        @endif
+
+                        {{-- Administrator --}}
                         @if ((Auth::user()->user_type ?? '') == 'A')
                             <li><a class="dropdown-item"
-                                {{-- não está a funcionar aqui --}}
-                                {{-- href="{{ route('customers.show', ['customer' => Auth::user()->customer]) }}">Profile</a></li> --}}
-                                href="{{ route('customers.index') }}">Profile</a></li>
+                                    href="{{ route('customers.show', ['customer' => Auth::user()->customer]) }}">Profile</a>
+                            </li>
                         @endif
 
                         <li><a class="dropdown-item" href="{{ route('password.change.show') }}">Change Password</a></li>
@@ -69,7 +82,7 @@
                             <a class="dropdown-item"
                                 onclick="event.preventDefault();
                                         document.getElementById('logout-form').submit();">
-                                Sair
+                                Exit
                             </a>
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                 @csrf
@@ -126,7 +139,7 @@
                             <nav class="sb-sidenav-menu-nested nav">
                                 <a class="nav-link" href="#">Departamentos</a>
                                 <a class="nav-link {{ Route::currentRouteName() == 'customers.index' ? 'active' : '' }}"
-                                href="{{ route('customers.index') }}">Customers</a>
+                                    href="{{ route('customers.index') }}">Customers</a>
                             </nav>
                         </div>
                         <div class="sb-sidenav-menu-heading">Candidaturas</div>

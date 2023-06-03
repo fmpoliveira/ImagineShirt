@@ -1,8 +1,8 @@
 @extends('template.layout')
 
-@section('titulo', 'Change Customer')
+@section('titulo', 'Edit Customer')
 
-@section('subtitulo')
+{{-- @section('subtitulo')
     <ol class="breadcrumb">
         <li class="breadcrumb-item">Gestão</li>
         <li class="breadcrumb-item">Curricular</li>
@@ -10,14 +10,14 @@
         <li class="breadcrumb-item"><strong>{{ $customer->user->name }}</strong></li>
         <li class="breadcrumb-item active">Change</li>
     </ol>
-@endsection
+@endsection --}}
 
 @section('main')
     <form id="form_customer" novalidate class="needs-validation" method="POST"
-        action="{{ route('customers.update', ['customer' => $customer]) }}">
+        action="{{ route('customers.update', ['customer' => $customer]) }}" enctype="multipart/form-data">
         @csrf
         @method('PUT')
-        <input type="hidden" name="user_id" value="{{ $customer->user_id }}">
+        <input type="hidden" name="id" value="{{ $customer->id }}">
         <div class="d-flex flex-column flex-sm-row justify-content-start align-items-start">
             <div class="flex-grow-1 pe-2">
                 @include('users.shared.fields', ['user' => $customer->user, 'readonlyData' => false])

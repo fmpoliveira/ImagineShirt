@@ -1,6 +1,6 @@
 @extends('template.layout')
 
-@section('titulo', 'Customers')
+@section('titulo', 'Customer')
 
 {{-- @section('subtitulo')
     <ol class="breadcrumb">
@@ -36,6 +36,7 @@
                 @include('users.shared.fields_foto', [
                     'user' => $customer->user,
                     'allowUpload' => false,
+                    'allowDelete' => false,
                 ])
             </div>
         </div>

@@ -5,7 +5,7 @@
 <div class="mb-3 form-floating">
     <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" id="inputNome"
         {{ $disabledStr }} value="{{ old('name', $user->name) }}">
-    <label for="inputNome" class="form-label">Nome</label>
+    <label for="inputNome" class="form-label">Name</label>
     @error('name')
         <div class="invalid-feedback">
             {{ $message }}
@@ -24,7 +24,7 @@
     @enderror
 </div>
 
-<div class="mb-3 form-floating">
+{{-- <div class="mb-3 form-floating">
     <select class="form-select @error('genero') is-invalid @enderror" name="genero" id="inputGenero"
         {{ $disabledStr }}>
         <option {{ old('genero', $user->genero) == 'M' ? 'selected' : '' }} value="M">Masculino
@@ -38,18 +38,18 @@
             {{ $message }}
         </div>
     @enderror
-</div>
+</div> --}}
 
-<div class="mb-3">
+{{-- <div class="mb-3">
     <div class="form-check form-switch" {{ $disabledStr }}>
         <input type="hidden" name="admin" value="0">
         <input type="checkbox" class="form-check-input @error('admin') is-invalid @enderror" name="admin"
             id="inputOpcional" {{ $disabledStr }} {{ old('admin', $user->admin) ? 'checked' : '' }} value="1">
-        <label for="inputOpcional" class="form-check-label">Administrador</label>
+        <label for="inputOpcional" class="form-check-label">Administrator</label>
         @error('admin')
             <div class="invalid-feedback">
                 {{ $message }}
             </div>
         @enderror
     </div>
-</div>
+</div> --}}
