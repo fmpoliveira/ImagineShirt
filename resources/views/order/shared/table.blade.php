@@ -1,4 +1,9 @@
 <?php $sizes = json_decode($sizes, true); ?>
+<script>
+    function zaca() {
+        alert("hi");
+    }
+</script>
 <table class="table">
     <thead class="table-dark">
         <tr>
@@ -24,7 +29,7 @@
                 <td>
                     <select name="sizes" id="sizes">
                         @foreach ($sizes as $size)
-                            <option value="{{ $size["size"] }}">{{ $size["size"] }}</option>
+                            <option value="{{ $size['size'] }}">{{ $size['size'] }}</option>
                         @endForeach
                     </select>
                 </td>
@@ -35,15 +40,18 @@
                         @endForeach
                     </select>
                 </td>
-                <td>
+                <td oninput="zaca">
                     <input type="number" id="quantity" name="quantity" min="1" max="100" value="1">
                 </td>
                 <td>
-                    {{ $tshirt->unit_price }}
+                    @if ($tshirt->qty > $qty_discount)
+                        {{ $tshirt->price_with_discount }}
+                    @else
+                        {{ $tshirt->price_without_discount }}
+                    @endif
                 </td>
-                <td>
-                    {{ $tshirt->unit_price * 2 }}
-                    
+                <td id="sub_total">
+                    {{-- ??? --}}
                 </td>
                 @if ($showDetail)
                     <td class="button-icon-col"><a class="btn btn-secondary"
@@ -64,7 +72,7 @@
         @endforeach
         <tr>
             <td style="text-align: right" colspan="5"><b>TOTAL</b></td>
-            <td style="text-align: left" colspan="2">10</td>
+            <td style="text-align: left" colspan="2">{{-- ??? --}}</td>
         </tr>
     </tbody>
 </table>

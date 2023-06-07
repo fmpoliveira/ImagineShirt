@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Color;
+use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\Price;
 use App\Models\TshirtImage;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
@@ -15,6 +17,7 @@ class CartController extends Controller
     public function show(): View
     {
         $cart = session('cart', []);
+        $qty_discount = session('qty_discount');
         $colors = Color::all();
         $sizes = DB::table('order_items')
             ->select('size')
@@ -22,7 +25,8 @@ class CartController extends Controller
             ->get();
         return view('cart.show', compact('cart'))
             ->with('colors', $colors)
-            ->with('sizes', $sizes);
+            ->with('sizes', $sizes)
+            ->with('qty_discount', $qty_discount);
     }
 
 
@@ -40,9 +44,19 @@ class CartController extends Controller
                     $alertType = 'warning';
                     $htmlMessage = "Tshirt <strong>\"{$tshirt->name}\"</strong> não foi adicionada ao carrinho porque já está presente no mesmo!";
                 } else {
-                    $tshirt->qty = 1;
+                    $tshirt->qty = 1; // default value
+                    $prices = Price::find(1);
+                    if (isset($cart[$tshirt->customer_id])) {
+                        $tshirt->price_without_discount = $prices->unit_price_own;
+                        $tshirt->price_with_discount = $prices->unit_price_own_discount;
+                    } else {
+                        $tshirt->price_without_discount = $prices->unit_price_catalog;
+                        $tshirt->price_with_discount = $prices->unit_price_catalog_discount;
+                    }
+                    
                     $cart[$tshirt->id] = $tshirt;
                     $request->session()->put('cart', $cart);
+                    $request->session()->put('qty_discount', $prices->qty_discount);
 
                     $alertType = 'success';
                     $htmlMessage = "Tshirt <strong>\"{$tshirt->name}\"</strong> foi adicionada ao carrinho!";
@@ -56,6 +70,7 @@ class CartController extends Controller
             ->with('alert-msg', $htmlMessage)
             ->with('alert-type', $alertType);
     }
+    
     public function removeFromCart(Request $request, TshirtImage $tshirt): RedirectResponse
     {
         $cart = session('cart', []);
@@ -85,6 +100,21 @@ class CartController extends Controller
                     $alertType = 'warning';
                     $htmlMessage = "Não é possível confirmar a encomenda porque não existem itens no carrinho";
                 } else {
+                    // 'status', 'customer_id', 'date', 'total_price', 'notes', 'nif', 'address', 'payment_type', 'payment_ref', 'receipt_url'
+                    $order = Order::create([
+                        'status' => 'PENDING',
+                        'customer_id' => '$customerId',
+                        'date' => time(),
+                        'total_price' => '$total_price',
+                        'notes' => '',
+                        'address' => '??',
+                        'payment_type' => 'default do user ou o que vier',
+                        'payment_ref' => 'depende do payment_type só',
+                        'receipt_url' => 'o que o user meter, se não n meter nada'
+                    ]);
+                    $orderId = $order->id; 
+
+                    OrderItem::create();
                     $customer = $request->user()->customer;
                     DB::transaction(function () use ($customer, $cart) {
                         foreach ($cart as $item) {
@@ -94,6 +124,7 @@ class CartController extends Controller
                     });
                     $htmlMessage = "Foi confirmada a encomenda ao customer #    {$customer->id} <strong>\"{$request->user()->name}\"</strong>";
 
+                    $request->session()->forget('cart');
                     $request->session()->forget('cart');
                     return redirect()->route('orders.mine')
                         ->with('alert-msg', $htmlMessage)
@@ -112,6 +143,7 @@ class CartController extends Controller
     public function destroy(Request $request): RedirectResponse
     {
         $request->session()->forget('cart');
+        $request->session()->forget('qty_discount');
         $htmlMessage = "Carrinho está limpo!";
         return back()
             ->with('alert-msg', $htmlMessage)

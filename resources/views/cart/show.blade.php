@@ -13,6 +13,7 @@
     @if ($cart)
         @include('order.shared.table', [
             'tshirts' => $cart,
+            'qty_discount' => $qty_discount,
             'sizes' => $sizes,
             'colors' => $colors,
             'showDetail' => true,
