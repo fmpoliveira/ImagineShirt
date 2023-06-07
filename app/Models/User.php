@@ -9,8 +9,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
@@ -21,7 +23,10 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
-        'user_type'
+        'email',
+        'password',
+        'user_type',
+        'photo_url'
     ];
 
     /**
@@ -43,8 +48,25 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function customer(): HasOne
+    // public function customer(): HasOne
+    // {
+    //     return $this->hasOne(Customer::class);
+    // }
+
+
+    public function customer()
     {
-        return $this->hasOne(Customer::class);
+        return $this->hasOne(Customer::class, 'id');
+    }
+
+
+    protected function fullPhotoUrl(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                return $this->photo_url ? asset('storage/photos/' . $this->photo_url) :
+                    asset('/img/avatar_unknown.png');
+            },
+        );
     }
 }

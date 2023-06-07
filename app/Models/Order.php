@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Order extends Model
 {
@@ -30,9 +31,9 @@ class Order extends Model
         return $this->belongsToMany(TshirtImage::class, 'order_items');
     }
 
-    public function colors(): BelongsToMany
+    public function orderItems(): HasMany
     {
-        return $this->belongsToMany(Color::class, 'order_items');
+        return $this->hasMany(Color::class, 'order_id', 'id');
     }
 
     public function customer(): BelongsTo
@@ -41,14 +42,13 @@ class Order extends Model
     }
 
     // todo
-    // public function setTotalPrice($qty, $unit_price) 
+    // public function setTotalPrice($qty, $unit_price)
     // {
     //     $this->attributes['sub_total'] = $qty * $unit_price;
     // }
 
-    public function getTotalPrice() 
+    public function getTotalPrice()
     {
         return $this->total_price;
     }
-
 }

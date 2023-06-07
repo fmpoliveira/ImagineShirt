@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>asd</title>
+    <title>ImagineShirt</title>
     @vite('resources/sass/app.scss')
     <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
 </head>
@@ -47,13 +47,34 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
                         data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="/img/avatar_unknown.png" alt="Avatar" class="bg-dark rounded-circle" width="45"
-                            height="45">
+                        <img src="{{ Auth::user()->fullPhotoUrl }}" alt="Avatar" class="bg-dark rounded-circle"
+                            width="45" height="45">
                     </a>
 
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#">Perfil</a></li>
-                        <li><a class="dropdown-item" href="#">Alterar Senha</a></li>
+
+                        {{-- Customer --}}
+                        @if ((Auth::user()->user_type ?? '') == 'C')
+                            <li><a class="dropdown-item"
+                                    href="{{ route('customers.show', ['customer' => Auth::user()->customer]) }}">Profile</a>
+                            </li>
+                        @endif
+
+                        {{-- Employee
+                        @if ((Auth::user()->user_type ?? '') == 'E')
+                            <li><a class="dropdown-item"
+                                    href="{{ route('customers.show', ['customer' => Auth::user()->customer]) }}">Profile</a>
+                            </li>
+                        @endif
+
+                        Administrator
+                        @if ((Auth::user()->user_type ?? '') == 'A')
+                            <li><a class="dropdown-item"
+                                    href="{{ route('customers.show', ['customer' => Auth::user()->customer]) }}">Profile</a>
+                            </li>
+                        @endif --}}
+
+                        <li><a class="dropdown-item" href="{{ route('password.change.show') }}">Change Password</a></li>
                         <li>
                             <hr class="dropdown-divider" />
                         </li>
@@ -61,7 +82,7 @@
                             <a class="dropdown-item"
                                 onclick="event.preventDefault();
                                         document.getElementById('logout-form').submit();">
-                                Sair
+                                Exit
                             </a>
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                 @csrf
@@ -77,9 +98,9 @@
             <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                 <div class="sb-sidenav-menu">
                     <div class="nav">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="{{ route('tshirts.index') }}">
                             <div class="sb-nav-link-icon"><i class="fas fa-home"></i></div>
-                            Dashboard
+                            Shop
                         </a>
                         <a class="nav-link" href="#">
                             <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
@@ -117,7 +138,8 @@
                             data-bs-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav">
                                 <a class="nav-link" href="#">Departamentos</a>
-                                <a class="nav-link" href="#">Docentes</a>
+                                <a class="nav-link {{ Route::currentRouteName() == 'customers.index' ? 'active' : '' }}"
+                                    href="{{ route('customers.index') }}">Customers</a>
                             </nav>
                         </div>
                         <div class="sb-sidenav-menu-heading">Candidaturas</div>
