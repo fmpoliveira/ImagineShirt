@@ -15,17 +15,12 @@
 
     <div class="container">
         <p>
-            <a class="btn btn-success" href="#{{-- 1********** ROTA PARA ADD IMAGEM NOVA**********1 --}}"><i class="fas fa-plus"></i> &nbsp;Adicionar imagem</a>
+            <a class="btn btn-success" href="#{{-- 1********** ROTA PARA ADD IMAGEM NOVA**********1 --}}"><i class="fas fa-plus"></i> &nbsp;Add Tshirt</a>
         </p>
         <hr>
         @include('tshirt.shared.formFilter')
         @include('tshirt.shared.cards')
 
-        {{-- @include('tshirt.shared.table', [
-            'showDetail' => true,
-            'showEdit' => true,
-            'showDelete' => true,
-        ]) --}}
         <div class="mt-4">
             {{ $tshirts->withQueryString()->links() }}
         </div>

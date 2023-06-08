@@ -22,7 +22,6 @@ class TshirtImageController extends Controller
 
         $filterByCategory = $request->category ?? '';
         $filterByText = $request->text ?? '';
-        $display = $request->display ?? '';
 
         // Checks the category passed through the request in the Category Table. If it exists, populates the tshirtQuery with the name.
         if ($filterByCategory !== '') {
@@ -56,7 +55,6 @@ class TshirtImageController extends Controller
 
         $filterByCategory = $request->category ?? '';
         $filterByText = $request->text ?? '';
-        $display = $request->display ?? '';
 
         // Checks the category passed through the request in the Category Table. If it exists, populates the tshirtQuery with the name.
         if ($filterByCategory !== '') {
@@ -102,7 +100,7 @@ class TshirtImageController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(TshirtImage $tshirt)
+    public function show(TshirtImage $tshirt): View
     {
         $categories = Category::all();
         return view('tshirt.show', compact('tshirt', 'categories'));
@@ -121,7 +119,7 @@ class TshirtImageController extends Controller
     {
         $formData = $request->validated();
         // dd($formData);
-        $tshirt = DB::transaction(function () use ($formData, $tshirt, $request) {
+        $tshirt = DB::transaction(function () use ($formData, $tshirt) {
             $tshirt->name = $formData['name'];
             $tshirt->description = $formData['description'];
             if ($formData['category'] === 'No Category') {

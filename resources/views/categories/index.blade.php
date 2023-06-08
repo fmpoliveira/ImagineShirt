@@ -1,6 +1,6 @@
 @extends('template.layout')
 
-@section('titulo', 'Tshirt Manager')
+@section('titulo', 'Categories')
 
 @section('subtitulo')
     {{-- <ol class="breadcrumb">
@@ -11,17 +11,16 @@
 @endsection
 
 @section('main')
-
-
     <div class="container">
         <p>
-            <a class="btn btn-success" href="#{{-- 1********** ROTA PARA ADD IMAGEM NOVA**********1 --}}"><i class="fas fa-plus"></i> &nbsp;Add Tshirt</a>
+            <a class="btn btn-success" href="{{ route('categories.create') }}"><i class="fas fa-plus"></i> &nbsp;Add
+                Category</a>
         </p>
         <hr>
-        @include('tshirt.shared.formFilter')
-        @include('tshirt.shared.table')
+        @include('categories.shared.formFilter')
+        @include('categories.shared.table')
         <div class="mt-4">
-            {{ $tshirts->withQueryString()->links() }}
+            {{ $categories->withQueryString()->links() }}
         </div>
     </div>
 @endsection

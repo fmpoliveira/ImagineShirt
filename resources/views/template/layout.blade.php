@@ -169,6 +169,11 @@
                             <div class="sb-nav-link-icon"><i class="fas fa-file-text"></i></div>
                             Tshirt Manager
                         </a>
+                        <a class="nav-link {{ Route::currentRouteName() == 'categories.index' ? 'active' : '' }}"
+                            href="{{ route('categories.index') }}">
+                            <div class="sb-nav-link-icon"><i class="fas fa-file-text"></i></div>
+                            Category Manager
+                        </a>
                     </div>
                 </div>
             </nav>

@@ -8,7 +8,7 @@
 <div class="d-flex justify-content-between">
     <div class="flex-grow-1 pe-2">
         <div class="d-flex justify-content-between">
-            <div class="flex-grow-1 mb-3 form-floating">
+            <div class="flex-grow-1 me-2 mb-3 form-floating">
                 <select class="form-select" name="category" id="inputCategory">
                     <option {{ old('category', $filterByCategory) === '' ? 'selected' : '' }} value="">
                         All Categories </option>

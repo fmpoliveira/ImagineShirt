@@ -1,6 +1,6 @@
 @extends('template.layout')
 
-@section('titulo', 'Tshirt')
+@section('titulo', 'Category')
 
 @section('subtitulo')
     {{-- <ol class="breadcrumb">
@@ -16,29 +16,33 @@
     <div>
         <div class="d-flex flex-column flex-sm-row justify-content-start align-items-start">
             <div class="flex-grow-1 pe-2">
-                @include('tshirt.shared.fields', ['tshirt' => $tshirt, 'readonlyData' => true])
+                @include('categories.shared.fields', ['category' => $category, 'readonlyData' => true])
                 <div class="my-1 d-flex justify-content-end">
                     <button type="button" name="delete" class="btn btn-danger" data-bs-toggle="modal"
                         data-bs-target="#confirmationModal"
-                        data-msgLine1="Do you really want to delete the tshirt <strong>&quot;{{ $tshirt->name }}&quot;</strong>?"
-                        data-action="{{ route('tshirts.destroy', ['tshirt' => $tshirt]) }}">
-                        Delete Tshirt
+                        data-msgLine1="Do you really want to delete the category <strong>&quot;{{ $category->name }}&quot;</strong>?"
+                        data-action="{{ route('categories.destroy', ['category' => $category]) }}">
+                        Delete Category
                     </button>
-                    <a href="{{ route('tshirts.edit', ['tshirt' => $tshirt]) }}" class="btn btn-secondary ms-3">
-                        Change Tshirt
+                    <a href="{{ route('categories.edit', ['category' => $category]) }}" class="btn btn-secondary ms-3">
+                        Change Category
                     </a>
-                    <a href="{{ route('tshirts.index') }}" class="btn btn-primary ms-3">Back</a>
+                    <a href="{{ route('categories.index') }}" class="btn btn-primary ms-3">Back</a>
                 </div>
-            </div>
-            <div class="ps-2 mt-5 mt-md-1 d-flex mx-auto flex-column align-items-center justify-content-between"
-                style="min-width:260px; max-width:260px;">
-                <img src="{{ asset('storage/tshirt_images/' . $tshirt->image_url) }}" alt="Avatar" class="img-thumbnail">
             </div>
         </div>
     </div>
 
+    <div class="mt-5">
+
+        <h3>Tshirts with {{ $category->name }} category</h3>
+        @include('tshirt.shared.table', [
+            'tshirts' => $category->tshirtImages,
+        ])
+    </div>
+
     @include('shared.confirmationDialog', [
-        'title' => 'Delete tshirt',
+        'title' => 'Delete Category',
         'confirmationButton' => 'Delete',
         'formMethod' => 'DELETE',
     ])
