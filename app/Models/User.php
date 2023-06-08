@@ -48,10 +48,17 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-    public function customer(): HasOne
+    // public function customer(): HasOne
+    // {
+    //     return $this->hasOne(Customer::class);
+    // }
+
+
+    public function customer()
     {
-        return $this->hasOne(Customer::class);
+        return $this->hasOne(Customer::class, 'id');
     }
+
 
     protected function fullPhotoUrl(): Attribute
     {
