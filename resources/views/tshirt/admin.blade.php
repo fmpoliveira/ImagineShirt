@@ -1,6 +1,6 @@
 @extends('template.layout')
 
-@section('titulo', 'Shop')
+@section('titulo', 'Tshirt Manager')
 
 @section('subtitulo')
     {{-- <ol class="breadcrumb">
@@ -19,13 +19,7 @@
         </p>
         <hr>
         @include('tshirt.shared.formFilter')
-        @include('tshirt.shared.cards')
-
-        {{-- @include('tshirt.shared.table', [
-            'showDetail' => true,
-            'showEdit' => true,
-            'showDelete' => true,
-        ]) --}}
+        @include('tshirt.shared.table')
         <div class="mt-4">
             {{ $tshirts->withQueryString()->links() }}
         </div>
