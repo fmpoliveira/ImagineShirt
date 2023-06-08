@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use App\Models\Customer;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class RegisterController extends Controller
 {
@@ -53,7 +55,10 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'user_type' => ['required', 'in:C,E,A']
+            'nif' => ['nullable', 'integer', 'digits:9'],
+            'address' => ['nullable', 'string', 'max:255'],
+            // 'default_payment_ref' => ['required_if:default_payment_type,VISA,MC|integer|digits:16'],
+            // 'default_payment_ref' => ['required_if:default_payment_type,PAYPAL|email'],
         ]);
     }
 
@@ -65,16 +70,27 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
+        return DB::transaction(function () use ($data) {
+            $newUser = User::create([
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'password' => Hash::make($data['password']),
+                'user_type' => 'C',
+            ]);
+            Customer::create([
+                'id' => $newUser->id,
+                'nif' => $data['nif'],
+                'address' => $data['address'],
+                'default_payment_type' => $data['default_payment_type'],
+                'default_payment_ref' => $data['default_payment_ref'],
+            ]);
+            return $newUser;
+        });
     }
+
 
     public function showRegistrationForm()
     {
-        // $cursos = Curso::all();
         return view('auth.register');
     }
 }

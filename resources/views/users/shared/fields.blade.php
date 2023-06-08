@@ -24,32 +24,19 @@
     @enderror
 </div>
 
-{{-- <div class="mb-3 form-floating">
-    <select class="form-select @error('genero') is-invalid @enderror" name="genero" id="inputGenero"
+<div class="mb-3 form-floating">
+    <select class="form-select @error('user_type') is-invalid @enderror" name="user_type" id="inputUser_type"
         {{ $disabledStr }}>
-        <option {{ old('genero', $user->genero) == 'M' ? 'selected' : '' }} value="M">Masculino
-        </option>
-        <option {{ old('genero', $user->genero) == 'F' ? 'selected' : '' }} value="F">Feminino
-        </option>
+        <option {{ old('user_type', $user->user_type) == 'A' ? 'selected' : '' }} value="A">Administrator</option>
+        <option {{ old('user_type', $user->user_type) == 'E' ? 'selected' : '' }} value="E">Employee</option>
+        {{-- <option {{ old('user_type', $user->user_type) == 'C' ? 'selected' : '' }} value="C">Customer</option> --}}
     </select>
-    <label for="inputGenero" class="form-label">Gênero</label>
-    @error('genero')
+    <label for="inputUser_type" class="form-label">User Type</label>
+    @error('user_type')
         <div class="invalid-feedback">
             {{ $message }}
         </div>
     @enderror
-</div> --}}
+</div>
 
-{{-- <div class="mb-3">
-    <div class="form-check form-switch" {{ $disabledStr }}>
-        <input type="hidden" name="admin" value="0">
-        <input type="checkbox" class="form-check-input @error('admin') is-invalid @enderror" name="admin"
-            id="inputOpcional" {{ $disabledStr }} {{ old('admin', $user->admin) ? 'checked' : '' }} value="1">
-        <label for="inputOpcional" class="form-check-label">Administrator</label>
-        @error('admin')
-            <div class="invalid-feedback">
-                {{ $message }}
-            </div>
-        @enderror
-    </div>
-</div> --}}
+

@@ -5,9 +5,9 @@
                 <th></th>
             @endif
             <th>Name</th>
-            @if ($showAddress ?? true)
+            {{-- @if ($showAddress ?? true)
                 <th>Address</th>
-            @endif
+            @endif --}}
             @if ($showContatos)
                 <th>E-Mail</th>
 
@@ -24,17 +24,17 @@
         </tr>
     </thead>
     <tbody>
-        @foreach ($customers as $customer)
+        @foreach ($users as $user)
             <tr>
                 @if ($showFoto)
                 <td width="45">
-                        <img src="{{ $customer->user->fullPhotoUrl }}" alt="Avatar" class="bg-dark rounded-circle" width="45" height="45">
+                        <img src="{{ $user->fullPhotoUrl }}" alt="Avatar" class="bg-dark rounded-circle" width="45" height="45">
                 </td>
             @endif
-                <td>{{ $customer->user->name }}</td>
+                <td>{{ $user->name }}</td>
                 {{-- <td>{{ $customer->nif }}</td> --}}
-                <td>{{ $customer->address}}</td>
-                <td>{{ $customer->user->email }}</td>
+                {{-- <td>{{ $customer->address}}</td> --}}
+                <td>{{ $user->email }}</td>
                 {{-- @if ($showDepartamento ?? true)
                     <td>{{ $customer->departamentoRef->nome ?? '' }}</td>
                 @endif --}}
@@ -43,17 +43,17 @@
                 @endif --}}
                 @if ($showDetail)
                     <td class="button-icon-col"><a class="btn btn-secondary"
-                            href="{{ route('customers.show', ['customer' => $customer]) }}">
+                            href="{{ route('users.show', ['user' => $user]) }}">
                             <i class="fas fa-eye"></i></a></td>
                 @endif
                 @if ($showEdit)
                     <td class="button-icon-col"><a class="btn btn-dark"
-                            href="{{ route('customers.edit', ['customer' => $customer]) }}">
+                            href="{{ route('users.edit', ['user' => $user]) }}">
                             <i class="fas fa-edit"></i></a></td>
                 @endif
                 @if ($showDelete)
                     <td class="button-icon-col">
-                        <form method="POST" action="{{ route('customers.destroy', ['customer' => $customer]) }}">
+                        <form method="POST" action="{{ route('users.destroy', ['user' => $user]) }}">
                             @csrf
                             @method('DELETE')
                             <button type="submit" name="delete" class="btn btn-danger">
