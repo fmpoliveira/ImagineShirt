@@ -37,6 +37,7 @@ Route::resource('orderItems', OrderItemController::class);
 Route::resource('orders', OrderController::class);
 Route::get('order/mine', [OrderController::class, 'myOrders'])->name('order.mine');
 
+Route::get('admin/tshirts', [TshirtImageController::class, 'indexAdmin'])->name('tshirts.admin');
 Route::resource('tshirts', TshirtImageController::class);
 
 Route::resource('disciplinas', DisciplinaController::class);
@@ -52,6 +53,7 @@ Auth::routes(['verify' => true]);
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::view('teste', 'template.layout');
+
 
 // Show the cart:
 Route::get('cart', [CartController::class, 'show'])->name('cart.show');

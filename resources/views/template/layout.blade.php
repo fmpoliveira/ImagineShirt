@@ -161,6 +161,14 @@
                             href="{{ route('cart.show') }}">
                             <div class="sb-nav-link-icon"><i class="fas fa-shopping-cart"></i></div>Carrinho
                         </a>
+
+
+                        <div class="sb-sidenav-menu-heading">Admin</div>
+                        <a class="nav-link {{ Route::currentRouteName() == 'tshirts.admin' ? 'active' : '' }}"
+                            href="{{ route('tshirts.admin') }}">
+                            <div class="sb-nav-link-icon"><i class="fas fa-file-text"></i></div>
+                            Tshirt Manager
+                        </a>
                     </div>
                 </div>
             </nav>

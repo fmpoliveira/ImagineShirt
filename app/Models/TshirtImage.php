@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class TshirtImage extends Model
 {
     use HasFactory, SoftDeletes;
-    protected $fillable = ['name', 'description', 'image_url', 'extra_info'];
+    protected $fillable = ['name', 'description', 'category_id'];
 
     public function category(): BelongsTo
     {
