@@ -1,31 +1,31 @@
 @extends('template.layout')
-@section('titulo', 'Carrinho')
+@section('titulo', 'Cart')
 @section('subtitulo')
     <ol class="breadcrumb">
         <li class="breadcrumb-item">Espaço Privado</li>
-        <li class="breadcrumb-item active">Carrinho</li>
+        <li class="breadcrumb-item active">Cart</li>
     </ol>
 @endsection
 @section('main')
     <div>
-        <h3>Tshirts no carrinho</h3>
+        <h3>Tshirts on the cart</h3>
     </div>
     @if ($cart)
         @include('order.shared.table', [
             'tshirts' => $cart,
-            'qty_discount' => $qty_discount,
             'sizes' => $sizes,
             'colors' => $colors,
+            'total' => $total,
             'showDetail' => true,
             'showDelete' => true,
         ])
         <div class="my-4 d-flex justify-content-end">
-            <button type="submit" class="btn btn-primary" name="ok" form="formStore">
-                Confirmar Itens</button>
+            <button type="submit" class="btn btn-primary" name="ok" form="formConfirm">
+                Confirm Items</button>
             <button type="submit" class="btn btn-danger ms-3" name="clear" form="formClear">
-                Limpar Carrinho</button>
+                Clear Cart</button>
         </div>
-        <form id="formStore" method="POST" action="{{ route('cart.store') }}" class="d-none">
+        <form id="formConfirm" method="POST" action="{{ route('cart.confirm') }}" class="d-none">
             @csrf
         </form>
         <form id="formClear" method="POST" action="{{ route('cart.destroy') }}" class="d-none">
