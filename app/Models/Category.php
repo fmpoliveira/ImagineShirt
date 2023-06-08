@@ -11,6 +11,7 @@ class Category extends Model
 {
     use HasFactory, SoftDeletes;
     protected $fillable = ['name'];
+    public $timestamps = false;
 
     public function tshirtImages(): HasMany
     {

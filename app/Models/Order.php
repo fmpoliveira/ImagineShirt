@@ -14,7 +14,7 @@ class Order extends Model
 
     use HasFactory;
     // TODO - perceber melhor o mass assignment
-    protected $fillable = ['customer_id', 'notes', 'nif', 'address', 'payment_type', 'payment_ref', 'receipt_url'];
+    protected $fillable = ['status', 'customer_id', 'date', 'total_price', 'notes', 'nif', 'address', 'payment_type', 'payment_ref', 'receipt_url'];
 
     /**
      * The model's default values for attributes.

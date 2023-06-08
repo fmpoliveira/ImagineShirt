@@ -3,8 +3,8 @@
         <div class="col-6 col-md-3 mt-4">
             <div class="card h-100 bg-image">
                 <div class="card-img-top">
-                    <img src="{{ url('storage/tshirt_images/' . $tshirt->image_url) }}" alt="tshirt_logo" class="img-fluid"
-                        style="max-height: 100%; width: 100%;">
+                    <img src="{{ asset('storage/tshirt_images/' . $tshirt->image_url) }}" alt="tshirt_logo"
+                        class="img-fluid" style="max-height: 100%; width: 100%;">
                 </div>
                 <div class="card-body d-flex flex-column">
                     <hr>

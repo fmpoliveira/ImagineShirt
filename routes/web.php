@@ -37,6 +37,7 @@ Route::resource('orderItems', OrderItemController::class);
 Route::resource('orders', OrderController::class);
 Route::get('order/mine', [OrderController::class, 'myOrders'])->name('order.mine');
 
+Route::get('tshirtManager', [TshirtImageController::class, 'indexAdmin'])->name('tshirts.admin');
 Route::resource('tshirts', TshirtImageController::class);
 
 Route::resource('disciplinas', DisciplinaController::class);
@@ -55,14 +56,17 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::view('teste', 'template.layout');
 
+
 // Show the cart:
 Route::get('cart', [CartController::class, 'show'])->name('cart.show');
+
+Route::post('cart/refresh', [CartController::class, 'refresh'])->name('cart.refresh');
 
 Route::post('cart/{tshirt}', [CartController::class, 'addToCart'])->name('cart.add');
 
 Route::delete('cart/{tshirt}', [CartController::class, 'removeFromCart'])->name('cart.remove');
 
-Route::post('cart', [CartController::class, 'store'])->name('cart.store');
+Route::post('cart', [CartController::class, 'confirm'])->name('cart.confirm');
 
 Route::delete('cart', [CartController::class, 'destroy'])->name('cart.destroy');
 

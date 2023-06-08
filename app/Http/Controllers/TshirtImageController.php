@@ -6,12 +6,14 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Models\TshirtImage;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
+use App\Http\Requests\TshirtImageRequest;
+use Illuminate\Support\Facades\DB;
+
 
 class TshirtImageController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index(Request $request): View
     {
         $categories = Category::all(); // buscar todas as categorias para imprimir no form
@@ -20,23 +22,64 @@ class TshirtImageController extends Controller
 
         $filterByCategory = $request->category ?? '';
         $filterByText = $request->text ?? '';
-        $display = $request->display ?? '';
 
         // Checks the category passed through the request in the Category Table. If it exists, populates the tshirtQuery with the name.
         if ($filterByCategory !== '') {
-            $tshirtsQuery->whereHas('category', function ($category) use ($filterByCategory) {
-                $category->where('name', $filterByCategory);
-            });
+            if ($filterByCategory === 'No Category') {
+                // if No Category selected, search for images with no category_id
+                $tshirtsQuery->where('category_id', null);
+            } else {
+                $tshirtsQuery->whereHas('category', function ($category) use ($filterByCategory) {
+                    $category->where('name', $filterByCategory);
+                });
+            }
         }
 
         if ($filterByText !== '') {
             $tshirtIDs = TshirtImage::where('name', 'like', "%$filterByText%")->orWhere('description', 'like', "%$filterByText%")->pluck('id');
             $tshirtsQuery->whereIntegerInRaw('id', $tshirtIDs);
         }
-        
-        $tshirts = $tshirtsQuery->whereNot('category_id', null)->paginate(8); // Only sends the logos which have a value in costumer_id
-        return view('tshirt.index', compact('categories', 'filterByCategory', 'tshirts', 'filterByText'));
+
+        // Only sends the logos which have a value in costumer_id
+        $tshirts = $tshirtsQuery->where('customer_id', null)->paginate(8);
+
+        $formView = 'index';
+        return view('tshirt.index', compact('categories', 'filterByCategory', 'tshirts', 'filterByText', 'formView'));
     }
+
+    public function indexAdmin(Request $request): View
+    {
+        $categories = Category::all(); // buscar todas as categorias para imprimir no form
+        $tshirts = TshirtImage::all();
+        $tshirtsQuery = TshirtImage::query(); // returns empty query builder
+
+        $filterByCategory = $request->category ?? '';
+        $filterByText = $request->text ?? '';
+
+        // Checks the category passed through the request in the Category Table. If it exists, populates the tshirtQuery with the name.
+        if ($filterByCategory !== '') {
+            if ($filterByCategory === 'No Category') {
+                // if No Category selected, search for images with no category_id
+                $tshirtsQuery->where('category_id', null);
+            } else {
+                $tshirtsQuery->whereHas('category', function ($category) use ($filterByCategory) {
+                    $category->where('name', $filterByCategory);
+                });
+            }
+        }
+
+        if ($filterByText !== '') {
+            $tshirtIDs = TshirtImage::where('name', 'like', "%$filterByText%")->orWhere('description', 'like', "%$filterByText%")->pluck('id');
+            $tshirtsQuery->whereIntegerInRaw('id', $tshirtIDs);
+        }
+
+        // Only sends the logos which have a value in costumer_id
+        $tshirts = $tshirtsQuery->where('customer_id', null)->paginate(8);
+
+        $formView = 'admin';
+        return view('tshirt.admin', compact('categories', 'filterByCategory', 'tshirts', 'filterByText', 'formView'));
+    }
+
 
     /**
      * Show the form for creating a new resource.
@@ -57,32 +100,67 @@ class TshirtImageController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(TshirtImage $tshirt): View
     {
-        //
+        $categories = Category::all();
+        return view('tshirt.show', compact('tshirt', 'categories'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(TshirtImage $tshirt)
     {
-        //
+        $categories = Category::all();
+        return view('tshirt.edit', compact('tshirt', 'categories'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(TshirtImageRequest $request, TshirtImage $tshirt): RedirectResponse
     {
-        //
+        $formData = $request->validated();
+        // dd($formData);
+        $tshirt = DB::transaction(function () use ($formData, $tshirt) {
+            $tshirt->name = $formData['name'];
+            $tshirt->description = $formData['description'];
+            if ($formData['category'] === 'No Category') {
+                $tshirt->category_id = null;
+            } else {
+                $tshirt->category_id = $formData['category'];
+            }
+            $tshirt->save();
+
+            return $tshirt;
+        });
+
+
+        $url = route('tshirts.show', ['tshirt' => $tshirt]);
+        $htmlMessage = "Tshirt <a href='$url'>#{$tshirt->id}</a>
+                        <strong>\"{$tshirt->name}\"</strong> updated with success!";
+        return redirect()->route('tshirts.admin')
+            ->with('alert-msg', $htmlMessage)
+            ->with('alert-type', 'success');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(TshirtImage $tshirt): RedirectResponse
     {
-        //
+        try {
+            DB::transaction(function () use ($tshirt) {
+                $tshirt->delete();
+            });
+
+            $htmlMessage = "Tshirt #{$tshirt->id}
+                        <strong>\"{$tshirt->name}\"</strong> was successfully deleted!";
+            return redirect()->route('tshirts.admin')
+                ->with('alert-msg', $htmlMessage)
+                ->with('alert-type', 'success');
+        } catch (\Exception $error) {
+            $url = route('tshirts.show', ['tshirt' => $tshirt]);
+            $htmlMessage = "It wasn't possible to delete <a href='$url'>#{$tshirt->id}</a>
+                        <strong>\"{$tshirt->name}\"</strong> because there was an error!";
+            $alertType = 'danger';
+        }
+        return back()
+            ->with('alert-msg', $htmlMessage)
+            ->with('alert-type', $alertType);
     }
 }
