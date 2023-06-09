@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class CustomerRequest extends FormRequest
+class UserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,6 +29,7 @@ class CustomerRequest extends FormRequest
                 'email',
                 Rule::unique('users', 'email')->ignore($this->id),
             ],
+            'user_type' => 'required|in:A,E',
             'address' => 'sometimes',
             'nif' => 'sometimes',
             'default_payment_type' => 'sometimes|in:VISA,MC,PAYPAL',

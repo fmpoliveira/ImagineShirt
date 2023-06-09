@@ -47,26 +47,7 @@
                                 </div>
                             </div>
 
-                            {{-- User Type --}}
-                            <div class="row mb-3">
-                                <label for="user_type" class="col-md-4 col-form-label text-md-end">User Type</label>
-                                <div class="col-md-6">
-                                    <select id="user_type" class="form-select @error('user_type') is-invalid @enderror"
-                                        name="user_type" required>
-                                        <option value="E" {{ old('user_type', 'E') == 'E' ? 'selected' : '' }}>Employee
-                                        </option>
-                                        <option value="A" {{ old('user_type', 'A') == 'A' ? 'selected' : '' }}>Administrator
-                                        </option>
-                                        <option value="C" {{ old('user_type', 'C') == 'C' ? 'selected' : '' }}>Client
-                                        </option>
-                                    </select>
-                                    @error('user_type')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
+
 
                             {{-- NIF Client --}}
                             <div class="row mb-3">
@@ -74,7 +55,7 @@
                                 <div class="col-md-6">
                                     <input id="nif" type="text"
                                         class="form-control @error('nif') is-invalid @enderror" name="nif"
-                                        value="{{ old('nif') }}" required>
+                                        value="{{ old('nif') }}">
                                     @error('nif')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -91,7 +72,7 @@
                                 <div class="col-md-6">
                                     <input id="address" type="text"
                                         class="form-control @error('address') is-invalid @enderror" name="address"
-                                        value="{{ old('address') }}" required autocomplete="address" autofocus>
+                                        value="{{ old('address') }}" autocomplete="address" autofocus>
 
                                     @error('address')
                                         <span class="invalid-feedback" role="alert">
@@ -103,23 +84,45 @@
 
                             {{-- Default Payment Type --}}
                             <div class="row mb-3">
-                                <label for="default_payment_type" class="col-md-4 col-form-label text-md-end">User
+                                <label for="default_payment_type" class="col-md-4 col-form-label text-md-end">Payment
                                     Type</label>
                                 <div class="col-md-6">
                                     <select id="default_payment_type"
                                         class="form-select @error('default_payment_type') is-invalid @enderror"
                                         name="default_payment_type" required>
                                         <option value="MC"
-                                        {{ old('default_payment_type', 'MC') == 'MC' ? 'selected' : '' }}>MC
-                                    </option>
-                                    <option value="PAYPAL"
-                                    {{ old('default_payment_type', 'PAYPAL') == 'PAYPAL' ? 'selected' : '' }}>PAYPAL
-                                </option>
-                                <option value="VISA"
-                                    {{ old('default_payment_type', 'VISA') == 'VISA' ? 'selected' : '' }}>VISA
-                                </option>
+                                            {{ old('default_payment_type', 'MC') == 'MC' ? 'selected' : '' }}>MC
+                                        </option>
+                                        <option value="PAYPAL"
+                                            {{ old('default_payment_type', 'PAYPAL') == 'PAYPAL' ? 'selected' : '' }}>
+                                            PAYPAL
+                                        </option>
+                                        <option value="VISA"
+                                            {{ old('default_payment_type', 'VISA') == 'VISA' ? 'selected' : '' }}>VISA
+                                        </option>
+                                        <option value=""
+                                            {{ old('default_payment_type', '') == '' ? 'selected' : '' }}>Not specified
+                                        </option>
                                     </select>
                                     @error('default_payment_type')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            {{-- Payment ref --}}
+                            <div class="row mb-3">
+                                <label for="default_payment_ref"
+                                    class="col-md-4 col-form-label text-md-end">{{ __('Payment ref') }}</label>
+
+                                <div class="col-md-6">
+                                    <input id="default_payment_ref" type="text"
+                                        class="form-control @error('default_payment_ref') is-invalid @enderror" name="default_payment_ref"
+                                        value="{{ old('default_payment_ref') }}" autocomplete="default_payment_ref" autofocus>
+
+                                    @error('default_payment_ref')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>

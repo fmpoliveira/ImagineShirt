@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CursoController;
 use App\Http\Controllers\DisciplinaController;
 use App\Http\Controllers\TshirtImageController;
 use App\Http\Controllers\OrderController;
@@ -11,6 +10,7 @@ use App\Http\Controllers\PriceController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\UserController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -43,6 +43,8 @@ Route::resource('tshirts', TshirtImageController::class);
 Route::resource('disciplinas', DisciplinaController::class);
 
 Route::resource('colors', ColorController::class);
+
+Route::resource('users', UserController::class);
 
 Route::resource('customers', CustomerController::class);
 

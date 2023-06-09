@@ -53,26 +53,19 @@
 
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
 
+                        {{-- Admninistrator --}}
+                        @if ((Auth::user()->user_type ?? '') == 'A')
+                            <li><a class="dropdown-item"
+                                    href="{{ route('users.show', ['user' => Auth::user()->id]) }}">Profile</a>
+                            </li>
+                        @endif
+
                         {{-- Customer --}}
                         @if ((Auth::user()->user_type ?? '') == 'C')
                             <li><a class="dropdown-item"
-                                    href="{{ route('customers.show', ['customer' => Auth::user()->customer]) }}">Profile</a>
+                                    href="{{ route('users.show', ['user' => Auth::user()->id]) }}">Profile</a>
                             </li>
                         @endif
-
-                        {{-- Employee
-                        @if ((Auth::user()->user_type ?? '') == 'E')
-                            <li><a class="dropdown-item"
-                                    href="{{ route('customers.show', ['customer' => Auth::user()->customer]) }}">Profile</a>
-                            </li>
-                        @endif
-
-                        Administrator
-                        @if ((Auth::user()->user_type ?? '') == 'A')
-                            <li><a class="dropdown-item"
-                                    href="{{ route('customers.show', ['customer' => Auth::user()->customer]) }}">Profile</a>
-                            </li>
-                        @endif --}}
 
                         <li><a class="dropdown-item" href="{{ route('password.change.show') }}">Change Password</a></li>
                         <li>
