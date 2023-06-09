@@ -172,6 +172,11 @@
                             <div class="sb-nav-link-icon"><i class="fas fa-file-text"></i></div>
                             Color Manager
                         </a>
+                        <a class="nav-link {{ Route::currentRouteName() == 'prices.index' ? 'active' : '' }}"
+                            href="{{ route('prices.index') }}">
+                            <div class="sb-nav-link-icon"><i class="fas fa-file-text"></i></div>
+                            Price Manager
+                        </a>
                     </div>
                 </div>
             </nav>

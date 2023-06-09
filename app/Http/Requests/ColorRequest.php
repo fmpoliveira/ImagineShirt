@@ -31,8 +31,7 @@ class ColorRequest extends FormRequest
             'code' => [
                 'required',
                 'string',
-                'min:6',
-                'max:6',
+                'digits:6',
                 Rule::unique('colors', 'code')->ignore($colorCode, 'code'),
             ],
             'name' => 'required',

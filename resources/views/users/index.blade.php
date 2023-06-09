@@ -18,12 +18,16 @@
             <div class="flex-grow-1 pe-2">
 
                 <div class="d-flex justify-content-between">
-                    <div class="flex-grow-1 mb-3 form-floating">
+                    <div class="flex-grow-1 mb-3 me-2 form-floating">
                         <select class="form-select" name="user_type" id="inputUser_type">
-                            <option {{ old('user_type', $filterByUser_type) === '' ? 'selected' : '' }} value="">All users </option>
-                            <option {{ old('user_type', $filterByUser_type) === 'A' ? 'selected' : '' }} value="A">Administrators </option>
-                            <option {{ old('user_type', $filterByUser_type) === 'E' ? 'selected' : '' }} value="E">Employees </option>
-                            <option {{ old('user_type', $filterByUser_type) === 'C' ? 'selected' : '' }} value="C">Customers </option>
+                            <option {{ old('user_type', $filterByUser_type) === '' ? 'selected' : '' }} value="">All
+                                users </option>
+                            <option {{ old('user_type', $filterByUser_type) === 'A' ? 'selected' : '' }} value="A">
+                                Administrators </option>
+                            <option {{ old('user_type', $filterByUser_type) === 'E' ? 'selected' : '' }} value="E">
+                                Employees </option>
+                            <option {{ old('user_type', $filterByUser_type) === 'C' ? 'selected' : '' }} value="C">
+                                Customers </option>
                         </select>
                         <label for="inputUser_type" class="form-label">User Type</label>
                     </div>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PriceRequest;
 use App\Models\Price;
 use Illuminate\Http\Request;
 
@@ -12,8 +13,8 @@ class PriceController extends Controller
      */
     public function index()
     {
-        $allPrices = Price::all();
-        return view('price.index')->with('prices', $allPrices);
+        $prices = Price::all();
+        return view('price.index')->with('prices', $prices);
     }
 
     /**
@@ -45,15 +46,19 @@ class PriceController extends Controller
      */
     public function edit(Price $price)
     {
-        //
+        return view('price.edit')->with('price', $price);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Price $price)
+    public function update(PriceRequest $request, Price $price)
     {
-        //
+        $price->update($request->validated());
+        $htmlMessage = "Price updated successfully!";
+        return redirect()->route('prices.index')
+            ->with('alert-msg', $htmlMessage)
+            ->with('alert-type', 'success');
     }
 
     /**
