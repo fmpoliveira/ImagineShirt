@@ -11,6 +11,8 @@ class Color extends Model
 {
     use HasFactory, SoftDeletes;
     public $incrementing = false;
+    public $timestamps = false;
+
     protected $keyType = 'string';
     protected $primaryKey = 'code';
     protected $fillable = ['code', 'name'];

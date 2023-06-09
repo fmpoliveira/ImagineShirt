@@ -1,6 +1,6 @@
 @extends('template.layout')
 
-@section('titulo', 'Create Category')
+@section('titulo', 'Create Color')
 
 @section('subtitulo')
     {{-- <ol class="breadcrumb">
@@ -12,12 +12,12 @@
 @endsection
 
 @section('main')
-    <form method="POST" action="{{ route('categories.store') }}">
+    <form method="POST" action="{{ route('colors.store') }}">
         @csrf
-        @include('categories.shared.fields')
+        @include('colors.shared.fields')
         <div class="my-4 d-flex justify-content-end">
-            <button type="submit" class="btn btn-primary" name="ok">Save new category</button>
-            <a href="{{ route('categories.index') }}" class="btn btn-secondary ms-3">Cancel</a>
+            <button type="submit" class="btn btn-primary" name="ok">Save new color</button>
+            <a href="{{ route('colors.index') }}" class="btn btn-secondary ms-3">Cancel</a>
         </div>
     </form>
 @endsection

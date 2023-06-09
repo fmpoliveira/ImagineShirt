@@ -23,7 +23,7 @@
                 @include('tshirt.shared.fields', ['tshirt' => $tshirt, 'readonlyData' => false])
                 <div class="my-1 d-flex justify-content-end">
                     <button type="submit" class="btn btn-primary" name="ok" form="form_tshirt">Save Changes</button>
-                    <a href="{{ route('tshirts.index') }}" class="btn btn-secondary ms-3">Cancel</a>
+                    <a href="{{ route('tshirts.admin') }}" class="btn btn-secondary ms-3">Cancel</a>
                 </div>
             </div>
             <div class="ps-2 mt-5 mt-md-1 d-flex mx-auto flex-column align-items-center justify-content-between"

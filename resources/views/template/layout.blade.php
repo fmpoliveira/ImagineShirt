@@ -174,6 +174,11 @@
                             <div class="sb-nav-link-icon"><i class="fas fa-file-text"></i></div>
                             Category Manager
                         </a>
+                        <a class="nav-link {{ Route::currentRouteName() == 'colors.index' ? 'active' : '' }}"
+                            href="{{ route('colors.index') }}">
+                            <div class="sb-nav-link-icon"><i class="fas fa-file-text"></i></div>
+                            Color Manager
+                        </a>
                     </div>
                 </div>
             </nav>
