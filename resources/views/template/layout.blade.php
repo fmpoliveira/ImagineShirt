@@ -63,7 +63,7 @@
                         {{-- Customer --}}
                         @if ((Auth::user()->user_type ?? '') == 'C')
                             <li><a class="dropdown-item"
-                                    href="{{ route('users.show', ['user' => Auth::user()->id]) }}">Profile</a>
+                                    href="{{ route('customers.show', ['customer' => Auth::user()->customer->id]) }}">Profile</a>
                             </li>
                         @endif
 

@@ -16,16 +16,16 @@
     <div>
         <div class="d-flex flex-column flex-sm-row justify-content-start align-items-start">
             <div class="flex-grow-1 pe-2">
-                @include('users.shared.fields', ['user' => $customer->user, 'readonlyData' => true])
+                @include('users.shared.fields', ['user' => $customer->user, 'readonlyData' => true, 'showUserType' => false])
                 @include('customers.shared.fields', ['customer' => $customer, 'readonlyData' => true])
                 <div class="my-1 d-flex justify-content-end">
-                    <form method="POST" action="{{ route('customers.destroy', ['customer' => $customer]) }}">
+                    {{-- <form method="POST" action="{{ route('customers.destroy', ['customer' => $customer]) }}">
                         @csrf
                         @method('DELETE')
                         <button type="submit" name="delete" class="btn btn-danger">
                             Delete Customer
                         </button>
-                    </form>
+                    </form> --}}
                     <a href="{{ route('customers.edit', ['customer' => $customer]) }}" class="btn btn-secondary ms-3">
                         Edit Customer
                     </a>
