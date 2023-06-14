@@ -27,7 +27,7 @@
                     <a href="{{ route('tshirts.edit', ['tshirt' => $tshirt]) }}" class="btn btn-secondary ms-3">
                         Change Tshirt
                     </a>
-                    <a href="{{ route('tshirts.index') }}" class="btn btn-primary ms-3">Back</a>
+                    <a href={{ url()->previous() }} class="btn btn-primary ms-3">Back</a>
                 </div>
             </div>
             <div class="ps-2 mt-5 mt-md-1 d-flex mx-auto flex-column align-items-center justify-content-between"

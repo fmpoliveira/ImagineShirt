@@ -62,6 +62,8 @@ Route::get('cart', [CartController::class, 'show'])->name('cart.show');
 
 Route::post('cart/refresh', [CartController::class, 'refresh'])->name('cart.refresh');
 
+Route::post('cart/store', [CartController::class, 'store'])->name('cart.store');
+
 Route::post('cart/{tshirt}', [CartController::class, 'addToCart'])->name('cart.add');
 
 Route::delete('cart/{tshirt}', [CartController::class, 'removeFromCart'])->name('cart.remove');
