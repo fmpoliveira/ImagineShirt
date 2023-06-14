@@ -106,8 +106,12 @@ was created with success!";
         $customer = DB::transaction(function () use ($formData, $customer, $request) {
             $customer->nif = $formData['nif'];
             $customer->address = $formData['address'];
-            // $customer->default_payment_type = $formData['default_payment_type'];
-            // $customer->default_payment_ref = $formData['default_payment_ref'];
+            if (isset($formData['default_payment_type'])) {
+                $customer->default_payment_type = $formData['default_payment_type'];
+            }
+            if (isset($formData['default_payment_ref'])) {
+                $customer->default_payment_ref = $formData['default_payment_ref'];
+            }
             $customer->save();
             $user = $customer->user;
             $user->user_type = 'C';
@@ -116,10 +120,10 @@ was created with success!";
             $user->save();
             if ($request->hasFile('file_foto')) {
                 if ($user->url_foto) {
-                    Storage::delete('public/fotos/' . $user->url_foto);
+                    Storage::delete('public/fotos/' . $user->photo_url);
                 }
                 $path = $request->file_foto->store('public/fotos');
-                $user->url_foto = basename($path);
+                $user->photo_url = basename($path);
                 $user->save();
             }
             return $customer;
@@ -127,7 +131,7 @@ was created with success!";
         $url = route('customers.show', ['customer' => $customer]);
         $htmlMessage = "Customer <a href='$url'>#{$customer->id}</a>
                         <strong>\"{$customer->user->name}\"</strong> was updated with success!";
-        return redirect()->route('customers.index')
+        return redirect()->route('customers.show', ['customer' => $customer])
         ->with('alert-msg', $htmlMessage)
             ->with('alert-type', 'success');
     }

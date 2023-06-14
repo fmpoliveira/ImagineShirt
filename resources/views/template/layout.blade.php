@@ -63,7 +63,7 @@
                         {{-- Customer --}}
                         @if ((Auth::user()->user_type ?? '') == 'C')
                             <li><a class="dropdown-item"
-                                    href="{{ route('users.show', ['user' => Auth::user()->id]) }}">Profile</a>
+                                    href="{{ route('customers.show', ['customer' => Auth::user()->customer->id]) }}">Profile</a>
                             </li>
                         @endif
 
@@ -166,6 +166,16 @@
                             href="{{ route('categories.index') }}">
                             <div class="sb-nav-link-icon"><i class="fas fa-file-text"></i></div>
                             Category Manager
+                        </a>
+                        <a class="nav-link {{ Route::currentRouteName() == 'colors.index' ? 'active' : '' }}"
+                            href="{{ route('colors.index') }}">
+                            <div class="sb-nav-link-icon"><i class="fas fa-file-text"></i></div>
+                            Color Manager
+                        </a>
+                        <a class="nav-link {{ Route::currentRouteName() == 'prices.index' ? 'active' : '' }}"
+                            href="{{ route('prices.index') }}">
+                            <div class="sb-nav-link-icon"><i class="fas fa-file-text"></i></div>
+                            Price Manager
                         </a>
                     </div>
                 </div>
