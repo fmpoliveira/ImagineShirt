@@ -23,15 +23,15 @@ class ColorRequest extends FormRequest
      */
     public function rules(): array
     {
-        // When i'm creating a new color, this->color doesn't exist == null.
-        //This way it doesn't run the ignore method.
+        // When i'm creating a new color, this->color doesn't exist so == null.
+        // This way it doesn't run the ignore method and therefore I can create new colors
         $colorCode = $this->color ? $this->color->code : null;
 
         return [
             'code' => [
                 'required',
                 'string',
-                'digits:6',
+                'max:50',
                 Rule::unique('colors', 'code')->ignore($colorCode, 'code'),
             ],
             'name' => 'required',

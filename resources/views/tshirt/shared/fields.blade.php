@@ -24,22 +24,24 @@
     @enderror
 </div>
 
-<div class="mb-3 form-floating">
-    <select class="form-select @error('category') is-invalid @enderror" name="category" id="inputCategory"
-        {{ $disabledStr }}>
-        <option value="No Category">No Category</option>
-        @foreach ($categories as $category)
-            <option
-                {{ $category->id == old('category', $tshirt->category ? $tshirt->category->id : '') ? 'selected' : '' }}
-                value="{{ $category->id }}">
-                {{ $category->name }}
-            </option>
-        @endforeach
-    </select>
-    <label for="inputCategory" class="form-label">Category</label>
-    @error('category')
-        <div class="invalid-feedback">
-            {{ $message }}
-        </div>
-    @enderror
-</div>
+@if ($showCategory)
+    <div class="mb-3 form-floating">
+        <select class="form-select @error('category') is-invalid @enderror" name="category" id="inputCategory"
+            {{ $disabledStr }}>
+            <option value="No Category">No Category</option>
+            @foreach ($categories as $category)
+                <option
+                    {{ $category->id == old('category', $tshirt->category ? $tshirt->category->id : '') ? 'selected' : '' }}
+                    value="{{ $category->id }}">
+                    {{ $category->name }}
+                </option>
+            @endforeach
+        </select>
+        <label for="inputCategory" class="form-label">Category</label>
+        @error('category')
+            <div class="invalid-feedback">
+                {{ $message }}
+            </div>
+        @enderror
+    </div>
+@endif

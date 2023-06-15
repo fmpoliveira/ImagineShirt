@@ -12,17 +12,15 @@
 
 @section('main')
 
-    <div class="container">
-        <p>
-            <a class="btn btn-success" href="{{ route('colors.create') }}"><i class="fas fa-plus"></i> &nbsp;Create
-                Color</a>
-        </p>
-        <hr>
-        @include('colors.shared.formFilter')
-        @include('colors.shared.table')
-        <div class="mt-4">
-            {{ $colors->withQueryString()->links() }}
-        </div>
+    <p>
+        <a class="btn btn-success" href="{{ route('colors.create') }}"><i class="fas fa-plus"></i> &nbsp;Create
+            Color</a>
+    </p>
+    <hr>
+    @include('colors.shared.formFilter')
+    @include('colors.shared.table')
+    <div class="mt-4">
+        {{ $colors->withQueryString()->links() }}
     </div>
 
 @endsection

@@ -11,16 +11,14 @@
 @endsection
 
 @section('main')
-    <div class="container">
-        <p>
-            <a class="btn btn-success" href="{{ route('categories.create') }}"><i class="fas fa-plus"></i> &nbsp;Add
-                Category</a>
-        </p>
-        <hr>
-        @include('categories.shared.formFilter')
-        @include('categories.shared.table')
-        <div class="mt-4">
-            {{ $categories->withQueryString()->links() }}
-        </div>
+    <p>
+        <a class="btn btn-success" href="{{ route('categories.create') }}"><i class="fas fa-plus"></i> &nbsp;Add
+            Category</a>
+    </p>
+    <hr>
+    @include('categories.shared.formFilter')
+    @include('categories.shared.table')
+    <div class="mt-4">
+        {{ $categories->withQueryString()->links() }}
     </div>
 @endsection

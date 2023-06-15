@@ -91,35 +91,12 @@
             <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                 <div class="sb-sidenav-menu">
                     <div class="nav">
-                        <a class="nav-link" href="{{ route('tshirts.index') }}">
-                            <div class="sb-nav-link-icon"><i class="fas fa-home"></i></div>
+                        <a class="nav-link {{ Route::currentRouteName() == 'tshirts.index' ? 'active' : '' }}"
+                            href="{{ route('tshirts.index') }}">
+                            <div class="sb-nav-link-icon"><i class="fa-solid fa-bag-shopping"></i></div>
                             Shop
                         </a>
-                        <a class="nav-link" href="#">
-                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                            Planos Curriculares
-                        </a>
-                        <a class="nav-link" href="#">
-                            <div class="sb-nav-link-icon"><i class="fas fa-graduation-cap"></i></div>
-                            Alunos
-                        </a>
-                        <div class="sb-sidenav-menu-heading">Gestão</div>
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
-                            data-bs-target="#collapseCurricular" aria-expanded="false"
-                            aria-controls="collapseCurricular">
-                            <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-                            Curricular
-                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                        </a>
-                        <div class="collapse" id="collapseCurricular" aria-labelledby="headingOne"
-                            data-bs-parent="#sidenavAccordion">
-                            <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link {{ Route::currentRouteName() == 'tshirts.index' ? 'active' : '' }}"
-                                    href="{{ route('tshirts.index') }}">Tshirts</a>
-                                <a class="nav-link {{ Route::currentRouteName() == 'disciplinas.index' ? 'active' : '' }}"
-                                    href="{{ route('disciplinas.index') }}">Disciplinas</a>
-                            </nav>
-                        </div>
+
                         <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
                             data-bs-target="#collapseRecursosHumanos" aria-expanded="false"
                             aria-controls="collapseRecursosHumanos">
@@ -135,48 +112,56 @@
                                     href="{{ route('customers.index') }}">Customers</a>
                             </nav>
                         </div>
-                        <div class="sb-sidenav-menu-heading">Candidaturas</div>
-                        <a class="nav-link" href="#">
-                            <div class="sb-nav-link-icon"><i class="fas fa-upload"></i></div>
-                            Enviar candidatura
-                        </a>
-                        <a class="nav-link" href="#">
-                            <div class="sb-nav-link-icon"><i class="fas fa-envelope"></i></div>
-                            Candidaturas
-                        </a>
-                        <div class="sb-sidenav-menu-heading">Espaço Privado</div>
+                        <div class="sb-sidenav-menu-heading">Private Space</div>
                         <a class="nav-link {{ Route::currentRouteName() == 'order.mine' ? 'active' : '' }}"
                             href="{{ route('order.mine') }}">
                             <div class="sb-nav-link-icon"><i class="fas fa-file-text"></i></div>
-                            Minhas encomendas
+                            My orders
                         </a>
                         <a class="nav-link {{ Route::currentRouteName() == 'cart.show' ? 'active' : '' }}"
                             href="{{ route('cart.show') }}">
-                            <div class="sb-nav-link-icon"><i class="fas fa-shopping-cart"></i></div>Carrinho
+                            <div class="sb-nav-link-icon"><i class="fas fa-shopping-cart"></i></div>Shopping Cart
+                        </a>
+                        <a class="nav-link {{ Route::currentRouteName() == 'cart.show' ? 'active' : '' }}"
+                            href="{{ route('cart.show') }}">
+                            <div class="sb-nav-link-icon"><i class="fa-solid fa-shirt"></i></div>My Tshirts
                         </a>
 
-
+                        {{-- Admin --}}
                         <div class="sb-sidenav-menu-heading">Admin</div>
-                        <a class="nav-link {{ Route::currentRouteName() == 'tshirts.admin' ? 'active' : '' }}"
-                            href="{{ route('tshirts.admin') }}">
-                            <div class="sb-nav-link-icon"><i class="fas fa-file-text"></i></div>
-                            Tshirt Manager
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                            data-bs-target="#collapseAdminManager" aria-expanded="false"
+                            aria-controls="collapseAdminManager">
+                            <div class="sb-nav-link-icon"><i class="fa-solid fa-user-secret"></i></div>
+                            Manager
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                         </a>
-                        <a class="nav-link {{ Route::currentRouteName() == 'categories.index' ? 'active' : '' }}"
-                            href="{{ route('categories.index') }}">
-                            <div class="sb-nav-link-icon"><i class="fas fa-file-text"></i></div>
-                            Category Manager
-                        </a>
-                        <a class="nav-link {{ Route::currentRouteName() == 'colors.index' ? 'active' : '' }}"
-                            href="{{ route('colors.index') }}">
-                            <div class="sb-nav-link-icon"><i class="fas fa-file-text"></i></div>
-                            Color Manager
-                        </a>
-                        <a class="nav-link {{ Route::currentRouteName() == 'prices.index' ? 'active' : '' }}"
-                            href="{{ route('prices.index') }}">
-                            <div class="sb-nav-link-icon"><i class="fas fa-file-text"></i></div>
-                            Price Manager
-                        </a>
+                        <div class="collapse" id="collapseAdminManager" aria-labelledby="headingTwo"
+                            data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link {{ Route::currentRouteName() == 'tshirts.admin' ? 'active' : '' }}"
+                                    href="{{ route('tshirts.admin') }}">
+                                    Tshirt Manager
+                                </a>
+                                <a class="nav-link {{ Route::currentRouteName() == 'categories.index' ? 'active' : '' }}"
+                                    href="{{ route('categories.index') }}">
+                                    Category Manager
+                                </a>
+                                <a class="nav-link {{ Route::currentRouteName() == 'colors.index' ? 'active' : '' }}"
+                                    href="{{ route('colors.index') }}">
+                                    Color Manager
+                                </a>
+                                <a class="nav-link {{ Route::currentRouteName() == 'prices.index' ? 'active' : '' }}"
+                                    href="{{ route('prices.index') }}">
+                                    Price Manager
+                                </a>
+                            </nav>
+                        </div>
+
+
+
+
+
                     </div>
                 </div>
             </nav>

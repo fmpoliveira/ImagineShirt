@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
-use Illuminate\Http\Request;
 use App\Models\TshirtImage;
-use Illuminate\View\View;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\RedirectResponse;
+use App\Models\Category;
 use App\Http\Requests\TshirtImageRequest;
+use Illuminate\View\View;
+use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Hash;
 
 class TshirtImageController extends Controller
 {
@@ -80,21 +81,48 @@ class TshirtImageController extends Controller
         return view('tshirt.admin', compact('categories', 'filterByCategory', 'tshirts', 'filterByText', 'formView'));
     }
 
-
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        //
+        if (Auth::check()) {
+            $tshirt = new TshirtImage();
+            $categories = Category::all(); // to be able to reuse the form
+            return view('tshirt.create', compact('tshirt', 'categories'));
+        }
+        abort(401);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(TshirtImageRequest $request)
     {
-        //
+
+        $formData = $request->validated();
+        $user = Auth::user();
+        $tshirt = DB::transaction(function () use ($formData, $request, $user) {
+            $newTshirt = new TshirtImage();
+            $newTshirt->name = $formData['name'];
+            $newTshirt->description = $formData['description'];
+            $newTshirt->customer_id = $user->customer->id;
+
+            $image = $request->file('tshirt_image');
+            $path = Storage::putFile('tshirt_images_private', $image);
+            $image_name = basename($path);
+            $newTshirt->image_url = $image_name;
+            $newTshirt->save();
+
+            return $newTshirt;
+        });
+
+        $url = route('tshirts.show', ['tshirt' => $tshirt]);
+        $htmlMessage = "Tshirt <a href='$url'>#{$tshirt->id}</a>
+                        <strong>\"{$tshirt->name}\"</strong> successfully created!";
+        return redirect()->route('tshirts.index')
+            ->with('alert-msg', $htmlMessage)
+            ->with('alert-type', 'success');
     }
 
     /**

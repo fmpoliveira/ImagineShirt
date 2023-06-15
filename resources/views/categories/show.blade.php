@@ -3,13 +3,12 @@
 @section('titulo', 'Category')
 
 @section('subtitulo')
-    {{-- <ol class="breadcrumb">
-        <li class="breadcrumb-item">Gestão</li>
-        <li class="breadcrumb-item">Curricular</li>
-        <li class="breadcrumb-item"><a href="{{ route('disciplinas.index') }}">Disciplinas</a></li>
-        <li class="breadcrumb-item"><strong>{{ $disciplina->nome }}</strong></li>
-        <li class="breadcrumb-item active">Consultar</li>
-    </ol> --}}
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">Admin</li>
+        <li class="breadcrumb-item"><a href="{{ route('categories.index') }}">Category Manager</a></li>
+        <li class="breadcrumb-item"><strong>{{ $category->name }}</strong></li>
+        <li class="breadcrumb-item active">View</li>
+    </ol>
 @endsection
 
 @section('main')

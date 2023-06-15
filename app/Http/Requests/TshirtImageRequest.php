@@ -19,12 +19,41 @@ class TshirtImageRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array|string>
      */
-    public function rules(): array
+
+
+    public function storeRules(): array
     {
         return [
             'name' => 'required',
             'description' => 'required',
+            'tshirt_image' => 'required|image|max:4096',
+            'category' => 'nullable',
+        ];
+    }
+
+    /**
+     * Get the validation rules that apply to the request for updating an existing T-shirt image.
+     *
+     * @return array
+     */
+    public function updateRules(): array
+    {
+        return [
+            'name' => 'required',
+            'description' => 'required',
+            'tshirt_image' => 'nullable|image|max:4096',
             'category' => 'required',
         ];
+    }
+
+    public function rules(): array
+    {
+        if ($this->isMethod('POST')) {
+            return $this->storeRules();
+        } elseif ($this->isMethod('PUT')) {
+            return $this->updateRules();
+        }
+
+        return [];
     }
 }

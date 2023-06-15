@@ -12,17 +12,17 @@
 
 @section('main')
 
-
-    <div class="container">
+    @auth
         <p>
-            <a class="btn btn-success" href="#{{-- 1********** ROTA PARA ADD IMAGEM NOVA**********1 --}}"><i class="fas fa-plus"></i> &nbsp;Add Tshirt</a>
+            <a class="btn btn-success" href="{{ route('tshirts.create') }}"><i class="fas fa-plus"></i> &nbsp;Add Tshirt</a>
         </p>
         <hr>
-        @include('tshirt.shared.formFilter')
-        @include('tshirt.shared.cards')
+    @endauth
+    @include('tshirt.shared.formFilter')
+    @include('tshirt.shared.cards')
 
-        <div class="mt-4">
-            {{ $tshirts->withQueryString()->links() }}
-        </div>
+    <div class="mt-4">
+        {{ $tshirts->withQueryString()->links() }}
     </div>
+
 @endsection

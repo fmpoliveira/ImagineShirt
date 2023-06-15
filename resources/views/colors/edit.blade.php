@@ -3,13 +3,12 @@
 @section('titulo', 'Change Color ')
 
 @section('subtitulo')
-    {{-- <ol class="breadcrumb">
-        <li class="breadcrumb-item">Gestão</li>
-        <li class="breadcrumb-item">Curricular</li>
-        <li class="breadcrumb-item"><a href="{{ route('docentes.index') }}">Docentes</a></li>
-        <li class="breadcrumb-item"><strong>{{ $docente->user->name }}</strong></li>
-        <li class="breadcrumb-item active">Alterar</li>
-    </ol> --}}
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">Admin</li>
+        <li class="breadcrumb-item"><a href="{{ route('colors.index') }}">Color Manager</a></li>
+        <li class="breadcrumb-item"><strong>{{ $color->name }}</strong></li>
+        <li class="breadcrumb-item active">Edit</li>
+    </ol>
 @endsection
 
 @section('main')
