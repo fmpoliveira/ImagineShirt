@@ -13,7 +13,6 @@
             @if ($showDelete)
                 <th class="button-icon-col"></th>
             @endif
-
         </tr>
     </thead>
 
@@ -33,7 +32,7 @@
                 <td>
                     <select form="refresh" name={{ 'colors[]' }} id="colors">
                         @foreach ($colors as $color)
-                            <option value="{{ $color->name }}" @if ($color->name === $tshirt->color) selected @endif>
+                            <option value="{{ $color->code }}" @if ($color->code === $tshirt->color) selected @endif>
                                 {{ $color->name }}</option>
                         @endForeach
                     </select>
@@ -43,10 +42,10 @@
                         max="100" value={{ $tshirt->qty }}>
                 </td>
                 <td>
-                    {{ number_format($tshirt->price , 2) }}€
+                    {{ number_format($tshirt->price, 2) }}€
                 </td>
                 <td id="sub_total">
-                    {{ number_format($tshirt->sub_total , 2) }}€
+                    {{ number_format($tshirt->sub_total, 2) }}€
                 </td>
                 @if ($showDetail)
                     <td class="button-icon-col"><a class="btn btn-secondary"
@@ -67,7 +66,7 @@
         @endforeach
         <tr>
             <td style="text-align: right" colspan="5"><b>TOTAL</b></td>
-            <td style="text-align: left" colspan="2">{{ number_format($total , 2) }}€</td>
+            <td style="text-align: left" colspan="2">{{ number_format($total, 2) }}€</td>
         </tr>
     </tbody>
 

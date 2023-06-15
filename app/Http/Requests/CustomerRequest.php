@@ -29,28 +29,33 @@ class CustomerRequest extends FormRequest
                 'email',
                 Rule::unique('users', 'email')->ignore($this->id),
             ],
+            // 'user_type' => 'required|in:A,E,C',
             'address' => 'sometimes',
-            'nif' => 'sometimes',
+            'nif' => 'sometimes|digits:9',
             'default_payment_type' => 'sometimes|in:VISA,MC,PAYPAL',
-            'default_payment_ref' => 'sometimes',
-            'password_inicial' =>   'sometimes|required'
-        ];
-    }
-
-    /**
-     * Get the error messages for the defined validation rules.
-     *
-     * @return array<string, string>
-     */
-    public function messages(): array
-    {
-        return [
-            'name.required' =>  'The name is required',
-            'email.required' => 'The email is required',
-            'email.email' =>    'The email format is not valid',
-            'email.unique' =>   'The email must be unique',
-            'default_payment_type.in' => 'Payment type must be: VISA, MC or PAYPAL',
-            'password_inicial.required' => 'Initial password is mandatory'
+            'default_payment_ref' => [
+                'sometimes',
+                Rule::requiredIf(function () {
+                    return in_array($this->input('default_payment_type'), ['VISA', 'MC']);
+                }),
+                Rule::requiredIf(function () {
+                    return $this->input('default_payment_type') === 'PAYPAL';
+                }),
+                function ($attribute, $value, $fail) {
+                    $defaultPaymentType = $this->input('default_payment_type');
+                    if ($defaultPaymentType === 'VISA' || $defaultPaymentType === 'MC') {
+                        if (!preg_match('/^\d{16}$/', $value)) {
+                            $fail('The default payment reference must be a 16-digit number.');
+                        }
+                    } elseif ($defaultPaymentType === 'PAYPAL') {
+                        if (!filter_var($value, FILTER_VALIDATE_EMAIL)) {
+                            $fail('The default payment reference must be a valid email address.');
+                        }
+                    }
+                }
+            ],
+            'file_foto' => 'sometimes|image|max:4096', // maxsize = 4Mb
+            'password_inicial' => 'sometimes|required',
         ];
     }
 }

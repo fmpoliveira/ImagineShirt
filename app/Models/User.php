@@ -69,4 +69,17 @@ class User extends Authenticatable implements MustVerifyEmail
             },
         );
     }
+
+
+    // public function block()
+    // {
+    //     $this->blocked = true;
+    //     $this->save();
+    // }
+
+    // public function unblock()
+    // {
+    //     $this->blocked = false;
+    //     $this->save();
+    // }
 }

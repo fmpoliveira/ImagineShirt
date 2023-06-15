@@ -18,10 +18,16 @@
             <div class="flex-grow-1 pe-2">
                 @include('users.shared.fields', [
                     'user' => $user,
-                    'readonlyData' => true
+                    'readonlyData' => true,
+                    'showUserType' => true,
                 ])
 
-                {{-- @include('customers.shared.fields', ['customer' => $user->customer, 'readonlyData' => true]) --}}
+                @if ($user->user_type=='C')
+                @include('customers.shared.fields', [
+                    'customer' => $user->customer,
+                    'readonlyData' => true
+                ])
+                @endif
 
                 <div class="my-1 d-flex justify-content-end">
                     <form method="POST" action="{{ route('users.destroy', ['user' => $user]) }}">

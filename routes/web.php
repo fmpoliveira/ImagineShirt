@@ -56,11 +56,20 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::view('teste', 'template.layout');
 
+Route::delete('users/{user}/foto', [UserController::class, 'destroy_foto'])
+    ->name('users.foto.destroy');
+
+Route::delete('customers/{customer}/foto', [CustomerController::class, 'destroy_foto'])
+    ->name('customers.foto.destroy');
+
+Route::post('/users', [UserController::class, 'blockUser'])->name('users.block');
 
 // Show the cart:
 Route::get('cart', [CartController::class, 'show'])->name('cart.show');
 
 Route::post('cart/refresh', [CartController::class, 'refresh'])->name('cart.refresh');
+
+Route::post('cart/store', [CartController::class, 'store'])->name('cart.store');
 
 Route::post('cart/{tshirt}', [CartController::class, 'addToCart'])->name('cart.add');
 

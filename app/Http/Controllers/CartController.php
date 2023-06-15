@@ -2,17 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\PaymentType;
 use App\Models\Color;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Customer;
 use App\Models\Price;
 use App\Models\TshirtImage;
+use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Redirect;
 
 class CartController extends Controller
 {
@@ -35,7 +38,6 @@ class CartController extends Controller
     public function refresh(Request $request)
     {
         $cart = session('cart');
-
         $colors = Color::all();
         $sizes = DB::table('order_items')
             ->select('size')
@@ -49,13 +51,13 @@ class CartController extends Controller
 
             $prices = Price::find(1);
             if (isset($tshirt->customer_id)) {
-                if ($tshirt->qty > $prices->qty_discount) {
+                if ($tshirt->qty >= $prices->qty_discount) {
                     $tshirt->price = $prices->unit_price_own_discount;
                 } else {
                     $tshirt->price = $prices->unit_price_own;
                 }
             } else {
-                if ($tshirt->qty > $prices->qty_discount) {
+                if ($tshirt->qty >= $prices->qty_discount) {
                     $tshirt->price = $prices->unit_price_catalog_discount;
                 } else {
                     $tshirt->price = $prices->unit_price_catalog;
@@ -67,7 +69,6 @@ class CartController extends Controller
             $tshirt->size = $request->sizes[$i];
         }
         $total = $this->getTotalPrices();
-
         $request->session()->put('cart', $cart);
 
         return redirect('cart');
@@ -106,7 +107,7 @@ class CartController extends Controller
                         ->get();
 
                     $tshirt->qty = 1; // default value
-                    $tshirt->color = $colors[0]->name; // default value
+                    $tshirt->color = $colors[0]->code; // default value
                     $tshirt->size = $sizes[0]->size; // default value
                     $prices = Price::find(1);
                     if (isset($cart[$tshirt->customer_id])) {
@@ -149,7 +150,7 @@ class CartController extends Controller
             ->with('alert-type', 'success');
     }
 
-    public function confirm(Request $request)
+    public function confirm(Request $request): View
     {
         try {
             $userType = $request->user()->user_type ?? 'O';
@@ -163,12 +164,24 @@ class CartController extends Controller
                     $alertType = 'warning';
                     $htmlMessage = "You can't confirm the order because there aren't any items on the cart!";
                 } else {
-                    $userId = Auth::id();
-                    $user = Customer::find($userId);
+                    $login = Auth::user();
+                    $user = Customer::find($login->id);
+                    $paymentTypes = array_combine(
+                        array_column(PaymentType::cases(), 'name'),
+                        array_column(PaymentType::cases(), 'value')
+                    );
+
                     $request->session()->put('userDetails', $user);
-                    return view('cart.confirm', compact('cart'))
-                    ->with('userDetails', $user)
-                    ->with('total', $this->getTotalPrices());
+                    $request->session()->put('loginInfo', $login);
+                    $request->session()->put('paymentTypes', $paymentTypes);
+
+                    return view('cart/confirm', compact('cart'))
+                        ->with('userDetails', $user)
+                        ->with('login', $login)
+                        ->with('paymentTypes', $paymentTypes)
+                        ->with('total', $this->getTotalPrices());
+                    // return Redirect::to('cart/confirm');
+                    // return Redirect::away('cart/confirm');
                 }
             }
         } catch (\Exception $error) {
@@ -176,62 +189,98 @@ class CartController extends Controller
             $alertType = 'danger';
         }
         return back()
-        ->with('alert-msg', $htmlMessage)
-        ->with('alert-type', $alertType);
+            ->with('alert-msg', $htmlMessage)
+            ->with('alert-type', $alertType);
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request)
     {
+        $validatedData = $request->validate([
+            'nif' => ['required', 'numeric', 'digits:9'],
+            'address' => ['required'],
+            'payment' => [
+                'required',
+                function () use ($request) {
+                    $paymentType = $request->input('payment');
+                    return in_array($paymentType, array_column(PaymentType::cases(), 'name'));
+                }
+            ],
+            'reference' => [
+                'required',
+                function ($attribute, $value, $fail) use ($request) {
+                    $paymentType = $request->input('payment');
+
+                    if ($paymentType === PaymentType::PAYPAL) {
+                        if (!filter_var($value, FILTER_VALIDATE_EMAIL)) {
+                            $fail('The ' . $attribute . ' must be a valid email address.');
+                        }
+                    } else {
+                        if (!is_numeric($value) || strlen($value) !== 16) {
+                            $fail('The ' . $attribute . ' must be numeric and have 16 digits.');
+                        }
+
+                    }
+                }
+            ]
+        ]);
+
         try {
-            $userType = $request->user()->tipo ?? 'O';
+            $userType = $request->user()->user_type ?? 'O';
             if ($userType != 'C') {
                 $alertType = 'warning';
                 $htmlMessage = "The user is not a customer, therefore you can't confirm the order!";
-            } else {
-                $cart = session('cart', []);
-                $total = count($cart);
-                if ($total < 1) {
-                    $alertType = 'warning';
-                    $htmlMessage = "You can't confirm the order because there aren't any items on the cart!";
-                } else {
-                    // 'status', 'customer_id', 'date', 'total_price', 'notes', 'nif', 'address', 'payment_type', 'payment_ref', 'receipt_url'
-                    $order = Order::create([
-                        'status' => 'PENDING',
-                        'customer_id' => '$customerId',
-                        'date' => time(),
-                        'total_price' => '$total_price',
-                        'notes' => '',
-                        'address' => '??',
-                        'payment_type' => 'default do user ou o que vier',
-                        'payment_ref' => 'depende do payment_type só',
-                        'receipt_url' => 'o que o user meter, se não n meter nada'
-                    ]);
-                    $orderId = $order->id;
-
-                    OrderItem::create();
-                    $customer = $request->user()->customer;
-                    DB::transaction(function () use ($customer, $cart) {
-                        foreach ($cart as $item) {
-                            // para cada item ele junta o customer
-                            $customer->orders()->attach($item->id, ['repetente' => 0]);
-                        }
-                    });
-                    $htmlMessage = "Foi confirmada a encomenda ao customer #    {$customer->id} <strong>\"{$request->user()->name}\"</strong>";
-
-                    $request->session()->forget('cart');
-                    $request->session()->forget('cart');
-                    return redirect()->route('orders.mine')
-                        ->with('alert-msg', $htmlMessage)
-                        ->with('alert-type', 'success');
-                }
             }
+            $cart = session('cart');
+            $total = count($cart);
+            if ($total < 1) {
+                $alertType = 'warning';
+                $htmlMessage = "You can't confirm the order because there aren't any items on the cart!";
+            }
+
+            // TODO - MAKE THIS YOUR DEFAULT PAYMENT DETAILS
+
+            $user = session('userDetails');
+
+            DB::transaction(function () use ($request, $user, $cart, $validatedData) {
+                $total_price = 0.0;
+                foreach ($cart as $tshirt) {
+                    $total_price += $tshirt->sub_total;
+                }
+                $newOrder = new Order();
+                $newOrder->status = 'PENDING';
+                $newOrder->customer_id = $user->id;
+                $newOrder->date = Carbon::now();
+                $newOrder->total_price = $total_price;
+                $newOrder->nif = $validatedData['nif'];
+                $newOrder->notes = $request->notes;
+                $newOrder->address = $validatedData['address'];
+                $newOrder->payment_type = $validatedData['payment'];
+                $newOrder->payment_ref = $validatedData['reference'];
+                $newOrder->save();
+                foreach ($cart as $tshirt) {
+                    $newOrderItem = new OrderItem();
+                    $newOrderItem->order_id = $newOrder->id;
+                    $newOrderItem->tshirt_image_id = $tshirt->id;
+                    $newOrderItem->color_code = $tshirt->color;
+                    $newOrderItem->size = $tshirt->size;
+                    $newOrderItem->qty = $tshirt->qty;
+                    $newOrderItem->unit_price = $tshirt->price;
+                    $newOrderItem->sub_total = $tshirt->sub_total;
+                    $newOrderItem->save();
+                }
+            });
+
+            $htmlMessage = "Foi confirmada a encomenda ao customer #    {$user->id} <strong>\"{$request->user()->name}\"</strong>";
+            $alertType = 'success';
+            $request->session()->forget('cart');
         } catch (\Exception $error) {
             $htmlMessage = "Não foi possível confirmar os itens do carrinho porque ocorreu um erro!";
             $alertType = 'danger';
         }
-        return back()
+        return redirect('tshirts')
             ->with('alert-msg', $htmlMessage)
             ->with('alert-type', $alertType);
+
     }
 
     public function destroy(Request $request): RedirectResponse

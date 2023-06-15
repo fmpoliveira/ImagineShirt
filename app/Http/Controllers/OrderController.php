@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Customer;
 use App\Models\Order;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
@@ -21,7 +23,7 @@ class OrderController extends Controller
         return view('order.index')->with('orders', $allOrders);
     }
 
-    public function myOrders(Request $request): View
+    public function myOrders(Request $request)
     {
         // $tipo = 'O';
         // if ($request->user()) {
@@ -34,7 +36,10 @@ class OrderController extends Controller
         // } else {
         //     $disciplinas = null;
         // }
-        return view('order.mine');
+        $userId = Auth::id();
+        $user = Customer::find($userId);
+        $orders = $user->orders;
+        return view('order.mine')->with('orders', $user->orders);
     }
 
     /**

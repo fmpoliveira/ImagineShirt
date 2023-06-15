@@ -52,6 +52,7 @@
         'showDetail' => true,
         'showEdit' => true,
         'showDelete' => true,
+        'showUserType' => false,
     ])
     <div>
         {{ $customers->withQueryString()->links() }}
