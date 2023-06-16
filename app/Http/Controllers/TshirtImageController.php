@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\TshirtImage;
 use App\Models\Category;
+use App\Http\Requests\TshirtImagePrivateRequest;
 use App\Http\Requests\TshirtImageRequest;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
@@ -91,13 +93,13 @@ class TshirtImageController extends Controller
             $categories = Category::all(); // to be able to reuse the form
             return view('tshirt.create', compact('tshirt', 'categories'));
         }
-        abort(401);
+        abort(403);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(TshirtImageRequest $request)
+    public function store(TshirtImagePrivateRequest $request)
     {
 
         $formData = $request->validated();
@@ -190,5 +192,70 @@ class TshirtImageController extends Controller
         return back()
             ->with('alert-msg', $htmlMessage)
             ->with('alert-type', $alertType);
+    }
+
+    // --------------------------------- Private image management ---------------------------------
+
+    public function indexPrivate()
+    {
+        $tshirts = TshirtImage::all();
+        $tshirtsQuery = TshirtImage::query(); // returns empty query builder
+
+        $user = Auth::user();
+        $user_id = $user->customer->id;
+
+        // Only sends the tshirts where customer_id is equal to the user_id
+        $tshirts = $tshirtsQuery->where('customer_id', $user_id)->paginate(8);
+        return view('privateTshirt.index', compact('tshirts'));
+    }
+
+    public function getPrivateImage($imagePath)
+    {
+        $path = 'tshirt_images_private/' . $imagePath;
+
+        if (Storage::exists($path)) {
+            $content = Storage::get($path);
+            $mime = Storage::mimeType($path);
+            $image = response($content)->header('Content-Type', $mime);
+
+            return $image;
+        }
+
+        abort(404);
+    }
+
+    public function showPrivate(TshirtImage $tshirt): View
+    {
+
+        return view('privateTshirt.show', compact('tshirt'));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function editPrivate(TshirtImage $tshirt)
+    {
+
+        return view('privateTshirt.edit', compact('tshirt'));
+    }
+
+    public function updatePrivate(TshirtImagePrivateRequest $request, TshirtImage $tshirt): RedirectResponse
+    {
+        $formData = $request->validated();
+        $tshirt = DB::transaction(function () use ($formData, $tshirt) {
+            $tshirt->name = $formData['name'];
+            $tshirt->description = $formData['description'];
+            $tshirt->save();
+
+            return $tshirt;
+        });
+
+
+        $url = route('privateTshirt.showPrivate', ['tshirt' => $tshirt]);
+        $htmlMessage = "Tshirt <a href='$url'>#{$tshirt->id}</a>
+                        <strong>\"{$tshirt->name}\"</strong> updated with success!";
+        return redirect()->route('privateTshirt.indexPrivate')
+            ->with('alert-msg', $htmlMessage)
+            ->with('alert-type', 'success');
     }
 }
