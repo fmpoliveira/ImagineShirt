@@ -4,6 +4,7 @@
 
 @section('subtitulo')
     <ol class="breadcrumb">
+        <li class="breadcrumb-item">Private Space</li>
         <li class="breadcrumb-item"><a href="{{ route('privateTshirt.indexPrivate') }}">My Tshirts</a></li>
         <li class="breadcrumb-item"><strong>{{ $tshirt->name }}</strong></li>
         <li class="breadcrumb-item active">View</li>

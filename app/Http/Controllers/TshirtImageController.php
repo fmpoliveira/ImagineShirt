@@ -13,10 +13,15 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Hash;
 
 class TshirtImageController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->authorizeResource(TshirtImage::class, 'tshirt');
+    }
+
     public function index(Request $request): View
     {
         $categories = Category::all(); // buscar todas as categorias para imprimir no form
@@ -52,6 +57,8 @@ class TshirtImageController extends Controller
 
     public function indexAdmin(Request $request): View
     {
+        $this->authorize('viewAdmin', TshirtImage::class);
+
         $categories = Category::all(); // buscar todas as categorias para imprimir no form
         $tshirts = TshirtImage::all();
         $tshirtsQuery = TshirtImage::query(); // returns empty query builder
@@ -92,8 +99,9 @@ class TshirtImageController extends Controller
             $tshirt = new TshirtImage();
             $categories = Category::all(); // to be able to reuse the form
             return view('tshirt.create', compact('tshirt', 'categories'));
+        } else {
+            return redirect()->route('login');
         }
-        abort(403);
     }
 
     /**
@@ -114,6 +122,7 @@ class TshirtImageController extends Controller
             $path = Storage::putFile('tshirt_images_private', $image);
             $image_name = basename($path);
             $newTshirt->image_url = $image_name;
+
             $newTshirt->save();
 
             return $newTshirt;
@@ -198,15 +207,21 @@ class TshirtImageController extends Controller
 
     public function indexPrivate()
     {
-        $tshirts = TshirtImage::all();
-        $tshirtsQuery = TshirtImage::query(); // returns empty query builder
+        // $this->authorize('viewPrivate', TshirtImage::class);
 
-        $user = Auth::user();
-        $user_id = $user->customer->id;
+        if (Auth::check()) {
+            $tshirts = TshirtImage::all();
+            $tshirtsQuery = TshirtImage::query(); // returns empty query builder
 
-        // Only sends the tshirts where customer_id is equal to the user_id
-        $tshirts = $tshirtsQuery->where('customer_id', $user_id)->paginate(8);
-        return view('privateTshirt.index', compact('tshirts'));
+            $user = Auth::user();
+            $user_id = $user->customer->id;
+
+            // Only sends the tshirts where customer_id is equal to the user_id
+            $tshirts = $tshirtsQuery->where('customer_id', $user_id)->paginate(8);
+            return view('privateTshirt.index', compact('tshirts'));
+        } else {
+            return redirect()->route('login');
+        }
     }
 
     public function getPrivateImage($imagePath)
@@ -226,7 +241,7 @@ class TshirtImageController extends Controller
 
     public function showPrivate(TshirtImage $tshirt): View
     {
-
+        $this->authorize('viewPrivate', $tshirt);
         return view('privateTshirt.show', compact('tshirt'));
     }
 
@@ -235,12 +250,14 @@ class TshirtImageController extends Controller
      */
     public function editPrivate(TshirtImage $tshirt)
     {
-
+        $this->authorize('updatePrivate', $tshirt);
         return view('privateTshirt.edit', compact('tshirt'));
     }
 
     public function updatePrivate(TshirtImagePrivateRequest $request, TshirtImage $tshirt): RedirectResponse
     {
+        $this->authorize('updatePrivate', $tshirt);
+
         $formData = $request->validated();
         $tshirt = DB::transaction(function () use ($formData, $tshirt) {
             $tshirt->name = $formData['name'];
@@ -257,5 +274,29 @@ class TshirtImageController extends Controller
         return redirect()->route('privateTshirt.indexPrivate')
             ->with('alert-msg', $htmlMessage)
             ->with('alert-type', 'success');
+    }
+
+    public function destroyPrivate(TshirtImage $tshirt): RedirectResponse
+    {
+        $this->authorize('deletePrivate', $tshirt);
+        try {
+            DB::transaction(function () use ($tshirt) {
+                $tshirt->delete();
+            });
+
+            $htmlMessage = "Tshirt #{$tshirt->id}
+                        <strong>\"{$tshirt->name}\"</strong> was successfully deleted!";
+            return redirect()->route('privateTshirt.indexPrivate')
+                ->with('alert-msg', $htmlMessage)
+                ->with('alert-type', 'success');
+        } catch (\Exception $error) {
+            $url = route('privateTshirt.showPrivate', ['tshirt' => $tshirt]);
+            $htmlMessage = "It wasn't possible to delete <a href='$url'>#{$tshirt->id}</a>
+                        <strong>\"{$tshirt->name}\"</strong> because there was an error!";
+            $alertType = 'danger';
+        }
+        return back()
+            ->with('alert-msg', $htmlMessage)
+            ->with('alert-type', $alertType);
     }
 }

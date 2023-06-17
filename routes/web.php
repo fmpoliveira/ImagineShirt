@@ -38,11 +38,19 @@ Route::resource('orders', OrderController::class);
 Route::get('order/mine', [OrderController::class, 'myOrders'])->name('order.mine');
 
 // -------------- PRIVATE IMAGES --------------
+
+// Route::middleware('auth')->group(function () {
 Route::get('private', [TshirtImageController::class, 'indexPrivate'])->name('privateTshirt.indexPrivate');
 Route::get('private/{imagePath}', [TshirtImageController::class, 'getPrivateImage'])->name('private.image');
+// });
+
+// Route::middleware(['auth', 'can:view-private-images'])->group(function () {
 Route::get('private/tshirts/{tshirt}', [TshirtImageController::class, 'showPrivate'])->name('privateTshirt.showPrivate');
 Route::get('private/tshirts/{tshirt}/edit', [TshirtImageController::class, 'editPrivate'])->name('privateTshirt.editPrivate');
 Route::put('private/{tshirt}', [TshirtImageController::class, 'updatePrivate'])->name('privateTshirt.updatePrivate');
+Route::delete('private/{tshirt}', [TshirtImageController::class, 'destroyPrivate'])->name('privateTshirt.destroyPrivate');
+// });
+
 // --------------------------------------------
 
 
