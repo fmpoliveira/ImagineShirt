@@ -313,8 +313,14 @@ class TshirtImageController extends Controller
         $tshirtBase = Image::make(asset('storage/tshirt_base/' . $colorCode . '.jpg'));
 
         // Load the t-shirt logo image
-        $tshirtLogo = Image::make(asset('storage/tshirt_images/' . $tshirtUrl));
-
+        if ($tshirt->customer_id === null) {
+            $tshirtLogo = Image::make(asset('storage/tshirt_images/' . $tshirtUrl));
+        } else {
+            $path = 'tshirt_images_private/' . $tshirt->image_url;
+            $content = Storage::get($path);
+            $base64privateImage = base64_encode($content);
+            $tshirtLogo = Image::make($base64privateImage);
+        }
         // Create a new canvas with desired dimensions
         $canvasWidth = $tshirtBase->width();
         $canvasHeight = $tshirtBase->height();
@@ -330,10 +336,26 @@ class TshirtImageController extends Controller
         $tshirtLogoY = ($canvasHeight - $tshirtLogo->height()) / 2;
 
         // Place the logo on top of the t-shirt base image
-        $canvas->insert($tshirtLogo, 'top-left', $tshirtLogoX, $tshirtLogoY);
+        $canvas->insert($tshirtLogo, 'top-right', $tshirtLogoX, $tshirtLogoY);
 
         // $canvas->resize(500, 500);
         // Generate the base64-encoded image data
+        $image = $canvas->encode('data-url')->encoded;
+        return view('preview.canvas', ['image' => $image]);
+    }
+
+    public function mudarCor()
+    {
+
+        // Load the base image (view) using Intervention Image
+        $tshirt = Image::make(asset('storage/tshirt_base/fafafa.jpg'));
+        // Create a new canvas with desired dimensions
+        $canvasWidth = $tshirt->width();
+        $canvasHeight = $tshirt->height();
+        $canvas = Image::canvas($canvasWidth, $canvasHeight);
+        $canvas->insert($tshirt, 'center');
+
+        $canvas->colorize(100, 0, 0);
         $image = $canvas->encode('data-url')->encoded;
         return view('preview.canvas', ['image' => $image]);
     }
