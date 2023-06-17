@@ -8,6 +8,7 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>ImagineShirt</title>
+    <link rel="icon" href="/img/plain_white.png" type="image/icon type">
     @vite('resources/sass/app.scss')
     <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
 </head>

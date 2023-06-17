@@ -82,6 +82,8 @@ Route::delete('customers/{customer}/foto', [CustomerController::class, 'destroy_
 Route::post('/users', [UserController::class, 'blockUser'])->name('users.block');
 
 // Show the cart:
+Route::get('/cart/{color}/{tshirt}', [TshirtImageController::class, 'placeCanvasOnView'])->name('canvas.image');
+
 Route::get('cart', [CartController::class, 'show'])->name('cart.show');
 
 Route::post('cart/refresh', [CartController::class, 'refresh'])->name('cart.refresh');

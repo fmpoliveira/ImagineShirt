@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Models\Color;
 use App\Models\TshirtImage;
 use App\Models\Category;
 use App\Http\Requests\TshirtImagePrivateRequest;
@@ -13,6 +13,8 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+// Preview image manipulation
+use Intervention\Image\Facades\Image;
 
 class TshirtImageController extends Controller
 {
@@ -298,5 +300,41 @@ class TshirtImageController extends Controller
         return back()
             ->with('alert-msg', $htmlMessage)
             ->with('alert-type', $alertType);
+    }
+
+    // Preview image manipulation
+    public function placeCanvasOnView(Color $color, TshirtImage $tshirt)
+    {
+        // dd($color, $tshirt);
+        $colorCode = $color->code;
+        $tshirtUrl = $tshirt->image_url;
+
+        // Load the base image (view) using Intervention Image
+        $tshirtBase = Image::make(asset('storage/tshirt_base/' . $colorCode . '.jpg'));
+
+        // Load the t-shirt logo image
+        $tshirtLogo = Image::make(asset('storage/tshirt_images/' . $tshirtUrl));
+
+        // Create a new canvas with desired dimensions
+        $canvasWidth = $tshirtBase->width();
+        $canvasHeight = $tshirtBase->height();
+        $canvas = Image::canvas($canvasWidth, $canvasHeight);
+
+        // Place the t-shirt base image onto the canvas
+        $canvas->insert($tshirtBase, 'center');
+
+        // Resize the logo
+        $tshirtLogo->resize(200, 200);
+        // Calculate the position to place the logo on the t-shirt
+        $tshirtLogoX = ($canvasWidth - $tshirtLogo->width()) / 2;
+        $tshirtLogoY = ($canvasHeight - $tshirtLogo->height()) / 2;
+
+        // Place the logo on top of the t-shirt base image
+        $canvas->insert($tshirtLogo, 'top-left', $tshirtLogoX, $tshirtLogoY);
+
+        // $canvas->resize(500, 500);
+        // Generate the base64-encoded image data
+        $image = $canvas->encode('data-url')->encoded;
+        return view('preview.canvas', ['image' => $image]);
     }
 }

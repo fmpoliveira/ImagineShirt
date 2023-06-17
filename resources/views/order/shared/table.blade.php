@@ -7,6 +7,7 @@
             <th>Quantity</th>
             <th>Unit Price</th>
             <th>Sub-total</th>
+            <th></th>
             @if ($showDetail)
                 <th class="button-icon-col"></th>
             @endif
@@ -30,7 +31,7 @@
                     </select>
                 </td>
                 <td>
-                    <select form="refresh" name={{ 'colors[]' }} id="colors">
+                    <select form="refresh" name={{ 'colors[]' }} id="colors-{{ $tshirt->id }}">
                         @foreach ($colors as $color)
                             <option value="{{ $color->code }}" @if ($color->code === $tshirt->color) selected @endif>
                                 {{ $color->name }}</option>
@@ -47,6 +48,17 @@
                 <td id="sub_total">
                     {{ number_format($tshirt->sub_total, 2) }}€
                 </td>
+
+                <td class="button-icon-col">
+                    <button type="button" class="btn btn-secondary" onclick="getImage('{{ $tshirt->id }}')">
+                        <i class="fa-solid fa-magnifying-glass"><a
+                                href="{{ route('canvas.image', [
+                                    'color' => $color,
+                                    'tshirt' => $tshirt,
+                                ]) }}"></a></i>
+                    </button>
+                </td>
+
                 @if ($showDetail)
                     <td class="button-icon-col"><a class="btn btn-secondary"
                             href="{{ route('tshirts.show', ['tshirt' => $tshirt]) }}">
@@ -78,3 +90,20 @@
     @csrf
     <input type="hidden" name="refresh" value="true">
 </form>
+
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+</script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js"
+    integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous">
+</script>
+<script>
+    function getImage(tshirtId) {
+        var selectBox = document.querySelector("#colors-" + tshirtId);
+        var selectedColor = selectBox.options[selectBox.selectedIndex].value;
+        var url = "{{ route('canvas.image', ['color' => ':color', 'tshirt' => ':tshirt']) }}"
+            .replace(':color', selectedColor)
+            .replace(':tshirt', tshirtId);
+        window.location.href = url;
+    }
+</script>
