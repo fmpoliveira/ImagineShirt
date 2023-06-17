@@ -111,7 +111,7 @@ class CartController extends Controller
                     $tshirt->color = $colors[0]->code; // default value
                     $tshirt->size = $sizes[0]->size; // default value
                     $prices = Price::find(1);
-                    if (isset($cart[$tshirt->customer_id])) {
+                    if (isset($tshirt->customer_id)) {
                         $tshirt->price = $prices->unit_price_own;
                     } else {
                         $tshirt->price = $prices->unit_price_catalog;
