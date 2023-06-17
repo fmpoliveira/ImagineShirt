@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\OrderStatus;
 use App\Enums\PaymentType;
 use App\Models\Color;
 use App\Models\Order;
@@ -110,7 +111,7 @@ class CartController extends Controller
                     $tshirt->color = $colors[0]->code; // default value
                     $tshirt->size = $sizes[0]->size; // default value
                     $prices = Price::find(1);
-                    if (isset($cart[$tshirt->customer_id])) {
+                    if (isset($tshirt->customer_id)) {
                         $tshirt->price = $prices->unit_price_own;
                     } else {
                         $tshirt->price = $prices->unit_price_catalog;
@@ -247,7 +248,7 @@ class CartController extends Controller
                     $total_price += $tshirt->sub_total;
                 }
                 $newOrder = new Order();
-                $newOrder->status = 'PENDING';
+                $newOrder->status = OrderStatus::PENDING;
                 $newOrder->customer_id = $user->id;
                 $newOrder->date = Carbon::now();
                 $newOrder->total_price = $total_price;

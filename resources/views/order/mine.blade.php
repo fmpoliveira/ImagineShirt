@@ -13,9 +13,9 @@
     <div>
         <h3>Your orders</h3>
     </div>
-    @if ($orders)
-        @include('order.shared.table_order', [
-            'orders' => $orders
-        ])
-    @endif
+    @include('order.shared.formFilter')
+    @include('order.shared.table_order')
+    <div class="mt-4">
+        {{ $orders->withQueryString()->links() }}
+    </div>
 @endsection
