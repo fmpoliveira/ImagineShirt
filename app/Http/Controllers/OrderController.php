@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\OrderStatus;
 use App\Models\Customer;
 use App\Models\Order;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
@@ -25,21 +27,20 @@ class OrderController extends Controller
 
     public function myOrders(Request $request)
     {
-        // $tipo = 'O';
-        // if ($request->user()) {
-        //     $tipo = $request->user()->tipo ?? 'O';
-        // }
-        // if ($tipo == 'D') {
-        //     $disciplinas = $request->user()->docente->disciplinas;
-        // } elseif ($tipo == 'A') {
-        //     $disciplinas = $request->user()->aluno->disciplinas;
-        // } else {
-        //     $disciplinas = null;
-        // }
         $userId = Auth::id();
-        $user = Customer::find($userId);
-        $orders = $user->orders;
-        return view('order.mine')->with('orders', $user->orders);
+        $filterByStatus = $request->status ?? '';
+        $orderQuery = DB::table('orders')->where('customer_id', $userId);
+        $allOrderStatus = array_column(OrderStatus::cases(), 'value');
+
+        if ($filterByStatus !== '') {
+            $orderQuery->where('status', strtolower($filterByStatus));
+        }
+        $orders = $orderQuery->orderBy('date', 'desc')->paginate(12);
+
+        return view('order.mine')
+            ->with('allOrderStatus', $allOrderStatus)
+            ->with('filterByStatus', $filterByStatus)
+            ->with('orders', $orders);
     }
 
     /**
@@ -63,7 +64,17 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
-        //
+        // $total
+        // $orderItems
+        $orderItems = DB::table('order_items')
+            ->where('order_id', $order->id)
+            ->get();
+
+        // return view('order.show')
+        //     ->with('order')
+        //     ->with('orderItems');
+        return view('order.show', compact('order'))
+        ->with('orderItems', $orderItems);
     }
 
     /**
