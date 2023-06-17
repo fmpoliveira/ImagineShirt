@@ -122,10 +122,11 @@
                             href="{{ route('cart.show') }}">
                             <div class="sb-nav-link-icon"><i class="fas fa-shopping-cart"></i></div>Shopping Cart
                         </a>
-                        <a class="nav-link {{ Route::currentRouteName() == 'cart.show' ? 'active' : '' }}"
-                            href="{{ route('cart.show') }}">
+                        <a class="nav-link {{ Route::currentRouteName() == 'privateTshirt.indexPrivate' ? 'active' : '' }}"
+                            href="{{ route('privateTshirt.indexPrivate') }}">
                             <div class="sb-nav-link-icon"><i class="fa-solid fa-shirt"></i></div>My Tshirts
                         </a>
+
 
                         {{-- Admin --}}
                         <div class="sb-sidenav-menu-heading">Admin</div>

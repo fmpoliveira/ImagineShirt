@@ -24,8 +24,7 @@
                 ])
                 <div class="my-1 d-flex justify-content-end">
                     <button type="submit" class="btn btn-primary" name="ok" form="form_tshirt">Save Tshirt</button>
-                    <a href="{{ route('tshirts.create', ['tshirt' => $tshirt]) }}"
-                        class="btn btn-secondary ms-3 me-3">Cancel</a>
+                    <a href="{{ url()->previous() }}" class="btn btn-secondary ms-3 me-3">Cancel</a>
                 </div>
             </div>
             <div class="ps-2 d-flex mx-auto flex-column align-items-center justify-content-between"
