@@ -121,16 +121,13 @@
                         <div class="sb-sidenav-menu-heading">Private Space</div>
                         <a class="nav-link {{ Route::currentRouteName() == 'order.mine' ? 'active' : '' }}"
                             href="{{ route('order.mine') }}">
-                            <<<<<<< HEAD <div class="sb-nav-link-icon"><i class="fas fa-file-text"></i>
+                            <div class="sb-nav-link-icon"><i class="fas fa-file-text"></i>
                     </div>
                     My Orders
                     </a>
                     <a class="nav-link {{ Route::currentRouteName() == 'cart.show' ? 'active' : '' }}"
                         href="{{ route('cart.show') }}">
                         <div class="sb-nav-link-icon"><i class="fas fa-shopping-cart"></i></div>Shopping Cart
-                        =======
-                        <div class="sb-nav-link-icon"><i class="fas fa-file-text"></i></div>My orders
-                        >>>>>>> aaa267a8b73a38695eca9a3c0952100cf8498731
                     </a>
 
                     <a class="nav-link {{ Route::currentRouteName() == 'privateTshirt.indexPrivate' ? 'active' : '' }}"
