@@ -116,7 +116,7 @@
                         <a class="nav-link {{ Route::currentRouteName() == 'order.mine' ? 'active' : '' }}"
                             href="{{ route('order.mine') }}">
                             <div class="sb-nav-link-icon"><i class="fas fa-file-text"></i></div>
-                            My orders
+                            My Orders
                         </a>
                         <a class="nav-link {{ Route::currentRouteName() == 'cart.show' ? 'active' : '' }}"
                             href="{{ route('cart.show') }}">
@@ -155,6 +155,10 @@
                                 <a class="nav-link {{ Route::currentRouteName() == 'prices.index' ? 'active' : '' }}"
                                     href="{{ route('prices.index') }}">
                                     Price Manager
+                                </a>
+                                <a class="nav-link {{ Route::currentRouteName() == 'order.admin' ? 'active' : '' }}"
+                                    href="{{ route('order.admin') }}">
+                                    Order Manager
                                 </a>
                             </nav>
                         </div>

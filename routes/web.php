@@ -36,6 +36,7 @@ Route::resource('orderItems', OrderItemController::class);
 
 Route::resource('orders', OrderController::class);
 Route::get('order/mine', [OrderController::class, 'myOrders'])->name('order.mine');
+Route::get('orderManager', [OrderController::class, 'indexAdmin'])->name('order.admin');
 
 // -------------- PRIVATE IMAGES --------------
 Route::get('private', [TshirtImageController::class, 'indexPrivate'])->name('privateTshirt.indexPrivate');

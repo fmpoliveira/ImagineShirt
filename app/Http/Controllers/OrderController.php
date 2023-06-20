@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\OrderStatus;
 use App\Models\Customer;
 use App\Models\Order;
+use App\Models\OrderItem;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -25,7 +26,7 @@ class OrderController extends Controller
         return view('order.index')->with('orders', $allOrders);
     }
 
-    public function myOrders(Request $request)
+    public function myOrders(Request $request): View
     {
         $userId = Auth::id();
         $filterByStatus = $request->status ?? '';
@@ -35,11 +36,40 @@ class OrderController extends Controller
         if ($filterByStatus !== '') {
             $orderQuery->where('status', strtolower($filterByStatus));
         }
-        $orders = $orderQuery->orderBy('date', 'desc')->paginate(12);
+        $orders = $orderQuery->orderBy('date', 'desc')->paginate(10);
 
         return view('order.mine')
             ->with('allOrderStatus', $allOrderStatus)
             ->with('filterByStatus', $filterByStatus)
+            ->with('orders', $orders);
+    }
+
+    public function indexAdmin(Request $request)
+    {
+        $filterByStatus = $request->status ?? '';
+        $filterByCustomer = $request->customerId ?? '';
+        $orderQuery = DB::table('orders');
+        $allOrderStatus = array_column(OrderStatus::cases(), 'value');
+        $allCustomersIdWithOrders = Order::distinct()->pluck('customer_id');
+
+        $allCustomersWithOrders = DB::table('customers')
+            ->join('users', 'customers.id', '=', 'users.id')
+            ->whereIn('customers.id', $allCustomersIdWithOrders)
+            ->get();
+
+        if ($filterByStatus !== '') {
+            $orderQuery->where('status', strtolower($filterByStatus));
+        }
+        if ($filterByCustomer !== '') {
+            $orderQuery->where('customer_id', $filterByCustomer);
+        }
+        $orders = $orderQuery->paginate(10);
+
+        return view('order.admin')
+            ->with('allOrderStatus', $allOrderStatus)
+            ->with('allCustomersWithOrders', $allCustomersWithOrders)
+            ->with('filterByStatus', $filterByStatus)
+            ->with('filterByCustomer', $filterByCustomer)
             ->with('orders', $orders);
     }
 
@@ -66,15 +96,17 @@ class OrderController extends Controller
     {
         // $total
         // $orderItems
-        $orderItems = DB::table('order_items')
-            ->where('order_id', $order->id)
+
+        $orderItems = OrderItem::where('order_id', $order->id)
             ->get();
+
+        print_r($orderItems[0]->color->name);
 
         // return view('order.show')
         //     ->with('order')
         //     ->with('orderItems');
         return view('order.show', compact('order'))
-        ->with('orderItems', $orderItems);
+            ->with('orderItems', $orderItems);
     }
 
     /**

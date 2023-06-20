@@ -1,7 +1,7 @@
 <table class="table">
     <thead class="table-dark">
         <tr>
-            <th>Name</th>
+            <th>ID</th>
             <th>Size</th>
             <th>Color</th>
             <th>Quantity</th>

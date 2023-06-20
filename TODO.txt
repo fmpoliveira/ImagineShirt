@@ -5,7 +5,15 @@ Guilherme - informação de conta de utilizador
 Francisco - listagem tshirts
 Alexandre - encomendas (histórico, detalhes)
 Alexandre - página carrinho de compras 
-    - ao clickar em checkout, verificar se user está logado, se não, redirecionar para login/registo
-        - de notar que, se o user tiver de se registar, o carrinho de compras deve ser guardado para este novo user
-    - depois do checkout, iniciar processo de confirmação de pagamento e morada
-    - falta fazer sub total, total, preview da tshirt, lógica de confirmação
+    - página de order individual
+        - cor deve apresentar nome da cor
+    - página das minhas orders
+        - falta parte do recibo
+    - página de order Manager
+        - falta parte do recibo
+        - botão de editar
+    - falta fazer página para editar order
+    - página de confirm cart
+        - mudar forma como os detalhes da order são apresentados, colocar em modo read only
+        - verificar situação das rotas, não estão bem 
+    - policies

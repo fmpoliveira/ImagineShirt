@@ -2,6 +2,7 @@
     <thead class="table-dark">
         <tr>
             <th>Number</th>
+            <th>Customer ID</th>
             <th>Status</th>
             <th>Date</th>
             <th>Price</th>
@@ -14,6 +15,7 @@
         @foreach ($orders as $order)
             <tr>
                 <td>{{ $order->id }}</td>
+                <td>{{ $order->customer_id }}</td>
                 <td>{{ $order->status }}</td>
                 <td>{{ $order->date }}</td>
                 <td>{{ number_format($order->total_price, 2) }}€</td>
