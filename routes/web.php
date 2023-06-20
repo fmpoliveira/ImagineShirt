@@ -39,11 +39,19 @@ Route::get('order/mine', [OrderController::class, 'myOrders'])->name('order.mine
 Route::get('orderManager', [OrderController::class, 'indexAdmin'])->name('order.admin');
 
 // -------------- PRIVATE IMAGES --------------
+
+// Route::middleware('auth')->group(function () {
 Route::get('private', [TshirtImageController::class, 'indexPrivate'])->name('privateTshirt.indexPrivate');
 Route::get('private/{imagePath}', [TshirtImageController::class, 'getPrivateImage'])->name('private.image');
+// });
+
+// Route::middleware(['auth', 'can:view-private-images'])->group(function () {
 Route::get('private/tshirts/{tshirt}', [TshirtImageController::class, 'showPrivate'])->name('privateTshirt.showPrivate');
 Route::get('private/tshirts/{tshirt}/edit', [TshirtImageController::class, 'editPrivate'])->name('privateTshirt.editPrivate');
 Route::put('private/{tshirt}', [TshirtImageController::class, 'updatePrivate'])->name('privateTshirt.updatePrivate');
+Route::delete('private/{tshirt}', [TshirtImageController::class, 'destroyPrivate'])->name('privateTshirt.destroyPrivate');
+// });
+
 // --------------------------------------------
 
 
@@ -75,6 +83,11 @@ Route::delete('customers/{customer}/foto', [CustomerController::class, 'destroy_
 Route::post('/users', [UserController::class, 'blockUser'])->name('users.block');
 
 // Show the cart:
+
+Route::get('/tt', [TshirtImageController::class, 'mudarCor'])->name('mudarCor');
+
+Route::get('/cart/{color}/{tshirt}', [TshirtImageController::class, 'placeCanvasOnView'])->name('canvas.image');
+
 Route::get('cart', [CartController::class, 'show'])->name('cart.show');
 
 Route::post('cart/refresh', [CartController::class, 'refresh'])->name('cart.refresh');

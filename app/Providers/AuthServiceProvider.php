@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\TshirtImage;
 use Illuminate\Support\Facades\Gate;
 use App\Models\User;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -22,13 +23,14 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+
+        $this->registerPolicies();
         Gate::define('administrar', function (User $user) {
             return $user->user_type == 'A'; /* If the function returns true, the “gate” is open – user is authorized */
         });
 
-        Gate::define('update-customer', function (User $user){
+        Gate::define('update-customer', function (User $user) {
             return $user->user_type == 'C';
         });
-        
     }
 }

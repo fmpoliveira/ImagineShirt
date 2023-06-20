@@ -19,12 +19,22 @@ class TshirtImagePrivateRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array|string>
      */
+
     public function rules(): array
     {
-        return [
+        $rules = [
             'name' => 'required',
             'description' => 'required',
-            'tshirt_image' => 'sometimes|required|image|max:4096'
         ];
+
+        if ($this->isMethod('post')) {
+            // Image is required in the store form
+            $rules['tshirt_image'] = 'required|image|max:4096';
+        } elseif ($this->isMethod('put') || $this->isMethod('patch')) {
+            // Image is not required in the update form
+            $rules['tshirt_image'] = 'sometimes|image|max:4096';
+        }
+
+        return $rules;
     }
 }

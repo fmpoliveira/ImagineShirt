@@ -8,6 +8,7 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>ImagineShirt</title>
+    <link rel="icon" href="/img/plain_white.png" type="image/icon type">
     @vite('resources/sass/app.scss')
     <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
 </head>
@@ -97,6 +98,11 @@
                             Shop
                         </a>
 
+                        <a class="nav-link {{ Route::currentRouteName() == 'cart.show' ? 'active' : '' }}"
+                            href="{{ route('cart.show') }}">
+                            <div class="sb-nav-link-icon"><i class="fas fa-shopping-cart"></i></div>Shopping Cart
+                        </a>
+
                         <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
                             data-bs-target="#collapseRecursosHumanos" aria-expanded="false"
                             aria-controls="collapseRecursosHumanos">
@@ -122,51 +128,53 @@
                             href="{{ route('cart.show') }}">
                             <div class="sb-nav-link-icon"><i class="fas fa-shopping-cart"></i></div>Shopping Cart
                         </a>
+
                         <a class="nav-link {{ Route::currentRouteName() == 'privateTshirt.indexPrivate' ? 'active' : '' }}"
                             href="{{ route('privateTshirt.indexPrivate') }}">
                             <div class="sb-nav-link-icon"><i class="fa-solid fa-shirt"></i></div>My Tshirts
                         </a>
 
+                        <a class="nav-link {{ Route::currentRouteName() == 'privateTshirt.indexPrivate' ? 'active' : '' }}"
+                            href="{{ route('mudarCor') }}">
+                            <div class="sb-nav-link-icon"><i class="fa-solid fa-shirt"></i></div>Teste
+                        </a>
 
                         {{-- Admin --}}
-                        <div class="sb-sidenav-menu-heading">Admin</div>
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
-                            data-bs-target="#collapseAdminManager" aria-expanded="false"
-                            aria-controls="collapseAdminManager">
-                            <div class="sb-nav-link-icon"><i class="fa-solid fa-user-secret"></i></div>
-                            Manager
-                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                        </a>
-                        <div class="collapse" id="collapseAdminManager" aria-labelledby="headingTwo"
-                            data-bs-parent="#sidenavAccordion">
-                            <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link {{ Route::currentRouteName() == 'tshirts.admin' ? 'active' : '' }}"
-                                    href="{{ route('tshirts.admin') }}">
-                                    Tshirt Manager
-                                </a>
-                                <a class="nav-link {{ Route::currentRouteName() == 'categories.index' ? 'active' : '' }}"
-                                    href="{{ route('categories.index') }}">
-                                    Category Manager
-                                </a>
-                                <a class="nav-link {{ Route::currentRouteName() == 'colors.index' ? 'active' : '' }}"
-                                    href="{{ route('colors.index') }}">
-                                    Color Manager
-                                </a>
-                                <a class="nav-link {{ Route::currentRouteName() == 'prices.index' ? 'active' : '' }}"
-                                    href="{{ route('prices.index') }}">
-                                    Price Manager
-                                </a>
-                                <a class="nav-link {{ Route::currentRouteName() == 'order.admin' ? 'active' : '' }}"
-                                    href="{{ route('order.admin') }}">
-                                    Order Manager
-                                </a>
-                            </nav>
-                        </div>
-
-
-
-
-
+                        @can('viewAdmin', App\Models\TshirtImage::class)
+                            <div class="sb-sidenav-menu-heading">Admin</div>
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                                data-bs-target="#collapseAdminManager" aria-expanded="false"
+                                aria-controls="collapseAdminManager">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-user-secret"></i></div>
+                                Manager
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapseAdminManager" aria-labelledby="headingTwo"
+                                data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link {{ Route::currentRouteName() == 'tshirts.admin' ? 'active' : '' }}"
+                                        href="{{ route('tshirts.admin') }}">
+                                        Tshirt Manager
+                                    </a>
+                                    <a class="nav-link {{ Route::currentRouteName() == 'categories.index' ? 'active' : '' }}"
+                                        href="{{ route('categories.index') }}">
+                                        Category Manager
+                                    </a>
+                                    <a class="nav-link {{ Route::currentRouteName() == 'colors.index' ? 'active' : '' }}"
+                                        href="{{ route('colors.index') }}">
+                                        Color Manager
+                                    </a>
+                                    <a class="nav-link {{ Route::currentRouteName() == 'prices.index' ? 'active' : '' }}"
+                                        href="{{ route('prices.index') }}">
+                                        Price Manager
+                                    </a>
+                                    <a class="nav-link {{ Route::currentRouteName() == 'order.admin' ? 'active' : '' }}"
+                                        href="{{ route('order.admin') }}">
+                                        Order Manager
+                                    </a>
+                                </nav>
+                            </div>
+                        @endcan
                     </div>
                 </div>
             </nav>

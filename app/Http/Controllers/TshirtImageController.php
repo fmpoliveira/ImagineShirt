@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Models\Color;
 use App\Models\TshirtImage;
 use App\Models\Category;
 use App\Http\Requests\TshirtImagePrivateRequest;
@@ -13,10 +13,17 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Hash;
+// Preview image manipulation
+use Intervention\Image\Facades\Image;
 
 class TshirtImageController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->authorizeResource(TshirtImage::class, 'tshirt');
+    }
+
     public function index(Request $request): View
     {
         $categories = Category::all(); // buscar todas as categorias para imprimir no form
@@ -52,6 +59,8 @@ class TshirtImageController extends Controller
 
     public function indexAdmin(Request $request): View
     {
+        $this->authorize('viewAdmin', TshirtImage::class);
+
         $categories = Category::all(); // buscar todas as categorias para imprimir no form
         $tshirts = TshirtImage::all();
         $tshirtsQuery = TshirtImage::query(); // returns empty query builder
@@ -92,8 +101,9 @@ class TshirtImageController extends Controller
             $tshirt = new TshirtImage();
             $categories = Category::all(); // to be able to reuse the form
             return view('tshirt.create', compact('tshirt', 'categories'));
+        } else {
+            return redirect()->route('login');
         }
-        abort(403);
     }
 
     /**
@@ -114,6 +124,7 @@ class TshirtImageController extends Controller
             $path = Storage::putFile('tshirt_images_private', $image);
             $image_name = basename($path);
             $newTshirt->image_url = $image_name;
+
             $newTshirt->save();
 
             return $newTshirt;
@@ -198,15 +209,21 @@ class TshirtImageController extends Controller
 
     public function indexPrivate()
     {
-        $tshirts = TshirtImage::all();
-        $tshirtsQuery = TshirtImage::query(); // returns empty query builder
+        // $this->authorize('viewPrivate', TshirtImage::class);
 
-        $user = Auth::user();
-        $user_id = $user->customer->id;
+        if (Auth::check()) {
+            $tshirts = TshirtImage::all();
+            $tshirtsQuery = TshirtImage::query(); // returns empty query builder
 
-        // Only sends the tshirts where customer_id is equal to the user_id
-        $tshirts = $tshirtsQuery->where('customer_id', $user_id)->paginate(8);
-        return view('privateTshirt.index', compact('tshirts'));
+            $user = Auth::user();
+            $user_id = $user->customer->id;
+
+            // Only sends the tshirts where customer_id is equal to the user_id
+            $tshirts = $tshirtsQuery->where('customer_id', $user_id)->paginate(8);
+            return view('privateTshirt.index', compact('tshirts'));
+        } else {
+            return redirect()->route('login');
+        }
     }
 
     public function getPrivateImage($imagePath)
@@ -226,7 +243,7 @@ class TshirtImageController extends Controller
 
     public function showPrivate(TshirtImage $tshirt): View
     {
-
+        $this->authorize('viewPrivate', $tshirt);
         return view('privateTshirt.show', compact('tshirt'));
     }
 
@@ -235,12 +252,14 @@ class TshirtImageController extends Controller
      */
     public function editPrivate(TshirtImage $tshirt)
     {
-
+        $this->authorize('updatePrivate', $tshirt);
         return view('privateTshirt.edit', compact('tshirt'));
     }
 
     public function updatePrivate(TshirtImagePrivateRequest $request, TshirtImage $tshirt): RedirectResponse
     {
+        $this->authorize('updatePrivate', $tshirt);
+
         $formData = $request->validated();
         $tshirt = DB::transaction(function () use ($formData, $tshirt) {
             $tshirt->name = $formData['name'];
@@ -257,5 +276,87 @@ class TshirtImageController extends Controller
         return redirect()->route('privateTshirt.indexPrivate')
             ->with('alert-msg', $htmlMessage)
             ->with('alert-type', 'success');
+    }
+
+    public function destroyPrivate(TshirtImage $tshirt): RedirectResponse
+    {
+        $this->authorize('deletePrivate', $tshirt);
+        try {
+            DB::transaction(function () use ($tshirt) {
+                $tshirt->delete();
+            });
+
+            $htmlMessage = "Tshirt #{$tshirt->id}
+                        <strong>\"{$tshirt->name}\"</strong> was successfully deleted!";
+            return redirect()->route('privateTshirt.indexPrivate')
+                ->with('alert-msg', $htmlMessage)
+                ->with('alert-type', 'success');
+        } catch (\Exception $error) {
+            $url = route('privateTshirt.showPrivate', ['tshirt' => $tshirt]);
+            $htmlMessage = "It wasn't possible to delete <a href='$url'>#{$tshirt->id}</a>
+                        <strong>\"{$tshirt->name}\"</strong> because there was an error!";
+            $alertType = 'danger';
+        }
+        return back()
+            ->with('alert-msg', $htmlMessage)
+            ->with('alert-type', $alertType);
+    }
+
+    // Preview image manipulation
+    public function placeCanvasOnView(Color $color, TshirtImage $tshirt)
+    {
+        // dd($color, $tshirt);
+        $colorCode = $color->code;
+        $tshirtUrl = $tshirt->image_url;
+
+        // Load the base image (view) using Intervention Image
+        $tshirtBase = Image::make(asset('storage/tshirt_base/' . $colorCode . '.jpg'));
+
+        // Load the t-shirt logo image
+        if ($tshirt->customer_id === null) {
+            $tshirtLogo = Image::make(asset('storage/tshirt_images/' . $tshirtUrl));
+        } else {
+            $path = 'tshirt_images_private/' . $tshirt->image_url;
+            $content = Storage::get($path);
+            $base64privateImage = base64_encode($content);
+            $tshirtLogo = Image::make($base64privateImage);
+        }
+        // Create a new canvas with desired dimensions
+        $canvasWidth = $tshirtBase->width();
+        $canvasHeight = $tshirtBase->height();
+        $canvas = Image::canvas($canvasWidth, $canvasHeight);
+
+        // Place the t-shirt base image onto the canvas
+        $canvas->insert($tshirtBase, 'center');
+
+        // Resize the logo
+        $tshirtLogo->resize(200, 200);
+        // Calculate the position to place the logo on the t-shirt
+        $tshirtLogoX = ($canvasWidth - $tshirtLogo->width()) / 2;
+        $tshirtLogoY = ($canvasHeight - $tshirtLogo->height()) / 2;
+
+        // Place the logo on top of the t-shirt base image
+        $canvas->insert($tshirtLogo, 'top-right', $tshirtLogoX, $tshirtLogoY);
+
+        // $canvas->resize(500, 500);
+        // Generate the base64-encoded image data
+        $image = $canvas->encode('data-url')->encoded;
+        return view('preview.canvas', ['image' => $image]);
+    }
+
+    public function mudarCor()
+    {
+
+        // Load the base image (view) using Intervention Image
+        $tshirt = Image::make(asset('storage/tshirt_base/fafafa.jpg'));
+        // Create a new canvas with desired dimensions
+        $canvasWidth = $tshirt->width();
+        $canvasHeight = $tshirt->height();
+        $canvas = Image::canvas($canvasWidth, $canvasHeight);
+        $canvas->insert($tshirt, 'center');
+
+        $canvas->colorize(100, 0, 0);
+        $image = $canvas->encode('data-url')->encoded;
+        return view('preview.canvas', ['image' => $image]);
     }
 }
