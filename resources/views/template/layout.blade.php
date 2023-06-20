@@ -121,88 +121,97 @@
                         <div class="sb-sidenav-menu-heading">Private Space</div>
                         <a class="nav-link {{ Route::currentRouteName() == 'order.mine' ? 'active' : '' }}"
                             href="{{ route('order.mine') }}">
-                            <div class="sb-nav-link-icon"><i class="fas fa-file-text"></i></div>
-                            My Orders
-                        </a>
-                        <a class="nav-link {{ Route::currentRouteName() == 'cart.show' ? 'active' : '' }}"
-                            href="{{ route('cart.show') }}">
-                            <div class="sb-nav-link-icon"><i class="fas fa-shopping-cart"></i></div>Shopping Cart
-                        </a>
-
-                        <a class="nav-link {{ Route::currentRouteName() == 'privateTshirt.indexPrivate' ? 'active' : '' }}"
-                            href="{{ route('privateTshirt.indexPrivate') }}">
-                            <div class="sb-nav-link-icon"><i class="fa-solid fa-shirt"></i></div>My Tshirts
-                        </a>
-
-                        <a class="nav-link {{ Route::currentRouteName() == 'privateTshirt.indexPrivate' ? 'active' : '' }}"
-                            href="{{ route('mudarCor') }}">
-                            <div class="sb-nav-link-icon"><i class="fa-solid fa-shirt"></i></div>Teste
-                        </a>
-
-                        {{-- Admin --}}
-                        @can('viewAdmin', App\Models\TshirtImage::class)
-                            <div class="sb-sidenav-menu-heading">Admin</div>
-                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
-                                data-bs-target="#collapseAdminManager" aria-expanded="false"
-                                aria-controls="collapseAdminManager">
-                                <div class="sb-nav-link-icon"><i class="fa-solid fa-user-secret"></i></div>
-                                Manager
-                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                            </a>
-                            <div class="collapse" id="collapseAdminManager" aria-labelledby="headingTwo"
-                                data-bs-parent="#sidenavAccordion">
-                                <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link {{ Route::currentRouteName() == 'tshirts.admin' ? 'active' : '' }}"
-                                        href="{{ route('tshirts.admin') }}">
-                                        Tshirt Manager
-                                    </a>
-                                    <a class="nav-link {{ Route::currentRouteName() == 'categories.index' ? 'active' : '' }}"
-                                        href="{{ route('categories.index') }}">
-                                        Category Manager
-                                    </a>
-                                    <a class="nav-link {{ Route::currentRouteName() == 'colors.index' ? 'active' : '' }}"
-                                        href="{{ route('colors.index') }}">
-                                        Color Manager
-                                    </a>
-                                    <a class="nav-link {{ Route::currentRouteName() == 'prices.index' ? 'active' : '' }}"
-                                        href="{{ route('prices.index') }}">
-                                        Price Manager
-                                    </a>
-                                    <a class="nav-link {{ Route::currentRouteName() == 'order.admin' ? 'active' : '' }}"
-                                        href="{{ route('order.admin') }}">
-                                        Order Manager
-                                    </a>
-                                </nav>
-                            </div>
-                        @endcan
+                            <<<<<<< HEAD <div class="sb-nav-link-icon"><i class="fas fa-file-text"></i>
                     </div>
+                    My Orders
+                    </a>
+                    <a class="nav-link {{ Route::currentRouteName() == 'cart.show' ? 'active' : '' }}"
+                        href="{{ route('cart.show') }}">
+                        <div class="sb-nav-link-icon"><i class="fas fa-shopping-cart"></i></div>Shopping Cart
+                        =======
+                        <div class="sb-nav-link-icon"><i class="fas fa-file-text"></i></div>My orders
+                        >>>>>>> aaa267a8b73a38695eca9a3c0952100cf8498731
+                    </a>
+
+                    <a class="nav-link {{ Route::currentRouteName() == 'privateTshirt.indexPrivate' ? 'active' : '' }}"
+                        href="{{ route('privateTshirt.indexPrivate') }}">
+                        <div class="sb-nav-link-icon"><i class="fa-solid fa-shirt"></i></div>My Tshirts
+                    </a>
+
+                    <a class="nav-link {{ Route::currentRouteName() == 'privateTshirt.indexPrivate' ? 'active' : '' }}"
+                        href="{{ route('mudarCor') }}">
+                        <div class="sb-nav-link-icon"><i class="fa-solid fa-shirt"></i></div>Teste
+                    </a>
+
+
+                    {{-- Admin --}}
+                    @can('viewAdmin', App\Models\TshirtImage::class)
+                        <div class="sb-sidenav-menu-heading">Admin</div>
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                            data-bs-target="#collapseAdminManager" aria-expanded="false"
+                            aria-controls="collapseAdminManager">
+                            <div class="sb-nav-link-icon"><i class="fa-solid fa-user-secret"></i></div>
+                            Manager
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="collapseAdminManager" aria-labelledby="headingTwo"
+                            data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link {{ Route::currentRouteName() == 'tshirts.admin' ? 'active' : '' }}"
+                                    href="{{ route('tshirts.admin') }}">
+                                    Tshirt Manager
+                                </a>
+                                <a class="nav-link {{ Route::currentRouteName() == 'categories.index' ? 'active' : '' }}"
+                                    href="{{ route('categories.index') }}">
+                                    Category Manager
+                                </a>
+                                <a class="nav-link {{ Route::currentRouteName() == 'colors.index' ? 'active' : '' }}"
+                                    href="{{ route('colors.index') }}">
+                                    Color Manager
+                                </a>
+                                <a class="nav-link {{ Route::currentRouteName() == 'prices.index' ? 'active' : '' }}"
+                                    href="{{ route('prices.index') }}">
+                                    Price Manager
+                                </a>
+                                <a class="nav-link {{ Route::currentRouteName() == 'order.admin' ? 'active' : '' }}"
+                                    href="{{ route('order.admin') }}">
+                                    Order Manager
+                                </a>
+                            </nav>
+                        </div>
+                    @endcan
+
+
+
+
                 </div>
-            </nav>
         </div>
-        <div id="layoutSidenav_content">
-            <main>
-                <div class="container-fluid px-4">
-                    @if (session('alert-msg'))
-                        @include('shared.messages')
-                    @endif
-                    @if ($errors->any())
-                        @include('shared.alertValidation')
-                    @endif
-                    <h1 class="mt-4">@yield('titulo', 'Politécnico de Leiria')</h1>
-                    @yield('subtitulo')
-                    <div class="mt-4">
-                        @yield('main')
-                    </div>
+        </nav>
+    </div>
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid px-4">
+                @if (session('alert-msg'))
+                    @include('shared.messages')
+                @endif
+                @if ($errors->any())
+                    @include('shared.alertValidation')
+                @endif
+                <h1 class="mt-4">@yield('titulo', 'Politécnico de Leiria')</h1>
+                @yield('subtitulo')
+                <div class="mt-4">
+                    @yield('main')
                 </div>
-            </main>
-            <footer class="py-2 bg-light mt-auto">
-                <div class="container-fluid px-4">
-                    <div class="d-flex align-items-center justify-content-between small">
-                        <div class="text-muted">Copyright &copy;Politécnico de Leiria 2023</div>
-                    </div>
+            </div>
+        </main>
+        <footer class="py-2 bg-light mt-auto">
+            <div class="container-fluid px-4">
+                <div class="d-flex align-items-center justify-content-between small">
+                    <div class="text-muted">Copyright &copy;Politécnico de Leiria 2023</div>
                 </div>
-            </footer>
-        </div>
+            </div>
+        </footer>
+    </div>
     </div>
     @vite('resources/js/app.js')
 </body>
