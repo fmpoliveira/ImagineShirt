@@ -100,7 +100,7 @@ class OrderController extends Controller
         $orderItems = OrderItem::where('order_id', $order->id)
             ->get();
 
-        print_r($orderItems[0]->color->name);
+        // print_r($orderItems[0]->color->name);
 
         // return view('order.show')
         //     ->with('order')
