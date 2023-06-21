@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\DB;
 class OrderController extends Controller
 {
 
-    public function myOrders(Request $request): View
+    public function indexPrivate(Request $request): View
     {
         $userId = Auth::id();
         $filterByStatus = $request->status ?? '';
@@ -27,7 +27,7 @@ class OrderController extends Controller
         }
         $orders = $orderQuery->orderBy('date', 'desc')->paginate(10);
 
-        return view('order.mine')
+        return view('privateOrder.index')
             ->with('allOrderStatus', $allOrderStatus)
             ->with('filterByStatus', $filterByStatus)
             ->with('orders', $orders);
@@ -70,8 +70,29 @@ class OrderController extends Controller
 
         $orderItems = OrderItem::where('order_id', $order->id)
             ->get();
-        
+
         return view('order.show', compact('order'))
+            ->with('orderItems', $orderItems);
+    }
+
+    public function getPrivateOrder(Order $order)
+    {
+        $login = Auth::user();
+        $user = Customer::find($login->id);
+
+        if ($order->customer_id !== $user->id) {
+            $htmlMessage = "You can't access this order!";
+            $alertType = 'danger';
+
+            return back()
+                ->with('alert-msg', $htmlMessage)
+                ->with('alert-type', $alertType);
+        }
+
+        $orderItems = OrderItem::where('order_id', $order->id)
+            ->get();
+
+        return view('privateOrder.show', compact('order'))
             ->with('orderItems', $orderItems);
     }
 

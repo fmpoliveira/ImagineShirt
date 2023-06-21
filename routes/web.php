@@ -30,19 +30,23 @@ Route::view('/', 'home')->name('root');
 // WITH A SINGLE LINE OF CODE:
 // Route::get('cart/{customer}', [TshirtController::class, 'index'])->name('tshirts.index');
 
+Route::get('private/orders', [OrderController::class, 'indexPrivate'])->name('privateOrder.indexPrivate'); 
+
+Route::get('private/orders/{order}', [OrderController::class, 'getPrivateOrder'])->name('privateOrder.showPrivate'); 
+
 Route::resource('prices', PriceController::class);
 
 Route::resource('orderItems', OrderItemController::class);
 
 Route::resource('orders', OrderController::class);
-Route::get('order/mine', [OrderController::class, 'myOrders'])->name('order.mine');
+
 Route::get('orderManager', [OrderController::class, 'indexAdmin'])->name('order.admin');
 
 // -------------- PRIVATE IMAGES --------------
 
 // Route::middleware('auth')->group(function () {
 Route::get('private', [TshirtImageController::class, 'indexPrivate'])->name('privateTshirt.indexPrivate');
-Route::get('private/{imagePath}', [TshirtImageController::class, 'getPrivateImage'])->name('private.image');
+Route::get('private/orders/{imagePath}', [TshirtImageController::class, 'getPrivateImage'])->name('private.image');
 // });
 
 // Route::middleware(['auth', 'can:view-private-images'])->group(function () {
@@ -94,7 +98,7 @@ Route::post('cart/refresh', [CartController::class, 'refresh'])->name('cart.refr
 
 Route::post('cart/store', [CartController::class, 'store'])->name('cart.store');
 
-Route::post('cart/confirm', [CartController::class, 'confirm'])->name('cart.confirm');
+Route::match(['post', 'get'], 'cart/confirm', [CartController::class, 'confirm'])->name('cart.confirm');
 
 Route::post('cart/{tshirt}', [CartController::class, 'addToCart'])->name('cart.add');
 
@@ -104,3 +108,4 @@ Route::delete('cart', [CartController::class, 'destroy'])->name('cart.destroy');
 
 Route::get('/password/change', [App\Http\Controllers\auth\ChangePasswordController::class, 'show'])->name('password.change.show');
 Route::post('/password/change', [App\Http\Controllers\auth\ChangePasswordController::class, 'store'])->name('password.change.store');
+

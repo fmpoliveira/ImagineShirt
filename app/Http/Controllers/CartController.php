@@ -196,7 +196,7 @@ class CartController extends Controller
             ->with('alert-type', $alertType);
     }
 
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $validatedData = $request->validate([
             'nif' => ['required', 'numeric', 'digits:9'],
@@ -221,7 +221,6 @@ class CartController extends Controller
                         if (!is_numeric($value) || strlen($value) !== 16) {
                             $fail('The ' . $attribute . ' must be numeric and have 16 digits.');
                         }
-
                     }
                 }
             ],
@@ -283,6 +282,9 @@ class CartController extends Controller
         } catch (\Exception $error) {
             $htmlMessage = "It wasn't possible to confirm the cart items because there occurred an error!";
             $alertType = 'danger';
+            return back()
+                ->with('alert-msg', $htmlMessage)
+                ->with('alert-type', $alertType);
         }
         return redirect('tshirts')
             ->with('alert-msg', $htmlMessage)

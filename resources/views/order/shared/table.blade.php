@@ -8,9 +8,6 @@
             <th>Unit Price</th>
             <th>Sub-total</th>
             <th></th>
-            @if ($showDetail)
-                <th class="button-icon-col"></th>
-            @endif
             @if ($showDelete)
                 <th class="button-icon-col"></th>
             @endif
@@ -58,12 +55,6 @@
                                 ]) }}"></a></i>
                     </button>
                 </td>
-
-                @if ($showDetail)
-                    <td class="button-icon-col"><a class="btn btn-secondary"
-                            href="{{ route('tshirts.show', ['tshirt' => $tshirt]) }}">
-                            <i class="fas fa-eye"></i></a></td>
-                @endif
                 @if ($showDelete)
                     <td class="button-icon-col">
                         <form method="POST" action="{{ route('cart.remove', ['tshirt' => $tshirt]) }}">

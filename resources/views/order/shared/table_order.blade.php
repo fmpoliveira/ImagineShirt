@@ -28,7 +28,7 @@
                     </a>
                 </td>
                 <td class="button-icon-col"><a class="btn btn-secondary"
-                        href="{{ route('orders.show', ['order' => $order->id]) }}">
+                        href="{{ route('privateOrder.showPrivate', ['order' => $order->id]) }}">
                         <i class="fas fa-eye"></i></a>
                 </td>
             </tr>

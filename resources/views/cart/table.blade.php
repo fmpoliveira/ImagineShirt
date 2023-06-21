@@ -7,9 +7,6 @@
             <th>Quantity</th>
             <th>Unit Price</th>
             <th>Sub-total</th>
-            @if ($showDetail)
-                <th class="button-icon-col"></th>
-            @endif
         </tr>
     </thead>
 
@@ -22,11 +19,6 @@
                 <td>{{ $tshirt->qty }}</td>
                 <td>{{ number_format($tshirt->price, 2) }}€</td>
                 <td id="sub_total">{{ number_format($tshirt->sub_total, 2) }}€</td>
-                @if ($showDetail)
-                    <td class="button-icon-col"><a class="btn btn-secondary"
-                            href="{{ route('tshirts.show', ['tshirt' => $tshirt]) }}">
-                            <i class="fas fa-eye"></i></a></td>
-                @endif
             </tr>
         @endforeach
         <tr>
@@ -35,3 +27,20 @@
         </tr>
     </tbody>
 </table>
+
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+</script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js"
+    integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous">
+</script>
+<script>
+    function getImage(tshirtId) {
+        var selectBox = document.querySelector("#colors-" + tshirtId);
+        var selectedColor = selectBox.options[selectBox.selectedIndex].value;
+        var url = "{{ route('canvas.image', ['color' => ':color', 'tshirt' => ':tshirt']) }}"
+            .replace(':color', selectedColor)
+            .replace(':tshirt', tshirtId);
+        window.location.href = url;
+    }
+</script>

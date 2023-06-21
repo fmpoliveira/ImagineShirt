@@ -118,8 +118,8 @@
                             </nav>
                         </div>
                         <div class="sb-sidenav-menu-heading">Private Space</div>
-                        <a class="nav-link {{ Route::currentRouteName() == 'order.mine' ? 'active' : '' }}"
-                            href="{{ route('order.mine') }}">
+                        <a class="nav-link {{ Route::currentRouteName() == 'privateOrder.indexPrivate' ? 'active' : '' }}"
+                            href="{{ route('privateOrder.indexPrivate') }}"> 
                             <div class="sb-nav-link-icon"><i class="fas fa-file-text"></i>
                     </div>
                     My Orders
