@@ -14,9 +14,15 @@ use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Order::class, 'order');
+    }
 
     public function indexPrivate(Request $request): View
     {
+        $this->authorize('viewPrivate', Order::class);
+
         $userId = Auth::id();
         $filterByStatus = $request->status ?? '';
         $orderQuery = DB::table('orders')->where('customer_id', $userId);
@@ -35,6 +41,8 @@ class OrderController extends Controller
 
     public function indexAdmin(Request $request)
     {
+        $this->authorize('viewAdminAndEmployee', Order::class);
+
         $filterByStatus = $request->status ?? '';
         $filterByCustomer = $request->customerId ?? '';
         $orderQuery = DB::table('orders');
@@ -54,7 +62,7 @@ class OrderController extends Controller
         }
         $orders = $orderQuery->paginate(10);
 
-        return view('order.admin')
+        return view('orders.admin')
             ->with('allOrderStatus', $allOrderStatus)
             ->with('allCustomersWithOrders', $allCustomersWithOrders)
             ->with('filterByStatus', $filterByStatus)
@@ -67,16 +75,15 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
+        // $this->authorize('viewAdminAndEmployee', Order::class);
 
-        $orderItems = OrderItem::where('order_id', $order->id)
-            ->get();
-
-        return view('order.show', compact('order'))
-            ->with('orderItems', $orderItems);
+        return view('orders.show', compact('order'));
     }
 
     public function getPrivateOrder(Order $order)
     {
+        $this->authorize('viewPrivate', Order::class);
+
         $login = Auth::user();
         $user = Customer::find($login->id);
 
@@ -89,11 +96,7 @@ class OrderController extends Controller
                 ->with('alert-type', $alertType);
         }
 
-        $orderItems = OrderItem::where('order_id', $order->id)
-            ->get();
-
-        return view('privateOrder.show', compact('order'))
-            ->with('orderItems', $orderItems);
+        return view('privateOrder.show', compact('order'));
     }
 
     /**
@@ -101,7 +104,9 @@ class OrderController extends Controller
      */
     public function edit(Order $order)
     {
-        return view('order.edit')
+        $this->authorize('update', Order::class);
+
+        return view('orders.edit')
             ->with('order', $order);
     }
 
@@ -110,6 +115,8 @@ class OrderController extends Controller
      */
     public function update(Request $request, Order $order)
     {
+        $this->authorize('update', Order::class);
+
         $validatedData = $request->validate([
             'nif' => ['required', 'numeric', 'digits:9'],
             'address' => ['required'],
@@ -126,7 +133,7 @@ class OrderController extends Controller
                 function ($attribute, $value, $fail) use ($request) {
                     $paymentType = $request->input('payment_type');
 
-                    if ($paymentType === PaymentType::PAYPAL) {
+                    if ($paymentType === PaymentType::PAYPAL->name) {
                         if (!filter_var($value, FILTER_VALIDATE_EMAIL)) {
                             $fail('The ' . $attribute . ' must be a valid email address.');
                         }
@@ -137,15 +144,14 @@ class OrderController extends Controller
 
                     }
                 }
-            ],
-            'total_price' => 'required'
+            ]
         ]);
 
         $order->update($validatedData);
 
         $url = route('orders.show', ['order' => $order]);
         $htmlMessage = "Order <a href='$url'>{$order->id}</a> was successfully updated!";
-        return redirect()->route('order.admin')
+        return redirect()->route('orders.admin')
             ->with('alert-msg', $htmlMessage)
             ->with('alert-type', 'success');
     }

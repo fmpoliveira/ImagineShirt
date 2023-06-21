@@ -29,6 +29,11 @@ class TshirtImagePolicy
         return $user->user_type === 'A';
     }
 
+    public function viewAdminAndEmployee(User $user): bool
+    {
+        return $user->user_type === 'A' || $user->user_type === 'E';
+    }
+
     /**
      * Determine whether the user can create models.
      */

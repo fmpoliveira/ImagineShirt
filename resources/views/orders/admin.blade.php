@@ -11,8 +11,11 @@
 @endsection
 
 @section('main')
-    @include('order.shared.formFilter')
-    @include('order.shared.table_order')
+    @include('orders.shared.formFilter')
+    @include('orders.shared.table_order', [
+        'showEdit' => true
+    ])
+    
     <div class="mt-4">
         {{ $orders->withQueryString()->links() }}
     </div>

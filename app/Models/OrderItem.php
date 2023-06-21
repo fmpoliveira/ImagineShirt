@@ -11,11 +11,19 @@ class OrderItem extends Model
     use HasFactory;
     public $timestamps = false;
 
-    protected $fillable = ['order_id', 'tshirt_image_id', 'color_code', 'size', 'qty', 'unit_price', 'sub_total'];
+    protected $fillable = [
+        'order_id',
+        'tshirt_image_id',
+        'color_code',
+        'size',
+        'qty',
+        'unit_price',
+        'sub_total'
+    ];
 
     public function order(): BelongsTo
     {
-        return $this->belongsTo(Customer::class, 'order_id', 'id');
+        return $this->belongsTo(Order::class, 'order_id', 'id');
     }
 
     public function color(): BelongsTo
@@ -25,7 +33,7 @@ class OrderItem extends Model
 
     public function tshirtImage(): BelongsTo
     {
-        return $this->belongsTo(Customer::class, 'tshirt_image_id', 'id');
+        return $this->belongsTo(TshirtImage::class, 'tshirt_image_id', 'id');
     }
 
     public function setSubTotal($qty, $unit_price)

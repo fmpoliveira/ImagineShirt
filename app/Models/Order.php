@@ -13,21 +13,25 @@ use Illuminate\View\View;
 
 class Order extends Model
 {
-    const DEFAULT_STATUS = "pending";
-
     use HasFactory;
-    // TODO - perceber melhor o mass assignment
-    protected $fillable = ['status', 'customer_id', 'date', 'total_price', 'notes', 'nif', 'address', 'payment_type', 'payment_ref', 'receipt_url'];
+    protected $fillable = [
+        'status',
+        'customer_id',
+        'date',
+        'total_price',
+        'notes',
+        'nif',
+        'address',
+        'payment_type',
+        'payment_ref',
+        'receipt_url'
+    ];
 
     /**
      * The model's default values for attributes.
      *
      * @var array
      */
-    protected $attributes = [
-        'status' => self::DEFAULT_STATUS,
-        // 'date' =>self::now()->timestamp;
-    ];
 
     public function tshirtImages(): BelongsToMany
     {
@@ -36,22 +40,11 @@ class Order extends Model
 
     public function orderItems(): HasMany
     {
-        return $this->hasMany(Color::class, 'order_id', 'id');
+        return $this->hasMany(OrderItem::class, 'order_id', 'id');
     }
 
     public function customer(): BelongsTo
     {
         return $this->belongsTo(Customer::class, 'customer_id', 'id');
-    }
-
-    // todo
-    // public function setTotalPrice($qty, $unit_price)
-    // {
-    //     $this->attributes['sub_total'] = $qty * $unit_price;
-    // }
-
-    public function getTotalPrice()
-    {
-        return $this->total_price;
     }
 }

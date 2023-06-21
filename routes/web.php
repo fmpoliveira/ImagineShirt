@@ -30,22 +30,24 @@ Route::view('/', 'home')->name('root');
 // WITH A SINGLE LINE OF CODE:
 // Route::get('cart/{customer}', [TshirtController::class, 'index'])->name('tshirts.index');
 
-Route::get('private/orders', [OrderController::class, 'indexPrivate'])->name('privateOrder.indexPrivate'); 
 
-Route::get('private/orders/{order}', [OrderController::class, 'getPrivateOrder'])->name('privateOrder.showPrivate'); 
 
 Route::resource('prices', PriceController::class);
 
 Route::resource('orderItems', OrderItemController::class);
 
+Route::get('private/orders', [OrderController::class, 'indexPrivate'])->name('privateOrder.indexPrivate'); 
+
+Route::get('private/orders/{order}', [OrderController::class, 'getPrivateOrder'])->name('privateOrder.showPrivate'); 
+
 Route::resource('orders', OrderController::class);
 
-Route::get('orderManager', [OrderController::class, 'indexAdmin'])->name('order.admin');
+Route::get('orderManager', [OrderController::class, 'indexAdmin'])->name('orders.admin');
 
 // -------------- PRIVATE IMAGES --------------
 
 // Route::middleware('auth')->group(function () {
-Route::get('private', [TshirtImageController::class, 'indexPrivate'])->name('privateTshirt.indexPrivate');
+Route::get('private/tshirts', [TshirtImageController::class, 'indexPrivate'])->name('privateTshirt.indexPrivate');
 Route::get('private/orders/{imagePath}', [TshirtImageController::class, 'getPrivateImage'])->name('private.image');
 // });
 

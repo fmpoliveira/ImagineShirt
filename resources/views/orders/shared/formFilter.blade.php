@@ -1,4 +1,4 @@
-<form method="GET" action="{{ route('order.admin') }}">
+<form method="GET" action="{{ route('orders.admin') }}">
     <div class="d-flex justify-content-between">
         <div class="flex-grow-1 pe-2">
             <div class="d-flex justify-content-between">
@@ -36,7 +36,7 @@
         </div>
         <div class="d-flex justify-content-between">
             <button type="submit" class="btn btn-primary mb-3 me-2 px-4 flex-grow-1" name="filter">Filter</button>
-            <a href="{{ route('order.admin') }}" class="btn btn-secondary mb-3 py-3 px-4 flex-shrink-1">Reset</a>
+            <a href="{{ route('orders.admin') }}" class="btn btn-secondary mb-3 py-3 px-4 flex-shrink-1">Reset</a>
         </div>
     </div>
 </form>

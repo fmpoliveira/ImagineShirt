@@ -8,7 +8,7 @@
         <h3>Tshirts on the cart</h3>
     </div>
     @if ($cart)
-        @include('order.shared.table', [
+        @include('orders.shared.table', [
             'tshirts' => $cart,
             'sizes' => $sizes,
             'colors' => $colors,

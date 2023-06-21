@@ -56,9 +56,9 @@
             id="inputpayment_type" {{ $disabledStr }} value="{{ old('payment_type', $order->payment_type) }}"> --}}
         <select class="form-select @error('payment_type') is-invalid @enderror" name="payment_type"
             id="inputpayment_type" {{ $disabledStr }}>
-            <option {{ $order->payment_type == 'VISA' ? 'selected' : '' }}>Visa</option>
-            <option {{ $order->payment_type == 'MC' ? 'selected' : '' }}>Master Card</option>
-            <option {{ $order->payment_type == 'PAYPAL' ? 'selected' : '' }}>Paypal</option>
+            <option value='VISA' {{ $order->payment_type == 'VISA' ? 'selected' : '' }}>Visa</option>
+            <option value='MC' {{ $order->payment_type == 'MC' ? 'selected' : '' }}>Master Card</option>
+            <option value='PAYPAL' {{ $order->payment_type == 'PAYPAL' ? 'selected' : '' }}>Paypal</option>
         </select>
         <label for="inputpayment_type" class="form-label">Payment Type</label>
         @error('payment_type')

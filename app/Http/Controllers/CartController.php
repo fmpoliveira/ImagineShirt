@@ -198,6 +198,8 @@ class CartController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
+        $this->authorize('viewPrivate', Order::class);
+
         $validatedData = $request->validate([
             'nif' => ['required', 'numeric', 'digits:9'],
             'address' => ['required'],
@@ -213,7 +215,7 @@ class CartController extends Controller
                 function ($attribute, $value, $fail) use ($request) {
                     $paymentType = $request->input('payment');
 
-                    if ($paymentType === PaymentType::PAYPAL) {
+                    if ($paymentType === PaymentType::PAYPAL->name) {
                         if (!filter_var($value, FILTER_VALIDATE_EMAIL)) {
                             $fail('The ' . $attribute . ' must be a valid email address.');
                         }
