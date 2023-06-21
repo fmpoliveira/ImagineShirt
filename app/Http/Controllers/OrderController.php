@@ -4,14 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Enums\OrderStatus;
 use App\Enums\PaymentType;
+use App\Mail\OrderClosedMail;
 use App\Models\Customer;
 use App\Models\Order;
-use App\Models\OrderItem;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
@@ -149,6 +150,13 @@ class OrderController extends Controller
         ]);
 
         $order->update($validatedData);
+
+        $pathToPDF = '';
+
+        if ($order->status == 'Closed') {
+            $email = Auth::user()->email;
+            Mail::to($email)->send(new OrderClosedMail($order, Auth::user(), $pathToPDF));
+        }
 
         $url = route('orders.show', ['order' => $order]);
         $htmlMessage = "Order <a href='$url'>{$order->id}</a> was successfully updated!";
