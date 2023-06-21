@@ -6,8 +6,7 @@ Francisco - listagem tshirts
 Alexandre - encomendas (histórico, detalhes)
 Alexandre - página carrinho de compras 
     - customers n conseguem ver thshirts individuais
-    - página de order individual
-        - cor deve apresentar nome da cor
+
     - página das minhas orders
         - falta parte do recibo - fazer se houver tempo só
     - página de order Manager

@@ -20,7 +20,7 @@ class OrderItem extends Model
 
     public function color(): BelongsTo
     {
-        return $this->belongsTo(Customer::class, 'color_code', 'code');
+        return $this->belongsTo(Color::class, 'color_code', 'code');
     }
 
     public function tshirtImage(): BelongsTo

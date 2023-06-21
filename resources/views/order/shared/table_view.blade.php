@@ -16,7 +16,7 @@
             <tr>
                 <td>{{ $orderItem->tshirt_image_id }}</td>
                 <td>{{ $orderItem->size }}</td>
-                <td>{{ $orderItem->color_code }}</td>
+                <td>{{ $orderItem->color->name }}</td>
                 <td>{{ $orderItem->qty }}</td>
                 <td>{{ number_format($orderItem->unit_price, 2) }}€</td>
                 <td id="sub_total">{{ number_format($orderItem->sub_total, 2) }}€</td>

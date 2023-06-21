@@ -107,13 +107,12 @@
                             data-bs-target="#collapseRecursosHumanos" aria-expanded="false"
                             aria-controls="collapseRecursosHumanos">
                             <div class="sb-nav-link-icon"><i class="fas fa-user"></i></div>
-                            Recursos Humanos
+                            Human Resources
                             <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                         </a>
                         <div class="collapse" id="collapseRecursosHumanos" aria-labelledby="headingTwo"
                             data-bs-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="#">Departamentos</a>
                                 <a class="nav-link {{ Route::currentRouteName() == 'customers.index' ? 'active' : '' }}"
                                     href="{{ route('customers.index') }}">Customers</a>
                             </nav>
@@ -124,10 +123,6 @@
                             <div class="sb-nav-link-icon"><i class="fas fa-file-text"></i>
                     </div>
                     My Orders
-                    </a>
-                    <a class="nav-link {{ Route::currentRouteName() == 'cart.show' ? 'active' : '' }}"
-                        href="{{ route('cart.show') }}">
-                        <div class="sb-nav-link-icon"><i class="fas fa-shopping-cart"></i></div>Shopping Cart
                     </a>
 
                     <a class="nav-link {{ Route::currentRouteName() == 'privateTshirt.indexPrivate' ? 'active' : '' }}"

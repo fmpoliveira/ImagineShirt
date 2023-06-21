@@ -67,17 +67,10 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
-        // $total
-        // $orderItems
 
         $orderItems = OrderItem::where('order_id', $order->id)
             ->get();
-
-        // print_r($orderItems[0]->color->name);
-
-        // return view('order.show')
-        //     ->with('order')
-        //     ->with('orderItems');
+        
         return view('order.show', compact('order'))
             ->with('orderItems', $orderItems);
     }

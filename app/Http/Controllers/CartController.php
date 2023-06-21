@@ -65,8 +65,11 @@ class CartController extends Controller
                 }
             }
 
+            $color = Color::where('code', $request->colors[$i])->first();
+
             $tshirt->sub_total = $tshirt->price * $tshirt->qty;
-            $tshirt->color = $request->colors[$i];
+            $tshirt->color = $color->code;
+            $tshirt->colorName = $color->name;
             $tshirt->size = $request->sizes[$i];
         }
         $total = $this->getTotalPrices();
@@ -109,6 +112,7 @@ class CartController extends Controller
 
                     $tshirt->qty = 1; // default value
                     $tshirt->color = $colors[0]->code; // default value
+                    $tshirt->colorName = $colors[0]->name; // default value
                     $tshirt->size = $sizes[0]->size; // default value
                     $prices = Price::find(1);
                     if (isset($tshirt->customer_id)) {
@@ -238,8 +242,7 @@ class CartController extends Controller
 
             $user = session('userDetails');
 
-            $orderId = 0;
-            DB::transaction(function () use ($request, $user, $cart, $validatedData) {
+            $order = DB::transaction(function () use ($request, $user, $cart, $validatedData) {
                 $total_price = 0.0;
                 foreach ($cart as $tshirt) {
                     $total_price += $tshirt->sub_total;
@@ -266,10 +269,11 @@ class CartController extends Controller
                     $newOrderItem->sub_total = $tshirt->sub_total;
                     $newOrderItem->save();
                 }
-                $orderId = $newOrder->id;
+                return $newOrder;
             });
 
-            $htmlMessage = "The order #{$orderId} was confirmed to the customer #{$user->id} <strong>\"{$request->user()->name}\"</strong>";
+            $url = route('orders.show', ['order' => $order]);
+            $htmlMessage = "The order <a href='$url'>#{$order->id}</a> was confirmed to the customer #{$user->id} <strong>\"{$request->user()->name}\"</strong>";
             $alertType = 'success';
             $request->session()->forget('cart');
             $request->session()->forget('colors');

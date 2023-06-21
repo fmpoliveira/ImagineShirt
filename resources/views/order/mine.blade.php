@@ -4,8 +4,8 @@
 
 @section('subtitulo')
     <ol class="breadcrumb">
-        <li class="breadcrumb-item">Espaço Privado</li>
-        <li class="breadcrumb-item active">Minhas encomendas</li>
+        <li class="breadcrumb-item">Private Space</li>
+        <li class="breadcrumb-item active">My Orders</li>
     </ol>
 @endsection
 

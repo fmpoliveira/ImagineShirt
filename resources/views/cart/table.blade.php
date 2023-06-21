@@ -18,7 +18,7 @@
             <tr>
                 <td>{{ $tshirt->name }}</td>
                 <td>{{ $tshirt->size }}</td>
-                <td>{{ $tshirt->color }}</td>
+                <td>{{ $tshirt->colorName }}</td>
                 <td>{{ $tshirt->qty }}</td>
                 <td>{{ number_format($tshirt->price, 2) }}€</td>
                 <td id="sub_total">{{ number_format($tshirt->sub_total, 2) }}€</td>

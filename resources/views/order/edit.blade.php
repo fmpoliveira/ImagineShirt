@@ -17,8 +17,8 @@
         @method('PUT')
         @include('order.shared.fields', ['order' => $order, 'readonlyData' => false])
         <div class="my-4 d-flex justify-content-end">
-            <button type="submit" class="btn btn-primary" name="ok">Guardar Alterações</button>
-            <a href="{{ route('orders.show', ['order' => $order]) }}" class="btn btn-secondary ms-3">Cancelar</a>
+            <button type="submit" class="btn btn-primary" name="ok">Save changes</button>
+            <a href="{{ route('orders.show', ['order' => $order]) }}" class="btn btn-secondary ms-3">Cancel</a>
         </div>
     </form>
 @endsection

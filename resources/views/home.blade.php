@@ -1,6 +1,6 @@
 @extends('template.layout')
 @section('subtitulo')
-    <p>Aplicação de Gestão Curricular, Recursos Humanos e Alunos</p>
+    <p>Tshirt Stamp Store Web Application</p>
 @endsection
 @section('main')
     <div class="container">
@@ -12,9 +12,9 @@
                         @auth
                             <p>{{ Auth::user()->name }}</p>
                         @else
-                            <p>Bemvindo!</p>
-                            <p>Podes fazer o login
-                                <a href="{{ route('login') }}">aqui</a>.
+                            <p>Welcome!</p>
+                            <p>You can login
+                                <a href="{{ route('login') }}">here</a>.
                             </p>
                         @endauth
                         </p>

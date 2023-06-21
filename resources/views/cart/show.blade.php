@@ -1,10 +1,7 @@
 @extends('template.layout')
 @section('titulo', 'Cart')
 @section('subtitulo')
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item">Espaço Privado</li>
-        <li class="breadcrumb-item active">Cart</li>
-    </ol>
+
 @endsection
 @section('main')
     <div>
