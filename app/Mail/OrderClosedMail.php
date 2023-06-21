@@ -61,6 +61,7 @@ class OrderClosedMail extends Mailable
     public function attachments(): array
     {
         return [
+            // TODO
             // Attachment::fromStorage($this->pathToAttachment),
             // Attachment::fromPath($this->pathToAttachment)
         ];
