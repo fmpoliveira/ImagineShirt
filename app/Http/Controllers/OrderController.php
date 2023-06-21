@@ -14,10 +14,6 @@ use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
-    public function __construct()
-    {
-        $this->authorizeResource(Order::class, 'order');
-    }
 
     public function indexPrivate(Request $request): View
     {
@@ -75,7 +71,7 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
-        // $this->authorize('viewAdminAndEmployee', Order::class);
+        $this->authorize('viewAdminAndEmployee', Order::class);
 
         return view('orders.show', compact('order'));
     }

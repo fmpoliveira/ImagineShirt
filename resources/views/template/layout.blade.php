@@ -152,7 +152,7 @@
                             <div class="collapse" id="collapseAdminManager" aria-labelledby="headingTwo"
                                 data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    {{-- @can('viewAdmin', App\Models\TshirtImage::class) --}}
+                                    @can('viewAdmin', App\Models\TshirtImage::class)
                                         <a class="nav-link {{ Route::currentRouteName() == 'tshirts.admin' ? 'active' : '' }}"
                                             href="{{ route('tshirts.admin') }}">
                                             Tshirt Manager
@@ -169,7 +169,7 @@
                                             href="{{ route('prices.index') }}">
                                             Price Manager
                                         </a>
-                                    {{-- @endcan --}}
+                                    @endcan
                                     <a class="nav-link {{ Route::currentRouteName() == 'orders.admin' ? 'active' : '' }}"
                                         href="{{ route('orders.admin') }}">
                                         Order Manager

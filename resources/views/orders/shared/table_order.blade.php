@@ -29,9 +29,10 @@
                             <i class="fas fa-edit"></i>
                         </a>
                     </td>
-                    <td class="button-icon-col"><a class="btn btn-secondary"
-                            href="{{ route('orders.show', ['order' => $order->id]) }}">
-                            <i class="fas fa-eye"></i></a>
+                    <td class="button-icon-col">
+                        <a class="btn btn-secondary" href="{{ route('orders.show', ['order' => $order->id]) }}">
+                            <i class="fas fa-eye"></i>
+                        </a>
                     </td>
                 @else
                     <td class="button-icon-col"><a class="btn btn-secondary"
