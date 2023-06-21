@@ -12,10 +12,6 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\UserController;
 
-// Route::get('/', function () {
-//     return view('welcome');
-// })->name('welcome');
-
 Route::view('/', 'home')->name('root');
 
 // REPLACE THESE 7 ROUTES:
@@ -36,9 +32,9 @@ Route::resource('prices', PriceController::class);
 
 Route::resource('orderItems', OrderItemController::class);
 
-Route::get('private/orders', [OrderController::class, 'indexPrivate'])->name('privateOrder.indexPrivate'); 
+Route::get('private/orders', [OrderController::class, 'indexPrivate'])->name('privateOrder.indexPrivate');
 
-Route::get('private/orders/{order}', [OrderController::class, 'getPrivateOrder'])->name('privateOrder.showPrivate'); 
+Route::get('private/orders/{order}', [OrderController::class, 'getPrivateOrder'])->name('privateOrder.showPrivate');
 
 Route::resource('orders', OrderController::class);
 
@@ -48,7 +44,7 @@ Route::get('orderManager', [OrderController::class, 'indexAdmin'])->name('orders
 
 // Route::middleware('auth')->group(function () {
 Route::get('private/tshirts', [TshirtImageController::class, 'indexPrivate'])->name('privateTshirt.indexPrivate');
-Route::get('private/orders/{imagePath}', [TshirtImageController::class, 'getPrivateImage'])->name('private.image');
+Route::get('private/tshirts/{imagePath}', [TshirtImageController::class, 'getPrivateImage'])->name('private.image');
 // });
 
 // Route::middleware(['auth', 'can:view-private-images'])->group(function () {
@@ -90,8 +86,6 @@ Route::post('/users', [UserController::class, 'blockUser'])->name('users.block')
 
 // Show the cart:
 
-Route::get('/tt', [TshirtImageController::class, 'mudarCor'])->name('mudarCor');
-
 Route::get('/cart/{color}/{tshirt}', [TshirtImageController::class, 'placeCanvasOnView'])->name('canvas.image');
 
 Route::get('cart', [CartController::class, 'show'])->name('cart.show');
@@ -110,4 +104,3 @@ Route::delete('cart', [CartController::class, 'destroy'])->name('cart.destroy');
 
 Route::get('/password/change', [App\Http\Controllers\auth\ChangePasswordController::class, 'show'])->name('password.change.show');
 Route::post('/password/change', [App\Http\Controllers\auth\ChangePasswordController::class, 'store'])->name('password.change.store');
-

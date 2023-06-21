@@ -132,11 +132,6 @@
                                 href="{{ route('privateTshirt.indexPrivate') }}">
                                 <div class="sb-nav-link-icon"><i class="fa-solid fa-shirt"></i></div>My Tshirts
                             </a>
-
-                            <a class="nav-link {{ Route::currentRouteName() == 'privateTshirt.indexPrivate' ? 'active' : '' }}"
-                                href="{{ route('mudarCor') }}">
-                                <div class="sb-nav-link-icon"><i class="fa-solid fa-shirt"></i></div>Teste
-                            </a>
                         @endcan
 
                         {{-- Admin --}}
@@ -153,22 +148,22 @@
                                 data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
                                     {{-- @can('viewAdmin', App\Models\TshirtImage::class) --}}
-                                        <a class="nav-link {{ Route::currentRouteName() == 'tshirts.admin' ? 'active' : '' }}"
-                                            href="{{ route('tshirts.admin') }}">
-                                            Tshirt Manager
-                                        </a>
-                                        <a class="nav-link {{ Route::currentRouteName() == 'categories.index' ? 'active' : '' }}"
-                                            href="{{ route('categories.index') }}">
-                                            Category Manager
-                                        </a>
-                                        <a class="nav-link {{ Route::currentRouteName() == 'colors.index' ? 'active' : '' }}"
-                                            href="{{ route('colors.index') }}">
-                                            Color Manager
-                                        </a>
-                                        <a class="nav-link {{ Route::currentRouteName() == 'prices.index' ? 'active' : '' }}"
-                                            href="{{ route('prices.index') }}">
-                                            Price Manager
-                                        </a>
+                                    <a class="nav-link {{ Route::currentRouteName() == 'tshirts.admin' ? 'active' : '' }}"
+                                        href="{{ route('tshirts.admin') }}">
+                                        Tshirt Manager
+                                    </a>
+                                    <a class="nav-link {{ Route::currentRouteName() == 'categories.index' ? 'active' : '' }}"
+                                        href="{{ route('categories.index') }}">
+                                        Category Manager
+                                    </a>
+                                    <a class="nav-link {{ Route::currentRouteName() == 'colors.index' ? 'active' : '' }}"
+                                        href="{{ route('colors.index') }}">
+                                        Color Manager
+                                    </a>
+                                    <a class="nav-link {{ Route::currentRouteName() == 'prices.index' ? 'active' : '' }}"
+                                        href="{{ route('prices.index') }}">
+                                        Price Manager
+                                    </a>
                                     {{-- @endcan --}}
                                     <a class="nav-link {{ Route::currentRouteName() == 'orders.admin' ? 'active' : '' }}"
                                         href="{{ route('orders.admin') }}">

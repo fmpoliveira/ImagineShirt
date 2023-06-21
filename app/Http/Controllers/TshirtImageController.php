@@ -343,20 +343,4 @@ class TshirtImageController extends Controller
         $image = $canvas->encode('data-url')->encoded;
         return view('preview.canvas', ['image' => $image]);
     }
-
-    public function mudarCor()
-    {
-
-        // Load the base image (view) using Intervention Image
-        $tshirt = Image::make(asset('storage/tshirt_base/fafafa.jpg'));
-        // Create a new canvas with desired dimensions
-        $canvasWidth = $tshirt->width();
-        $canvasHeight = $tshirt->height();
-        $canvas = Image::canvas($canvasWidth, $canvasHeight);
-        $canvas->insert($tshirt, 'center');
-
-        $canvas->colorize(100, 0, 0);
-        $image = $canvas->encode('data-url')->encoded;
-        return view('preview.canvas', ['image' => $image]);
-    }
 }
