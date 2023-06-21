@@ -26,7 +26,7 @@
                         </option>
                         @foreach ($allCustomersWithOrders as $customer)
                             <option {{ old('customerId', $filterByCustomer) == $customer->id ? 'selected' : '' }}
-                                value="{{ $customer->id }}">{{ $customer->id . " - " . $customer->name }}
+                                value="{{ $customer->id }}">{{ $customer->id . ' - ' . $customer->name }}
                             </option>
                         @endforeach
                     </select>

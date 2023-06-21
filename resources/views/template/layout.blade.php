@@ -132,11 +132,6 @@
                                 href="{{ route('privateTshirt.indexPrivate') }}">
                                 <div class="sb-nav-link-icon"><i class="fa-solid fa-shirt"></i></div>My Tshirts
                             </a>
-
-                            <a class="nav-link {{ Route::currentRouteName() == 'privateTshirt.indexPrivate' ? 'active' : '' }}"
-                                href="{{ route('mudarCor') }}">
-                                <div class="sb-nav-link-icon"><i class="fa-solid fa-shirt"></i></div>Teste
-                            </a>
                         @endcan
 
                         {{-- Admin --}}

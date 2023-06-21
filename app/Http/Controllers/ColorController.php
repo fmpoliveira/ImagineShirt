@@ -11,6 +11,12 @@ use App\Http\Requests\ColorRequest;
 
 class ColorController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->authorizeResource(Color::class, 'color');
+    }
+
     /**
      * Display a listing of the resource.
      */
