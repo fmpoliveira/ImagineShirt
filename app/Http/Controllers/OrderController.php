@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\OrderStatus;
+use App\Enums\PaymentType;
 use App\Models\Customer;
 use App\Models\Order;
 use App\Models\OrderItem;
@@ -13,18 +14,6 @@ use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        $allOrders = Order::all();
-        // $ordersQuery = Order::query();
-        //debug($allorders);
-        // Log::debug('Cursos has been loaded on the controller.', ['$allorders' => $allorders]);
-        // $allorders = $ordersQuery->paginate(5);
-        return view('order.index')->with('orders', $allOrders);
-    }
 
     public function myOrders(Request $request): View
     {
@@ -74,22 +63,6 @@ class OrderController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
      * Display the specified resource.
      */
     public function show(Order $order)
@@ -114,7 +87,8 @@ class OrderController extends Controller
      */
     public function edit(Order $order)
     {
-        //
+        return view('order.edit')
+            ->with('order', $order);
     }
 
     /**
@@ -122,14 +96,43 @@ class OrderController extends Controller
      */
     public function update(Request $request, Order $order)
     {
-        //
-    }
+        $validatedData = $request->validate([
+            'nif' => ['required', 'numeric', 'digits:9'],
+            'address' => ['required'],
+            'status' => 'required|in:"Closed","Pending","Paid","Canceled"',
+            'payment_type' => [
+                'required',
+                function () use ($request) {
+                    $paymentType = $request->input('payment_type');
+                    return in_array($paymentType, array_column(PaymentType::cases(), 'value'));
+                }
+            ],
+            'payment_ref' => [
+                'required',
+                function ($attribute, $value, $fail) use ($request) {
+                    $paymentType = $request->input('payment_type');
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Order $order)
-    {
-        //
+                    if ($paymentType === PaymentType::PAYPAL) {
+                        if (!filter_var($value, FILTER_VALIDATE_EMAIL)) {
+                            $fail('The ' . $attribute . ' must be a valid email address.');
+                        }
+                    } else {
+                        if (!is_numeric($value) || strlen($value) !== 16) {
+                            $fail('The ' . $attribute . ' must be numeric and have 16 digits.');
+                        }
+
+                    }
+                }
+            ],
+            'total_price' => 'required'
+        ]);
+
+        $order->update($validatedData);
+
+        $url = route('orders.show', ['order' => $order]);
+        $htmlMessage = "Order <a href='$url'>{$order->id}</a> was successfully updated!";
+        return redirect()->route('order.admin')
+            ->with('alert-msg', $htmlMessage)
+            ->with('alert-type', 'success');
     }
 }

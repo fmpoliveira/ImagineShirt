@@ -23,7 +23,9 @@
         'showDetail' => true,
     ])
     <div class="my-4 d-flex justify-content-end">
-        <button type="submit" class="btn btn-primary" name="ok" form="formStore">
+        <a href="{{ route('cart.show') }}" class="btn btn-secondary ms-3">Back</a>
+        <button type="submit" class="btn btn-primary ms-3" name="ok" form="formStore">
             Confirm Order</button>
+
     </div>
 @endsection

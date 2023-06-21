@@ -94,11 +94,11 @@ Route::post('cart/refresh', [CartController::class, 'refresh'])->name('cart.refr
 
 Route::post('cart/store', [CartController::class, 'store'])->name('cart.store');
 
+Route::post('cart/confirm', [CartController::class, 'confirm'])->name('cart.confirm');
+
 Route::post('cart/{tshirt}', [CartController::class, 'addToCart'])->name('cart.add');
 
 Route::delete('cart/{tshirt}', [CartController::class, 'removeFromCart'])->name('cart.remove');
-
-Route::post('cart', [CartController::class, 'confirm'])->name('cart.confirm');
 
 Route::delete('cart', [CartController::class, 'destroy'])->name('cart.destroy');
 

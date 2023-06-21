@@ -34,5 +34,4 @@
             <td style="text-align: left" colspan="2">{{ number_format($total, 2) }}€</td>
         </tr>
     </tbody>
-
 </table>

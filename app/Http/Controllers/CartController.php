@@ -94,12 +94,12 @@ class CartController extends Controller
             $userType = $request->user()->tipo ?? 'O'; // O é para utilizadores anónimos C clientes
             if ($userType != 'C' && $userType != 'O') {
                 $alertType = 'warning';
-                $htmlMessage = "O utilizador não é cliente, logo não pode adicionar item ao carrinho";
+                $htmlMessage = "The user is not a customer, therefore you can't add an item to the cart";
             } else {
                 $cart = session('cart', []);
                 if (array_key_exists($tshirt->id, $cart)) {
                     $alertType = 'warning';
-                    $htmlMessage = "Tshirt <strong>\"{$tshirt->name}\"</strong> não foi adicionada ao carrinho porque já está presente no mesmo!";
+                    $htmlMessage = "Tshirt <strong>\"{$tshirt->name}\"</strong> was not added to the cart because it already is there!";
                 } else {
                     $colors = Color::all();
                     $sizes = DB::table('order_items')
@@ -124,11 +124,11 @@ class CartController extends Controller
                     $request->session()->put('sizes', $sizes);
 
                     $alertType = 'success';
-                    $htmlMessage = "Tshirt <strong>\"{$tshirt->name}\"</strong> foi adicionada ao carrinho!";
+                    $htmlMessage = "Tshirt <strong>\"{$tshirt->name}\"</strong> was added to the cart!";
                 }
             }
         } catch (\Exception $error) {
-            $htmlMessage = "Não é possível adicionar a Tshirt <strong>\"{$tshirt->name}\"</strong> ao carrinho, porque ocorreu um erro!";
+            $htmlMessage = "It's not possible to add the Tshirt <strong>\"{$tshirt->name}\"</strong> to the cart because there was an error!";
             $alertType = 'danger';
         }
         return back()
@@ -151,7 +151,7 @@ class CartController extends Controller
             ->with('alert-type', 'success');
     }
 
-    public function confirm(Request $request): View
+    public function confirm(Request $request)
     {
         try {
             $userType = $request->user()->user_type ?? 'O';
@@ -176,13 +176,11 @@ class CartController extends Controller
                     $request->session()->put('loginInfo', $login);
                     $request->session()->put('paymentTypes', $paymentTypes);
 
-                    return view('cart/confirm', compact('cart'))
+                    return view('cart.confirm', compact('cart'))
                         ->with('userDetails', $user)
                         ->with('login', $login)
                         ->with('paymentTypes', $paymentTypes)
                         ->with('total', $this->getTotalPrices());
-                    // return Redirect::to('cart/confirm');
-                    // return Redirect::away('cart/confirm');
                 }
             }
         } catch (\Exception $error) {
@@ -222,7 +220,7 @@ class CartController extends Controller
 
                     }
                 }
-            ]
+            ],
         ]);
 
         try {
@@ -238,10 +236,9 @@ class CartController extends Controller
                 $htmlMessage = "You can't confirm the order because there aren't any items on the cart!";
             }
 
-            // TODO - MAKE THIS YOUR DEFAULT PAYMENT DETAILS
-
             $user = session('userDetails');
 
+            $orderId = 0;
             DB::transaction(function () use ($request, $user, $cart, $validatedData) {
                 $total_price = 0.0;
                 foreach ($cart as $tshirt) {
@@ -269,13 +266,18 @@ class CartController extends Controller
                     $newOrderItem->sub_total = $tshirt->sub_total;
                     $newOrderItem->save();
                 }
+                $orderId = $newOrder->id;
             });
 
-            $htmlMessage = "Foi confirmada a encomenda ao customer #    {$user->id} <strong>\"{$request->user()->name}\"</strong>";
+            $htmlMessage = "The order #{$orderId} was confirmed to the customer #{$user->id} <strong>\"{$request->user()->name}\"</strong>";
             $alertType = 'success';
             $request->session()->forget('cart');
+            $request->session()->forget('colors');
+            $request->session()->forget('sizes');
+            $request->session()->forget('paymentTypes');
+            $request->session()->forget('loginInfo');
         } catch (\Exception $error) {
-            $htmlMessage = "Não foi possível confirmar os itens do carrinho porque ocorreu um erro!";
+            $htmlMessage = "It wasn't possible to confirm the cart items because there occurred an error!";
             $alertType = 'danger';
         }
         return redirect('tshirts')
@@ -288,7 +290,7 @@ class CartController extends Controller
     {
         $request->session()->forget('cart');
         $request->session()->forget('qty_discount');
-        $htmlMessage = "Carrinho está limpo!";
+        $htmlMessage = "Cart is empty!";
         return back()
             ->with('alert-msg', $htmlMessage)
             ->with('alert-type', 'success');
