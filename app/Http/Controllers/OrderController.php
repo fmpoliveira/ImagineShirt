@@ -8,6 +8,7 @@ use App\Models\Customer;
 use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -102,8 +103,12 @@ class OrderController extends Controller
     {
         $this->authorize('update', Order::class);
 
+        $login = Auth::user();
+        $user = User::find($login->id);
+
         return view('orders.edit')
-            ->with('order', $order);
+            ->with('order', $order)
+            ->with('user', $user);
     }
 
     /**

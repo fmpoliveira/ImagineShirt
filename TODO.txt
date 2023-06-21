@@ -5,12 +5,7 @@ Guilherme - informação de conta de utilizador
 Francisco - listagem tshirts
 Alexandre - encomendas (histórico, detalhes)
 Alexandre - página carrinho de compras 
-    - página de minha order
-        - botao de editar n pode estar disponivel para o customer
     - página das minhas orders
         - falta parte do recibo - fazer se houver tempo só
     - página de order Manager
         - falta parte do recibo - fazer se houver tempo só
-    - falta fazer página para editar order
-        - paga/fechada - funcionario
-        - paga/fechada/cancelada - admin
