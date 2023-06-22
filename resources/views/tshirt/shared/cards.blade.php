@@ -13,7 +13,10 @@
                     <div class="mt-auto text-center">
                         <form class="w-100 p-3" method="POST" action="{{ route('cart.add', ['tshirt' => $tshirt]) }}">
                             @csrf
-                            <button type="submit" name="addToCart" class="btn btn-primary w-100">Add to Cart</button>
+                            @if (auth()->user() === null || auth()->user()->user_type === 'C')
+                                <button type="submit" name="addToCart" class="btn btn-primary w-100">Add to
+                                    Cart</button>
+                            @endif
                         </form>
                     </div>
                 </div>

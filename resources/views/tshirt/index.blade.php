@@ -12,12 +12,13 @@
 
 @section('main')
 
-    @auth
+
+    @if (auth()->check() && auth()->user()->user_type === 'C')
         <p>
             <a class="btn btn-success" href="{{ route('tshirts.create') }}"><i class="fas fa-plus"></i> &nbsp;Add Tshirt</a>
         </p>
         <hr>
-    @endauth
+    @endif
     @include('tshirt.shared.formFilter')
     @include('tshirt.shared.cards')
 

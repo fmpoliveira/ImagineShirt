@@ -103,7 +103,7 @@
                             <div class="sb-nav-link-icon"><i class="fas fa-shopping-cart"></i></div>Shopping Cart
                         </a>
 
-                    
+
                         {{-- Customer --}}
                         @can('viewPrivate', App\Models\Order::class)
                             <div class="sb-sidenav-menu-heading">Private Space</div>
@@ -127,7 +127,7 @@
                                 data-bs-target="#collapseAdminManager" aria-expanded="false"
                                 aria-controls="collapseAdminManager">
                                 <div class="sb-nav-link-icon"><i class="fa-solid fa-user-secret"></i></div>
-                                Manager
+                                Management
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                             </a>
                             <div class="collapse" id="collapseAdminManager" aria-labelledby="headingTwo"

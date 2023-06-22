@@ -23,8 +23,8 @@
                 <td>{{ $order->date }}</td>
                 <td>{{ number_format($order->total_price, 2) }}€</td>
                 @if ($order->receipt_url !== null)
-                    <td><a
-                            href="{{ route('orders.getReceipt', ['orderID' => $order->id]) }}">{{ $order->receipt_url }}</a>
+                    <td><a class="btn btn-secondary" href="{{ route('orders.getReceipt', ['orderID' => $order->id]) }}"><i
+                                class="fas fa-receipt"></i></a>
                     </td>
                 @else
                     <td></td>

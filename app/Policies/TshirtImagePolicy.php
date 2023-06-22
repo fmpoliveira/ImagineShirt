@@ -42,10 +42,9 @@ class TshirtImagePolicy
     /**
      * Determine whether the user can create models.
      */
-    public function create(?User $user): bool
+    public function create(User $user): bool
     {
-        // When anonymous, redirects to login page (verify TshirtImage controller create)
-        return true;
+        return $user->user_type === 'C';
     }
 
     /**
