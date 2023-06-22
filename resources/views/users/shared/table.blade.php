@@ -102,18 +102,41 @@
                     </td>
                 @endif
 
-                @if ($showDelete)
-                <td class="button-icon-col">
-                    <form method="POST" action="{{ route('users.destroy', ['user' => $user->id]) }}">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" name="delete" class="btn btn-danger">
+                {{-- @if ($showDelete)
+                    <td class="button-icon-col">
+                        <form method="POST" action="{{ route('users.destroy', ['user' => $user->id]) }}">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" name="delete" class="btn btn-danger" data-bs-toggle="modal"
+                                data-bs-target="#confirmationModal"
+                                data-msgLine1="Do you really want to delete <strong>{{ $user->name }}</strong>?">
+
+                                <i class="fas fa-trash"></i></button>
+                        </form>
+                    </td>
+                @endif --}}
+
+                {{-- @if ($showDelete)
+                    <td class="button-icon-col">
+                        <button type="button" name="delete" class="btn btn-danger" data-bs-toggle="modal"
+                            data-bs-target="#confirmationModal"
+                            data-action="{{ route('users.destroy', ['user' => $user->id]) }}"
+                            data-msgLine1="Do you really want to delete <strong>{{ $user->name }}</strong>?">
                             <i class="fas fa-trash"></i></button>
-                    </form>
-                </td>
-            @endif
+                    </td>
+                @endif --}}
 
+                @if ($showDelete)
+                    <td class="button-icon-col">
+                        <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                            data-bs-target="#confirmationModal"
+                            data-action="{{ route('users.destroy', ['user' => $user->id]) }}"
+                            data-msgLine1="Do you really want to delete the user <strong>{{ $user->name }}</strong>?">
+                            <i class="fas fa-trash"></i>
 
+                        </button>
+                    </td>
+                @endif
 
 
             </tr>
@@ -122,3 +145,10 @@
     </tbody>
 
 </table>
+
+
+@include('shared.confirmationDialog', [
+    'title' => 'Delete user?',
+    'confirmationButton' => 'Delete',
+    'formMethod' => 'DELETE',
+])

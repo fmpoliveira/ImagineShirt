@@ -7,13 +7,13 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header bg-dark text-light">Alterar Senha</div>
+                    <div class="card-header bg-dark text-light">Change Password</div>
 
                     <div class="card-body">
                         <form method="POST" action="{{ route('password.change.store') }}" novalidate>
                             @csrf
                             <div class="row mb-3">
-                                <label for="currentpassword" class="col-md-4 col-form-label text-md-end">Senha atual</label>
+                                <label for="currentpassword" class="col-md-4 col-form-label text-md-end">Current Password</label>
 
                                 <div class="col-md-6">
                                     <input id="currentpassword" type="password"
@@ -29,7 +29,7 @@
                             </div>
 
                             <div class="row mb-3">
-                                <label for="password" class="col-md-4 col-form-label text-md-end">Nova Senha</label>
+                                <label for="password" class="col-md-4 col-form-label text-md-end">New Password</label>
 
                                 <div class="col-md-6">
                                     <input id="password" type="password"
@@ -45,8 +45,8 @@
                             </div>
 
                             <div class="row mb-3">
-                                <label for="password-confirm" class="col-md-4 col-form-label text-md-end">Confirmar
-                                    Senha</label>
+                                <label for="password-confirm" class="col-md-4 col-form-label text-md-end">Confirm
+                                    Password</label>
 
                                 <div class="col-md-6">
                                     <input id="password-confirm" type="password" class="form-control"
@@ -57,7 +57,7 @@
                             <div class="row mb-0">
                                 <div class="col-md-6 offset-md-4">
                                     <button type="submit" class="btn btn-primary">
-                                        Alterar Senha
+                                        Change Password
                                     </button>
                                 </div>
                             </div>

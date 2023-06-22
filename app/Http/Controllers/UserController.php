@@ -123,17 +123,13 @@ class UserController extends Controller
 
     public function destroy(User $user): RedirectResponse
     {
-        $this->authorize('administrar');
-
         try {
-            // $totalDisciplinas = DB::scalar('select count(*) from alunos_disciplinas where aluno_id = ?', [$aluno->id]);
-            // $user = $aluno->user;
-            if ($user->user_type == 'A' || $user->user->type == 'E') {
-                DB::transaction(function () use ($user) {
-                    // $aluno->delete();
-                    $user->delete();
-                });
-            }
+            DB::transaction(function () use ($user) {
+                $user->delete();
+                if ($user->user_type == 'C'){
+                    $user->customer->delete();
+                }
+            });
             if ($user->photo_url) {
                 Storage::delete('public/photos/' . $user->photo_url);
             }
@@ -142,19 +138,6 @@ class UserController extends Controller
             return redirect()->route('users.index')
                 ->with('alert-msg', $htmlMessage)
                 ->with('alert-type', 'success');
-            // } else {
-            // $url = route('alunos.show', ['aluno' => $aluno]);
-            // $alertType = 'warning';
-            // $disciplinasStr = $totalDisciplinas > 0 ?
-            //     ($totalDisciplinas == 1 ?
-            //         "está inscrito a 1 disciplina" :
-            //         "está inscrito a $totalDisciplinas disciplinas") :
-            //     "";
-            // $htmlMessage = "Aluno <a href='$url'>#{$aluno->id}</a>
-            //     <strong>\"{$user->name}\"</strong>
-            //     não pode ser apagado porque $disciplinasStr!
-            //     ";
-            // }
         } catch (\Exception $error) {
             $url = route('users.show', ['user' => $user]);
             $htmlMessage = "Unable to delete user <a href='$url'>#{$user->id}</a>
@@ -165,6 +148,12 @@ class UserController extends Controller
             ->with('alert-msg', $htmlMessage)
             ->with('alert-type', $alertType);
     }
+
+
+
+
+
+
 
 
     public function destroy_foto(User $user): RedirectResponse
@@ -183,25 +172,23 @@ class UserController extends Controller
 
     public function block(User $user): RedirectResponse
     {
-        if ($user->user_type == 'C'){
+        if ($user->user_type == 'C') {
             $user_type = 'Customer ';
-        } else{
+        } else {
             $user_type = 'User ';
         }
         if ($user->blocked == false) {
             $user->blocked = true;
             $user->save();
             return redirect()->route('users.index')
-            ->with('alert-msg', $user_type . '"' . $user->name . '" was blocked!')
-            ->with('alert-type', 'success');
+                ->with('alert-msg', $user_type . '"' . $user->name . '" was blocked!')
+                ->with('alert-type', 'success');
         } else {
             $user->blocked = false;
             $user->save();
             return redirect()->route('users.index')
-            ->with('alert-msg', $user_type . '"' . $user->name . '" was unblocked!')
-            ->with('alert-type', 'success');
+                ->with('alert-msg', $user_type . '"' . $user->name . '" was unblocked!')
+                ->with('alert-type', 'success');
         }
     }
-
-
 }

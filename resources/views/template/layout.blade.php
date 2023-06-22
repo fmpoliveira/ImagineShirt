@@ -103,21 +103,7 @@
                             <div class="sb-nav-link-icon"><i class="fas fa-shopping-cart"></i></div>Shopping Cart
                         </a>
 
-                        {{-- <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
-                            data-bs-target="#collapseRecursosHumanos" aria-expanded="false"
-                            aria-controls="collapseRecursosHumanos">
-                            <div class="sb-nav-link-icon"><i class="fas fa-user"></i></div>
-                            Human Resources
-                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                        </a>
-                        <div class="collapse" id="collapseRecursosHumanos" aria-labelledby="headingTwo"
-                            data-bs-parent="#sidenavAccordion">
-                            <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link {{ Route::currentRouteName() == 'customers.index' ? 'active' : '' }}"
-                                    href="{{ route('customers.index') }}">Customers</a>
-                            </nav>
-                        </div> --}}
-
+                    
                         {{-- Customer --}}
                         @can('viewPrivate', App\Models\Order::class)
                             <div class="sb-sidenav-menu-heading">Private Space</div>

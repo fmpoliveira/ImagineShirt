@@ -24,7 +24,7 @@
     @enderror
 </div>
 
-{{-- @if($showUserType) --}}
+@if($showUserType)
 <div class="mb-3 form-floating">
     <select class="form-select @error('user_type') is-invalid @enderror" name="user_type" id="inputUser_type"
         {{ $disabledStr }}>
@@ -39,6 +39,6 @@
         </div>
     @enderror
 </div>
-{{-- @endif --}}
+@endif
 
 

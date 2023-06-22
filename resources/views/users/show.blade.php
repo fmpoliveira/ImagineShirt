@@ -2,15 +2,7 @@
 
 @section('titulo', 'User')
 
-{{-- @section('subtitulo')
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item">Gestão</li>
-        <li class="breadcrumb-item">Curricular</li>
-        <li class="breadcrumb-item"><a href="{{ route('customers.index') }}">Customers</a></li>
-        <li class="breadcrumb-item"><strong>{{ $customer->user->name }}</strong></li>
-        <li class="breadcrumb-item active">Consultar</li>
-    </ol>
-@endsection --}}
+
 
 @section('main')
     <div>
@@ -30,12 +22,16 @@
                 @endif
 
                 <div class="my-1 d-flex justify-content-end">
-                    <form method="POST" action="{{ route('users.destroy', ['user' => $user]) }}">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" name="delete" class="btn btn-danger">
-                            Delete User
+
+
+                        <button type="button" name="delete" class="btn btn-danger" data-bs-toggle="modal"
+                        data-bs-target="#confirmationModal"
+                        data-msgLine1="Do you really want to delete the user <strong>&quot;{{ $user->name }}&quot;</strong>?"
+                        data-action="{{ route('users.destroy', ['user' => $user]) }}">
+                        Delete User
                         </button>
+
+
                     </form>
                     <a href="{{ route('users.edit', ['user' => $user]) }}" class="btn btn-secondary ms-3">
                         Edit User
@@ -52,14 +48,12 @@
             </div>
         </div>
     </div>
-    {{-- <div>
-        <h3>Disciplinas que leciona</h3>
-        @include('disciplinas.shared.table', [
-            'disciplinas' => $customer->disciplinas,
-            'showCurso' => true,
-            'showDetail' => true,
-            'showEdit' => false,
-            'showDelete' => false,
-        ])
-    </div> --}}
+
+
+
+    @include('shared.confirmationDialog', [
+        'title' => 'Delete user',
+        'confirmationButton' => 'Delete',
+        'formMethod' => 'DELETE',
+    ])
 @endsection
