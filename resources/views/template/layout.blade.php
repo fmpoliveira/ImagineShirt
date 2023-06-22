@@ -129,7 +129,7 @@
                             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
                                 data-bs-target="#collapseAdminManager" aria-expanded="false"
                                 aria-controls="collapseAdminManager">
-                                <div class="sb-nav-link-icon"><i class="fa-solid fa-user-secret"></i></div>
+                                <div style="width:20px" class="sb-nav-link-icon"><i class="fa-solid fa-user-secret"></i></div>
                                 Management
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                             </a>
