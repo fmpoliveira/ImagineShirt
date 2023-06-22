@@ -34,6 +34,7 @@ Route::resource('orderItems', OrderItemController::class);
 
 Route::get('private/orders', [OrderController::class, 'indexPrivate'])->name('privateOrder.indexPrivate');
 
+Route::get('private/orders/{orderID}', [OrderController::class, 'getReceipt'])->name('orders.getReceipt');
 Route::get('private/orders/{order}', [OrderController::class, 'getPrivateOrder'])->name('privateOrder.showPrivate');
 
 Route::resource('orders', OrderController::class);

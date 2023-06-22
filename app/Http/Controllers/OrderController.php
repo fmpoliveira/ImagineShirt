@@ -13,6 +13,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+// PDF creator
+use PDF;
+use Illuminate\Support\Facades\Storage;
 
 class OrderController extends Controller
 {
@@ -143,7 +146,6 @@ class OrderController extends Controller
                         if (!is_numeric($value) || strlen($value) !== 16) {
                             $fail('The ' . $attribute . ' must be numeric and have 16 digits.');
                         }
-
                     }
                 }
             ]
@@ -151,12 +153,22 @@ class OrderController extends Controller
 
         $order->update($validatedData);
 
-        // TODO
-        $pathToPDF = '';
-
         if ($order->status == 'Closed') {
-            $email = Auth::user()->email;
-            Mail::to($email)->send(new OrderClosedMail($order, Auth::user(), $pathToPDF));
+
+            // Create the pdf
+            $pdf = PDF::loadView('pdf.index', compact('order'));
+
+            // Store the PDF in private folder (pdf_receipts)
+            $pdfFilename = 'receipt_' . $order->id . '.pdf';
+            $pdf->save(storage_path('/app/pdf_receipts/' . $pdfFilename));
+
+            // Save the receipt_url on DB
+            $order->receipt_url = $pdfFilename;
+            $order->save();
+
+            // TODO
+            // $email = Auth::user()->email;
+            // Mail::to($email)->send(new OrderClosedMail($order, Auth::user(), $pathToPDF));
         }
 
         $url = route('orders.show', ['order' => $order]);
@@ -164,5 +176,23 @@ class OrderController extends Controller
         return redirect()->route('orders.admin')
             ->with('alert-msg', $htmlMessage)
             ->with('alert-type', 'success');
+    }
+
+    public function getReceipt($orderID)
+    {
+        $order = Order::find($orderID);
+        $this->authorize('getReceipt', $order);
+
+        $path = 'pdf_receipts/' . $order->receipt_url;
+
+        if (Storage::exists($path)) {
+            $content = Storage::get($path);
+            $mime = Storage::mimeType($path);
+            $pdf = response($content)->header('Content-Type', $mime);
+
+            return $pdf;
+        }
+
+        abort(404);
     }
 }
