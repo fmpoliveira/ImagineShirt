@@ -2,13 +2,7 @@
 
 @section('titulo', 'Users')
 
-{{-- @section('subtitulo')
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item">Gestão</li>
-        <li class="breadcrumb-item">Curricular</li>
-        <li class="breadcrumb-item active">Customers</li>
-    </ol>
-@endsection --}}
+
 
 @section('main')
 
@@ -53,6 +47,8 @@
 
         </div>
 
+        
+
     </form>
 
     @include('users.shared.table', [
@@ -64,7 +60,7 @@
         'showEdit' => false,
         'showDelete' => true,
         'showBlock' => true,
-        
+
     ])
 
     <div>

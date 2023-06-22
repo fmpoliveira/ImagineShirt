@@ -14,28 +14,27 @@
                     'showUserType' => true,
                 ])
 
-                @if ($user->user_type=='C')
-                @include('customers.shared.fields', [
-                    'customer' => $user->customer,
-                    'readonlyData' => true
-                ])
+                @if ($user->user_type == 'C')
+                    @include('customers.shared.fields', [
+                        'customer' => $user->customer,
+                        'readonlyData' => true,
+                    ])
                 @endif
 
                 <div class="my-1 d-flex justify-content-end">
 
+                    <a href="{{ route('users.index') }}" class="btn btn-primary ms-3">Back</a>
 
-                        <button type="button" name="delete" class="btn btn-danger" data-bs-toggle="modal"
+                    <button type="button" name="delete" class="btn btn-danger  ms-3" data-bs-toggle="modal"
                         data-bs-target="#confirmationModal"
                         data-msgLine1="Do you really want to delete the user <strong>&quot;{{ $user->name }}&quot;</strong>?"
                         data-action="{{ route('users.destroy', ['user' => $user]) }}">
                         Delete User
-                        </button>
+                    </button>
 
 
-                    </form>
-                    <a href="{{ route('users.edit', ['user' => $user]) }}" class="btn btn-secondary ms-3">
-                        Edit User
-                    </a>
+
+                    <a href="{{ route('users.edit', ['user' => $user]) }}" class="btn btn-secondary ms-3">Edit User</a>
                 </div>
             </div>
             <div class="ps-2 mt-5 mt-md-1 d-flex mx-auto flex-column align-items-center justify-content-between"

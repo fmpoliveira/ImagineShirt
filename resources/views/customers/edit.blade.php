@@ -2,15 +2,7 @@
 
 @section('titulo', 'Edit Customer')
 
-{{-- @section('subtitulo')
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item">Gestão</li>
-        <li class="breadcrumb-item">Curricular</li>
-        <li class="breadcrumb-item"><a href="{{ route('customers.index') }}">Customers</a></li>
-        <li class="breadcrumb-item"><strong>{{ $customer->user->name }}</strong></li>
-        <li class="breadcrumb-item active">Change</li>
-    </ol>
-@endsection --}}
+
 
 @section('main')
     <form id="form_customer" novalidate class="needs-validation" method="POST"

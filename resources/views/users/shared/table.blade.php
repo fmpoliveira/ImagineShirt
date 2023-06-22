@@ -16,9 +16,9 @@
                 <th>User Type</th>
             @endif
 
-            @if ($showDetail)
-                <th class="button-icon-col"></th>
-            @endif
+            {{-- @if ($showDetail) --}}
+            <th class="button-icon-col"></th>
+            {{-- @endif --}}
 
             @if ($showEdit)
                 <th class="button-icon-col"></th>
@@ -75,10 +75,12 @@
                     <td></td>
                     {{ $showDetail = false }}
                 @endif
+                
                 @if ($showDetail)
                     <td class="button-icon-col"><a class="btn btn-secondary"
                             href="{{ route('users.show', ['user' => $user]) }}">
-                            <i class="fas fa-eye"></i></a></td>
+                            <i class="fas fa-eye"></i></a>
+                    </td>
                 @endif
 
 
@@ -102,29 +104,7 @@
                     </td>
                 @endif
 
-                {{-- @if ($showDelete)
-                    <td class="button-icon-col">
-                        <form method="POST" action="{{ route('users.destroy', ['user' => $user->id]) }}">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" name="delete" class="btn btn-danger" data-bs-toggle="modal"
-                                data-bs-target="#confirmationModal"
-                                data-msgLine1="Do you really want to delete <strong>{{ $user->name }}</strong>?">
 
-                                <i class="fas fa-trash"></i></button>
-                        </form>
-                    </td>
-                @endif --}}
-
-                {{-- @if ($showDelete)
-                    <td class="button-icon-col">
-                        <button type="button" name="delete" class="btn btn-danger" data-bs-toggle="modal"
-                            data-bs-target="#confirmationModal"
-                            data-action="{{ route('users.destroy', ['user' => $user->id]) }}"
-                            data-msgLine1="Do you really want to delete <strong>{{ $user->name }}</strong>?">
-                            <i class="fas fa-trash"></i></button>
-                    </td>
-                @endif --}}
 
                 @if ($showDelete)
                     <td class="button-icon-col">

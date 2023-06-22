@@ -24,13 +24,12 @@
     @enderror
 </div>
 
-@if($showUserType)
+@if($showUserType ?? true)
 <div class="mb-3 form-floating">
     <select class="form-select @error('user_type') is-invalid @enderror" name="user_type" id="inputUser_type"
         {{ $disabledStr }}>
         <option {{ old('user_type', $user->user_type) == 'A' ? 'selected' : '' }} value="A">Administrator</option>
         <option {{ old('user_type', $user->user_type) == 'E' ? 'selected' : '' }} value="E">Employee</option>
-        {{-- <option {{ old('user_type', $user->user_type) == 'C' ? 'selected' : '' }} value="C">Customer</option> --}}
     </select>
     <label for="inputUser_type" class="form-label">User Type</label>
     @error('user_type')
