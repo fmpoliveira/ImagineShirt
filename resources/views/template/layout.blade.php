@@ -94,13 +94,13 @@
                     <div class="nav">
                         <a class="nav-link {{ Route::currentRouteName() == 'tshirts.index' ? 'active' : '' }}"
                             href="{{ route('tshirts.index') }}">
-                            <div class="sb-nav-link-icon"><i class="fa-solid fa-bag-shopping"></i></div>
+                            <div style="width:20px" class="sb-nav-link-icon"><i class="fa-solid fa-bag-shopping"></i></div>
                             Shop
                         </a>
 
                         <a class="nav-link {{ Route::currentRouteName() == 'cart.show' ? 'active' : '' }}"
                             href="{{ route('cart.show') }}">
-                            <div class="sb-nav-link-icon"><i class="fas fa-shopping-cart"></i></div>Shopping Cart
+                            <div style="width:20px" class="sb-nav-link-icon"><i class="fas fa-shopping-cart"></i></div>Shopping Cart
                         </a>
 
                     
@@ -109,14 +109,14 @@
                             <div class="sb-sidenav-menu-heading">Private Space</div>
                             <a class="nav-link {{ Route::currentRouteName() == 'privateOrder.indexPrivate' ? 'active' : '' }}"
                                 href="{{ route('privateOrder.indexPrivate') }}">
-                                <div class="sb-nav-link-icon"><i class="fas fa-file-text"></i>
+                                <div style="width:20px" class="sb-nav-link-icon"><i class="fas fa-file-text"></i>
                                 </div>
                                 My Orders
                             </a>
 
                             <a class="nav-link {{ Route::currentRouteName() == 'privateTshirt.indexPrivate' ? 'active' : '' }}"
                                 href="{{ route('privateTshirt.indexPrivate') }}">
-                                <div class="sb-nav-link-icon"><i class="fa-solid fa-shirt"></i></div>My Tshirts
+                                <div style="width:20px" class="sb-nav-link-icon"><i class="fa-solid fa-shirt"></i></div>My Tshirts
                             </a>
                         @endcan
 
@@ -126,7 +126,7 @@
                             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
                                 data-bs-target="#collapseAdminManager" aria-expanded="false"
                                 aria-controls="collapseAdminManager">
-                                <div class="sb-nav-link-icon"><i class="fa-solid fa-user-secret"></i></div>
+                                <div style="width:20px" class="sb-nav-link-icon"><i class="fa-solid fa-user-secret"></i></div>
                                 Manager
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                             </a>
