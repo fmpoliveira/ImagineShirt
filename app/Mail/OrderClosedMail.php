@@ -10,6 +10,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Mail\Mailables\Attachment;
 
 class OrderClosedMail extends Mailable
 {
@@ -62,7 +63,7 @@ class OrderClosedMail extends Mailable
     {
         return [
             // TODO
-            // Attachment::fromStorage($this->pathToAttachment),
+            Attachment::fromStorage($this->pathToAttachment)->withMime('application/pdf'),
             // Attachment::fromPath($this->pathToAttachment)
         ];
     }

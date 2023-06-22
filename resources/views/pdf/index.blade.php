@@ -23,7 +23,7 @@
             <h6>Buyer Information:</h6>
             <p>Name: {{ $order->customer->user->name }}</p>
             <p>NIF: {{ $order->nif }}</p>
-            <p>Date: {{ date('F j, Y - h:i:s') }}</p>
+            <p>Date: {{ $order->date }}</p>
             <hr>
             {{-- </div> --}}
 
