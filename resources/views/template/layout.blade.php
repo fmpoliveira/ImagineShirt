@@ -103,7 +103,7 @@
                             <div class="sb-nav-link-icon"><i class="fas fa-shopping-cart"></i></div>Shopping Cart
                         </a>
 
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                        {{-- <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
                             data-bs-target="#collapseRecursosHumanos" aria-expanded="false"
                             aria-controls="collapseRecursosHumanos">
                             <div class="sb-nav-link-icon"><i class="fas fa-user"></i></div>
@@ -116,7 +116,7 @@
                                 <a class="nav-link {{ Route::currentRouteName() == 'customers.index' ? 'active' : '' }}"
                                     href="{{ route('customers.index') }}">Customers</a>
                             </nav>
-                        </div>
+                        </div> --}}
 
                         {{-- Customer --}}
                         @can('viewPrivate', App\Models\Order::class)
@@ -163,6 +163,10 @@
                                         <a class="nav-link {{ Route::currentRouteName() == 'prices.index' ? 'active' : '' }}"
                                             href="{{ route('prices.index') }}">
                                             Price Manager
+                                        </a>
+                                        <a class="nav-link {{ Route::currentRouteName() == 'users.index' ? 'active' : '' }}"
+                                            href="{{ route('users.index') }}">
+                                            User Manager
                                         </a>
                                     @endcan
                                     <a class="nav-link {{ Route::currentRouteName() == 'orders.admin' ? 'active' : '' }}"

@@ -22,7 +22,13 @@
                 <td>{{ $order->status }}</td>
                 <td>{{ $order->date }}</td>
                 <td>{{ number_format($order->total_price, 2) }}€</td>
-                <td></td>
+                @if ($order->receipt_url !== null)
+                    <td><a
+                            href="{{ route('orders.getReceipt', ['orderID' => $order->id]) }}">{{ $order->receipt_url }}</a>
+                    </td>
+                @else
+                    <td></td>
+                @endif
                 @if ($showEdit)
                     <td class="button-icon-col">
                         <a class="btn btn-dark" href="{{ route('orders.edit', ['order' => $order->id]) }}">

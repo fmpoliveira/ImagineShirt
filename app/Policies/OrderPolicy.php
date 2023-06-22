@@ -57,5 +57,8 @@ class OrderPolicy
         return $user->user_type === 'A' || $user->user_type === 'E';
     }
 
-
+    public function getReceipt(User $user, Order $order): bool
+    {
+        return $user->customer->id === $order->customer_id || $user->user_type === 'A';
+    }
 }

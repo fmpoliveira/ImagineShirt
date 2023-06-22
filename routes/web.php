@@ -35,6 +35,7 @@ Route::resource('orderItems', OrderItemController::class);
 Route::get('private/orders', [OrderController::class, 'indexPrivate'])->name('privateOrder.indexPrivate');
 
 Route::get('private/orders/{order}', [OrderController::class, 'getPrivateOrder'])->name('privateOrder.showPrivate');
+Route::get('private/orders/receipt/{orderID}', [OrderController::class, 'getReceipt'])->name('orders.getReceipt');
 
 Route::resource('orders', OrderController::class);
 
@@ -82,7 +83,9 @@ Route::delete('users/{user}/foto', [UserController::class, 'destroy_foto'])
 Route::delete('customers/{customer}/foto', [CustomerController::class, 'destroy_foto'])
     ->name('customers.foto.destroy');
 
-Route::post('/users', [UserController::class, 'blockUser'])->name('users.block');
+Route::post('users/store', [UserController::class, 'store'])->name('users.store');
+
+Route::post('/users/{user}/block', [UserController::class, 'block'])->name('users.block');
 
 // Show the cart:
 

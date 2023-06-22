@@ -71,37 +71,49 @@
                             <i class="fas fa-edit"></i></a></td>
                 @endif
 
-                @if ($showDelete)
-                    <td class="button-icon-col">
-                        <form method="POST" action="{{ route('users.destroy', ['user' => $user]) }}">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" name="delete" class="btn btn-danger">
-                                <i class="fas fa-trash"></i></button>
-                        </form>
-                    </td>
+                @if ($user->user_type == 'C')
+                    <td></td>
+                    {{ $showDetail = false }}
                 @endif
+                @if ($showDetail)
+                    <td class="button-icon-col"><a class="btn btn-secondary"
+                            href="{{ route('users.show', ['user' => $user]) }}">
+                            <i class="fas fa-eye"></i></a></td>
+                @endif
+
+
 
 
                 @if ($showBlock)
                     <td class="button-icon-col">
-                        <form method="POST" action="{{ route('users.block', ['user' => $user->id]) }}">
+                        <form method="POST" action="{{ route('users.block', ['user' => $user]) }}">
                             @csrf
                             @method('POST')
-                            <button type="submit" name="block" class="btn btn-warning">
-                                <i class="fa-solid fa-ban"></i></button>
+                            @if ($user->blocked == 0)
+                                <button type="submit" name="block" class="btn btn-warning">
+                                    <i class="fa-sharp fa-solid fa-lock"></i>
+                                </button>
+                            @else
+                                <button type="submit" name="block" class="btn btn-success">
+                                    <i class="fa-solid fa-lock-open"></i>
+                                </button>
+                            @endif
                         </form>
                     </td>
                 @endif
 
-                @if ($user->user_type == 'C')
-                {{ $showDetail = false }}
+                @if ($showDelete)
+                <td class="button-icon-col">
+                    <form method="POST" action="{{ route('users.destroy', ['user' => $user->id]) }}">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" name="delete" class="btn btn-danger">
+                            <i class="fas fa-trash"></i></button>
+                    </form>
+                </td>
             @endif
-            @if ($showDetail)
-                <td class="button-icon-col"><a class="btn btn-secondary"
-                        href="{{ route('users.show', ['user' => $user]) }}">
-                        <i class="fas fa-eye"></i></a></td>
-            @endif
+
+
 
 
             </tr>
