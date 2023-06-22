@@ -3,32 +3,30 @@
 @endphp
 
 <div class="mb-3 form-floating">
-    @if (isset($user))
-        @if ($user->user_type === 'A')
-            <select class="form-select @error('status') is-invalid @enderror" name="status" id="inputstatus"
-                {{ $disabledStr }}>
+    <select class="form-select @error('status') is-invalid @enderror" name="status" id="inputstatus" {{ $disabledStr }}>
+        @if (isset($user))
+            @if ($user->user_type === 'A')
                 <option {{ $order->status == 'closed' ? 'selected' : '' }}>Closed</option>
                 <option {{ $order->status == 'pending' ? 'selected' : '' }}>Pending</option>
                 <option {{ $order->status == 'paid' ? 'selected' : '' }}>Paid</option>
                 <option {{ $order->status == 'canceled' ? 'selected' : '' }}>Canceled</option>
-            </select>
-        @elseif($user->user_type === 'E')
-            <select class="form-select @error('status') is-invalid @enderror" name="status" id="inputstatus"
-                {{ $disabledStr }}>
-                <option {{ $order->status == 'closed' ? 'selected' : '' }}>Closed</option>
-                <option {{ $order->status == 'pending' ? 'selected' : '' }}>Pending</option>
-                <option {{ $order->status == 'paid' ? 'selected' : '' }}>Paid</option>
-            </select>
-        @endif
-    @else
-        <select class="form-select @error('status') is-invalid @enderror" name="status" id="inputstatus"
-            {{ $disabledStr }}>
+            @elseif($user->user_type === 'E')
+                @if ($order->status == 'pending')
+                    <option {{ $order->status == 'pending' ? 'selected' : '' }}>Pending</option>
+                    <option {{ $order->status == 'paid' ? 'selected' : '' }}>Paid</option>
+                @endif
+                @if ($order->status == 'paid')
+                    <option {{ $order->status == 'closed' ? 'selected' : '' }}>Closed</option>
+                    <option {{ $order->status == 'paid' ? 'selected' : '' }}>Paid</option>
+                @endif
+            @endif
+        @else
             <option {{ $order->status == 'closed' ? 'selected' : '' }}>Closed</option>
             <option {{ $order->status == 'pending' ? 'selected' : '' }}>Pending</option>
             <option {{ $order->status == 'paid' ? 'selected' : '' }}>Paid</option>
             <option {{ $order->status == 'canceled' ? 'selected' : '' }}>Canceled</option>
-        </select>
-    @endif
+        @endif
+    </select>
 
 
     <label for="inputstatus" class="form-label">Status</label>
