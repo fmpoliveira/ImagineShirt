@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\OrderStatus;
 use App\Enums\PaymentType;
+use App\Mail\OrderCreatedMail;
 use App\Models\Color;
 use App\Models\Order;
 use App\Models\OrderItem;
@@ -16,6 +17,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 
 class CartController extends Controller
@@ -196,7 +198,7 @@ class CartController extends Controller
             ->with('alert-type', $alertType);
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request)
     {
         $this->authorize('viewPrivate', Order::class);
 
@@ -273,6 +275,9 @@ class CartController extends Controller
                 return $newOrder;
             });
 
+            $email = Auth::user()->email;
+            Mail::to($email)->send(new OrderCreatedMail($order, Auth::user()));
+
             $url = route('orders.show', ['order' => $order]);
             $htmlMessage = "The order <a href='$url'>#{$order->id}</a> was confirmed to the customer #{$user->id} <strong>\"{$request->user()->name}\"</strong>";
             $alertType = 'success';
@@ -281,6 +286,7 @@ class CartController extends Controller
             $request->session()->forget('sizes');
             $request->session()->forget('paymentTypes');
             $request->session()->forget('loginInfo');
+
         } catch (\Exception $error) {
             $htmlMessage = "It wasn't possible to confirm the cart items because there occurred an error!";
             $alertType = 'danger';

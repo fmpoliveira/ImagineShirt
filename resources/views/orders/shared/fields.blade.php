@@ -3,12 +3,34 @@
 @endphp
 
 <div class="mb-3 form-floating">
-    <select class="form-select @error('status') is-invalid @enderror" name="status" id="inputstatus" {{ $disabledStr }}>
-        <option {{ $order->status == 'closed' ? 'selected' : '' }}>Closed</option>
-        <option {{ $order->status == 'pending' ? 'selected' : '' }}>Pending</option>
-        <option {{ $order->status == 'paid' ? 'selected' : '' }}>Paid</option>
-        <option {{ $order->status == 'canceled' ? 'selected' : '' }}>Canceled</option>
-    </select>
+    @if (isset($user))
+        @if ($user->user_type === 'A')
+            <select class="form-select @error('status') is-invalid @enderror" name="status" id="inputstatus"
+                {{ $disabledStr }}>
+                <option {{ $order->status == 'closed' ? 'selected' : '' }}>Closed</option>
+                <option {{ $order->status == 'pending' ? 'selected' : '' }}>Pending</option>
+                <option {{ $order->status == 'paid' ? 'selected' : '' }}>Paid</option>
+                <option {{ $order->status == 'canceled' ? 'selected' : '' }}>Canceled</option>
+            </select>
+        @elseif($user->user_type === 'E')
+            <select class="form-select @error('status') is-invalid @enderror" name="status" id="inputstatus"
+                {{ $disabledStr }}>
+                <option {{ $order->status == 'closed' ? 'selected' : '' }}>Closed</option>
+                <option {{ $order->status == 'pending' ? 'selected' : '' }}>Pending</option>
+                <option {{ $order->status == 'paid' ? 'selected' : '' }}>Paid</option>
+            </select>
+        @endif
+    @else
+        <select class="form-select @error('status') is-invalid @enderror" name="status" id="inputstatus"
+            {{ $disabledStr }}>
+            <option {{ $order->status == 'closed' ? 'selected' : '' }}>Closed</option>
+            <option {{ $order->status == 'pending' ? 'selected' : '' }}>Pending</option>
+            <option {{ $order->status == 'paid' ? 'selected' : '' }}>Paid</option>
+            <option {{ $order->status == 'canceled' ? 'selected' : '' }}>Canceled</option>
+        </select>
+    @endif
+
+
     <label for="inputstatus" class="form-label">Status</label>
     @error('status')
         <div class="invalid-feedback">

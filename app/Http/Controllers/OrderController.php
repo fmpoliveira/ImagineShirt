@@ -4,13 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Enums\OrderStatus;
 use App\Enums\PaymentType;
+use App\Mail\OrderClosedMail;
 use App\Models\Customer;
 use App\Models\Order;
-use App\Models\OrderItem;
 use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+// PDF creator
+use PDF;
+use Illuminate\Support\Facades\Storage;
 
 class OrderController extends Controller
 {
@@ -107,8 +112,12 @@ class OrderController extends Controller
     {
         $this->authorize('update', Order::class);
 
+        $login = Auth::user();
+        $user = User::find($login->id);
+
         return view('orders.edit')
-            ->with('order', $order);
+            ->with('order', $order)
+            ->with('user', $user);
     }
 
     /**
@@ -149,10 +158,46 @@ class OrderController extends Controller
 
         $order->update($validatedData);
 
+        if ($order->status == 'Closed') {
+
+            // Create the pdf
+            $pdf = PDF::loadView('pdf.index', compact('order'));
+
+            // Store the PDF in private folder (pdf_receipts)
+            $pdfFilename = 'receipt_' . $order->id . '.pdf';
+            $pdf->save(storage_path('/app/pdf_receipts/' . $pdfFilename));
+
+            // Save the receipt_url on DB
+            $order->receipt_url = $pdfFilename;
+            $order->save();
+
+            // TODO
+            // $email = Auth::user()->email;
+            // Mail::to($email)->send(new OrderClosedMail($order, Auth::user(), $pathToPDF));
+        }
+
         $url = route('orders.show', ['order' => $order]);
         $htmlMessage = "Order <a href='$url'>{$order->id}</a> was successfully updated!";
         return redirect()->route('orders.admin')
             ->with('alert-msg', $htmlMessage)
             ->with('alert-type', 'success');
+    }
+
+    public function getReceipt($orderID)
+    {
+        $order = Order::find($orderID);
+        $this->authorize('getReceipt', $order);
+
+        $path = 'pdf_receipts/' . $order->receipt_url;
+
+        if (Storage::exists($path)) {
+            $content = Storage::get($path);
+            $mime = Storage::mimeType($path);
+            $pdf = response($content)->header('Content-Type', $mime);
+
+            return $pdf;
+        }
+
+        abort(404);
     }
 }
