@@ -14,20 +14,6 @@ use App\Http\Controllers\UserController;
 
 Route::view('/', 'home')->name('root');
 
-// REPLACE THESE 7 ROUTES:
-// Route::get('tshirts', [TshirtController::class, 'index'])->name('tshirts.index');
-// Route::get('cursos/{curso}', [CursoController::class, 'show'])->name('cursos.show');
-// Route::get('cursos/create', [CursoController::class, 'create'])->name('cursos.create');
-// Route::post('cursos', [CursoController::class, 'store'])->name('cursos.store');
-// Route::get('cursos/{curso}/edit', [CursoController::class, 'edit'])->name('cursos.edit');
-// Route::put('cursos/{curso}', [CursoController::class, 'update'])->name('cursos.update');
-// Route::delete('cursos/{curso}', [CursoController::class, 'destroy'])->name('cursos.destroy');
-
-// WITH A SINGLE LINE OF CODE:
-// Route::get('cart/{customer}', [TshirtController::class, 'index'])->name('tshirts.index');
-
-
-
 Route::resource('prices', PriceController::class);
 
 Route::resource('orderItems', OrderItemController::class);
@@ -43,20 +29,16 @@ Route::get('orderManager', [OrderController::class, 'indexAdmin'])->name('orders
 
 // -------------- PRIVATE IMAGES --------------
 
-// Route::middleware('auth')->group(function () {
 Route::get('private/tshirts', [TshirtImageController::class, 'indexPrivate'])->name('privateTshirt.indexPrivate');
 Route::get('private/tshirts/{imagePath}', [TshirtImageController::class, 'getPrivateImage'])->name('private.image');
-// });
 
-// Route::middleware(['auth', 'can:view-private-images'])->group(function () {
-Route::get('private/tshirts/{tshirt}', [TshirtImageController::class, 'showPrivate'])->name('privateTshirt.showPrivate');
+Route::get('private/tshirts/view/{tshirt}', [TshirtImageController::class, 'showPrivate'])->name('privateTshirt.showPrivate');
 Route::get('private/tshirts/{tshirt}/edit', [TshirtImageController::class, 'editPrivate'])->name('privateTshirt.editPrivate');
 Route::put('private/{tshirt}', [TshirtImageController::class, 'updatePrivate'])->name('privateTshirt.updatePrivate');
 Route::delete('private/{tshirt}', [TshirtImageController::class, 'destroyPrivate'])->name('privateTshirt.destroyPrivate');
-// });
+
 
 // --------------------------------------------
-
 
 Route::get('tshirtManager', [TshirtImageController::class, 'indexAdmin'])->name('tshirts.admin');
 Route::resource('tshirts', TshirtImageController::class);
@@ -74,8 +56,6 @@ Route::resource('categories', CategoryController::class);
 Auth::routes(['verify' => true]);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-Route::view('teste', 'template.layout');
 
 Route::delete('users/{user}/foto', [UserController::class, 'destroy_foto'])
     ->name('users.foto.destroy');

@@ -159,7 +159,6 @@ class TshirtImageController extends Controller
     public function update(TshirtImageRequest $request, TshirtImage $tshirt): RedirectResponse
     {
         $formData = $request->validated();
-        // dd($formData);
         $tshirt = DB::transaction(function () use ($formData, $tshirt) {
             $tshirt->name = $formData['name'];
             $tshirt->description = $formData['description'];
@@ -209,7 +208,8 @@ class TshirtImageController extends Controller
 
     public function indexPrivate()
     {
-        // $this->authorize('viewPrivate', TshirtImage::class);
+        $user = Auth::user();
+        $this->authorize('viewCustomer', TshirtImage::class);
 
         if (Auth::check()) {
             $tshirts = TshirtImage::all();
@@ -230,6 +230,7 @@ class TshirtImageController extends Controller
     {
         $path = 'tshirt_images_private/' . $imagePath;
 
+        // imprime em todo o lado menos no show - o show está a passar o id
         if (Storage::exists($path)) {
             $content = Storage::get($path);
             $mime = Storage::mimeType($path);
@@ -241,9 +242,9 @@ class TshirtImageController extends Controller
         abort(404);
     }
 
-    public function showPrivate(TshirtImage $tshirt): View
+    public function showPrivate(TshirtImage $tshirt)
     {
-        $this->authorize('viewPrivate', $tshirt);
+        $this->authorize('viewPrivateImages', $tshirt);
         return view('privateTshirt.show', compact('tshirt'));
     }
 
@@ -341,6 +342,7 @@ class TshirtImageController extends Controller
         // $canvas->resize(500, 500);
         // Generate the base64-encoded image data
         $image = $canvas->encode('data-url')->encoded;
+
         return view('preview.canvas', ['image' => $image]);
     }
 }

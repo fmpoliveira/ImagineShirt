@@ -34,7 +34,6 @@ class OrderPolicy
         return $user->user_type === 'A' || $user->user_type === 'E';
     }
 
-
     public function viewPrivate(User $user): bool
     {
         // A user can only see his images
