@@ -119,10 +119,10 @@ was created with success!";
             $user->email = $formData['email'];
             $user->save();
             if ($request->hasFile('file_foto')) {
-                if ($user->url_foto) {
-                    Storage::delete('public/fotos/' . $user->photo_url);
+                if ($user->photo_url) {
+                    Storage::delete('public/photos/' . $user->photo_url);
                 }
-                $path = $request->file_foto->store('public/fotos');
+                $path = $request->file_foto->store('public/photos');
                 $user->photo_url = basename($path);
                 $user->save();
             }
@@ -149,8 +149,8 @@ was created with success!";
                 $customer->delete();
                 $user->delete();
             });
-            if ($user->url_foto) {
-                Storage::delete('public/fotos/' . $user->url_foto);
+            if ($user->photo_url) {
+                Storage::delete('public/photos/' . $user->photo_url);
             }
             $htmlMessage = "Customer #{$customer->id}
                         <strong>\"{$user->name}\"</strong> was deleted with success!";
@@ -179,5 +179,17 @@ was created with success!";
         return back()
             ->with('alert-msg', $htmlMessage)
             ->with('alert-type', $alertType);
+    }
+
+    public function destroy_foto(Customer $customer): RedirectResponse
+    {
+        if ($customer->user->photo_url) {
+            Storage::delete('public/photos/' . $customer->user->photo_url);
+            $customer->user->photo_url = null;
+            $customer->user->save();
+        }
+        return redirect()->route('customers.edit', ['customer' => $customer])
+            ->with('alert-msg', 'User photo "' . $customer->user->name . '" was removed!')
+            ->with('alert-type', 'success');
     }
 }

@@ -64,6 +64,7 @@
         'showEdit' => false,
         'showDelete' => true,
         'showBlock' => true,
+        
     ])
 
     <div>

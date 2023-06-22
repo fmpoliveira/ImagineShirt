@@ -83,16 +83,21 @@ class OrderController extends Controller
         $login = Auth::user();
         $user = Customer::find($login->id);
 
+
+        foreach ($order->orderItems as $orderItem) {
+            dd($orderItem->color);
+        }
         if ($order->customer_id !== $user->id) {
             $htmlMessage = "You can't access this order!";
             $alertType = 'danger';
 
-            return back()
-                ->with('alert-msg', $htmlMessage)
-                ->with('alert-type', $alertType);
+
+            // return back()
+            //     ->with('alert-msg', $htmlMessage)
+            //     ->with('alert-type', $alertType);
         }
 
-        return view('privateOrder.show', compact('order'));
+        // return view('privateOrder.show', compact('order'));
     }
 
     /**
@@ -137,7 +142,6 @@ class OrderController extends Controller
                         if (!is_numeric($value) || strlen($value) !== 16) {
                             $fail('The ' . $attribute . ' must be numeric and have 16 digits.');
                         }
-
                     }
                 }
             ]

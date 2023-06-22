@@ -26,7 +26,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'email',
         'password',
         'user_type',
-        'photo_url'
+        'photo_url',
     ];
 
     /**
@@ -48,10 +48,6 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-    // public function customer(): HasOne
-    // {
-    //     return $this->hasOne(Customer::class);
-    // }
 
 
     public function customer(): HasOne
@@ -71,15 +67,4 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
 
-    // public function block()
-    // {
-    //     $this->blocked = true;
-    //     $this->save();
-    // }
-
-    // public function unblock()
-    // {
-    //     $this->blocked = false;
-    //     $this->save();
-    // }
 }

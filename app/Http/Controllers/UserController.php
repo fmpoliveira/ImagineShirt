@@ -38,7 +38,7 @@ class UserController extends Controller
 
     public function create()
     {
-        $this->authorize('administrar');
+        // $this->authorize('administrar');
 
         $user = new User();
         return view('users.create', compact('user'));
@@ -46,7 +46,7 @@ class UserController extends Controller
 
     public function store(UserRequest $request): RedirectResponse
     {
-        $this->authorize('administrar');
+        // $this->authorize('administrar');
 
         $formData = $request->validated();
         $user = DB::transaction(function () use ($formData, $request) {
@@ -57,7 +57,7 @@ class UserController extends Controller
             $newUser->user_type = $formData['user_type'];
             $newUser->save();
             if ($request->hasFile('file_foto')) {
-                $path = $request->file_foto->store('public/fotos');
+                $path = $request->file_foto->store('public/photos');
                 $newUser->photo_url = basename($path);
                 $newUser->save();
             }
@@ -104,9 +104,9 @@ class UserController extends Controller
 
             if ($request->hasFile('file_foto')) {
                 if ($user->photo_url) {
-                    Storage::delete('public/fotos/' . $user->photo_url);
+                    Storage::delete('public/photos/' . $user->photo_url);
                 }
-                $path = $request->file_foto->store('public/fotos');
+                $path = $request->file_foto->store('public/photos');
                 $user->photo_url = basename($path);
                 $user->save();
             }
@@ -135,12 +135,12 @@ class UserController extends Controller
                 });
             }
             if ($user->photo_url) {
-                Storage::delete('public/fotos/' . $user->photo_url);
+                Storage::delete('public/photos/' . $user->photo_url);
             }
             $htmlMessage = "User #{$user->id}
                         <strong>\"{$user->name}\"</strong> was deleted with success!";
             return redirect()->route('users.index')
-            ->with('alert-msg', $htmlMessage)
+                ->with('alert-msg', $htmlMessage)
                 ->with('alert-type', 'success');
             // } else {
             // $url = route('alunos.show', ['aluno' => $aluno]);
@@ -170,32 +170,38 @@ class UserController extends Controller
     public function destroy_foto(User $user): RedirectResponse
     {
         if ($user->photo_url) {
-            Storage::delete('public/fotos/' . $user->photo_url);
+            Storage::delete('public/photos/' . $user->photo_url);
             $user->photo_url = null;
             $user->save();
         }
         return redirect()->route('users.edit', ['user' => $user])
-            ->with('alert-msg', 'User photo "' . $user->name .
-                '" was removed!')
+            ->with('alert-msg', 'User photo "' . $user->name . '" was removed!')
             ->with('alert-type', 'success');
     }
 
 
 
-    // public function blockUser(User $user)
-    // {
-    //     $user->blocked = 1;
-    //     $user->save();
-    // }
+    public function block(User $user): RedirectResponse
+    {
+        if ($user->user_type == 'C'){
+            $user_type = 'Customer ';
+        } else{
+            $user_type = 'User ';
+        }
+        if ($user->blocked == false) {
+            $user->blocked = true;
+            $user->save();
+            return redirect()->route('users.index')
+            ->with('alert-msg', $user_type . '"' . $user->name . '" was blocked!')
+            ->with('alert-type', 'success');
+        } else {
+            $user->blocked = false;
+            $user->save();
+            return redirect()->route('users.index')
+            ->with('alert-msg', $user_type . '"' . $user->name . '" was unblocked!')
+            ->with('alert-type', 'success');
+        }
+    }
 
-    // public function unblockUser(User $user)
-    // {
-    //     // $user = User::find($id);
-    //     if ($user) {
-    //         $user->unblock();
-    //         // Redirecionar ou retornar uma resposta de sucesso
-    //     } else {
-    //         // Usuário não encontrado, retornar uma resposta de erro
-    //     }
-    // }
+
 }

@@ -47,22 +47,21 @@
 
         </div>
     </form>
-    {{-- <form id="form_delete_photo"
+    <form id="form_delete_photo"
         action="{{ route('users.foto.destroy', ['user' => $user]) }}"
         method="POST" class="d-none">
         @csrf
         @method('DELETE')
-    </form> --}}
+    </form>
 
 
-    {{-- @include('shared.confirmationDialog', [
-        'title' => 'Quer realmente apagar a foto?',
-        'msgLine1' => 'As alterações efetuadas ao dados do docente vão ser perdidas!',
-        'msgLine2' => 'Clique no botão "Apagar" para confirmar a operação.',
-        'confirmationButton' => 'Apagar',
-        'formActionRoute' => 'docentes.foto.destroy',
-        'formActionRouteParameters' => ['docente' => $docente],
-        'formMethod' => 'DELETE',
-    ]) --}}
+
+
+    @include('shared.confirmationDialog', [
+    'title' => 'Delete Photo?',
+    'confirmationButton' => 'Delete',
+    'formMethod' => 'DELETE',
+])
+
 
 @endsection

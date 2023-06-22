@@ -46,10 +46,10 @@
         </div>
     </form>
     @include('shared.confirmationDialog', [
-        'title' => 'Quer realmente apagar a foto?',
-        'msgLine1' => 'As alterações efetuadas ao dados do docente vão ser perdidas!',
-        'msgLine2' => 'Clique no botão "Apagar" para confirmar a operação.',
-        'confirmationButton' => 'Apagar fotografia',
+        'title' => 'Do you really want to delete the photo?',
+        'msgLine1' => 'Changes made to the customer data will be lost!',
+        'msgLine2' => 'Click the "Delete" button to confirm the operation.',
+        'confirmationButton' => 'Delete photo',
         'formMethod' => 'DELETE',
     ])
 @endsection
