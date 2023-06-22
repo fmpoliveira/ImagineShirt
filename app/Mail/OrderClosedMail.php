@@ -62,7 +62,6 @@ class OrderClosedMail extends Mailable
     public function attachments(): array
     {
         return [
-            // TODO
             Attachment::fromStorage($this->pathToAttachment)->withMime('application/pdf'),
             // Attachment::fromPath($this->pathToAttachment)
         ];

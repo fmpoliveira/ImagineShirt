@@ -46,10 +46,11 @@ class OrderController extends Controller
 
         $filterByStatus = $request->status ?? '';
         $filterByCustomer = $request->customerId ?? '';
+        $filterByDate = $request->date ?? '';
         $orderQuery = DB::table('orders');
         $allOrderStatus = array_column(OrderStatus::cases(), 'value');
         $allCustomersIdWithOrders = Order::distinct()->pluck('customer_id');
-
+        $allDates = Order::distinct()->orderByDesc('date')->pluck('date');
         $allCustomersWithOrders = DB::table('customers')
             ->join('users', 'customers.id', '=', 'users.id')
             ->whereIn('customers.id', $allCustomersIdWithOrders)
@@ -61,14 +62,12 @@ class OrderController extends Controller
         if ($filterByCustomer !== '') {
             $orderQuery->where('customer_id', $filterByCustomer);
         }
+        if ($filterByDate !== '') {
+            $orderQuery->where('date', $filterByDate);
+        }
         $orders = $orderQuery->paginate(10);
 
-        return view('orders.admin')
-            ->with('allOrderStatus', $allOrderStatus)
-            ->with('allCustomersWithOrders', $allCustomersWithOrders)
-            ->with('filterByStatus', $filterByStatus)
-            ->with('filterByCustomer', $filterByCustomer)
-            ->with('orders', $orders);
+        return view('orders.admin', compact('allOrderStatus', 'allCustomersWithOrders', 'filterByStatus', 'filterByCustomer', 'orders', 'filterByDate', 'allDates'));
     }
 
     /**
