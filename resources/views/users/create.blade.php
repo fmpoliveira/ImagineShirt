@@ -7,7 +7,12 @@
         @csrf
         <div class="d-flex flex-column flex-sm-row justify-content-start align-items-start">
             <div class="flex-grow-1 pe-2">
-                @include('users.shared.fields', ['user' => $user, 'readonlyData' => false, '$showUserType' => true])
+                @include('users.shared.fields', [
+                    'user' => $user,
+                    'readonlyData' => false,
+                    '$showUserType' => true,
+
+                    ])
                 <div class="my-1 d-flex justify-content-end">
                     <button type="submit" class="btn btn-primary" name="ok" form="form_user">Save new user</button>
                     <a href="{{ route('users.index', ['user' => $user]) }}" class="btn btn-secondary ms-3">Cancel</a>
@@ -19,6 +24,7 @@
                     'user' => $user,
                     'allowUpload' => true,
                     'allowDelete' => false,
+                    
                 ])
             </div>
         </div>

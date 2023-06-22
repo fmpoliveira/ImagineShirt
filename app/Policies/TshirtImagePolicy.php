@@ -34,6 +34,11 @@ class TshirtImagePolicy
         return $user->user_type === 'A' || $user->user_type === 'E';
     }
 
+    public function viewCustomer(User $user): bool
+    {
+        return $user->user_type === 'C';
+    }
+
     /**
      * Determine whether the user can create models.
      */
@@ -61,7 +66,7 @@ class TshirtImagePolicy
         return $user->user_type === 'A';
     }
 
-    public function viewPrivate(User $user, TshirtImage $tshirtImage): bool
+    public function viewPrivateImages(User $user, TshirtImage $tshirtImage): bool
     {
         // A user can only see his images
         return $user->id === $tshirtImage->customer_id;
@@ -76,7 +81,6 @@ class TshirtImagePolicy
     public function deletePrivate(User $user, TshirtImage $tshirtImage): bool
     {
         // Only admin can delete images
-        // dd($user->id, $tshirtImage->customer_id);
         return $user->id === $tshirtImage->customer_id;
     }
 }

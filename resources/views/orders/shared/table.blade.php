@@ -48,13 +48,10 @@
 
                 <td class="button-icon-col">
                     <button type="button" class="btn btn-secondary" onclick="getImage('{{ $tshirt->id }}')">
-                        <i class="fa-solid fa-magnifying-glass"><a
-                                href="{{ route('canvas.image', [
-                                    'color' => $color,
-                                    'tshirt' => $tshirt,
-                                ]) }}"></a></i>
+                        <i class="fa-solid fa-magnifying-glass"><a href="#"></a></i>
                     </button>
                 </td>
+
                 @if ($showDelete)
                     <td class="button-icon-col">
                         <form method="POST" action="{{ route('cart.remove', ['tshirt' => $tshirt]) }}">

@@ -131,45 +131,45 @@ class CustomerController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    // public function destroy(Customer $customer): RedirectResponse
-    // {
-    //     try {
-    //         // $totalDisciplinas = DB::scalar('select count(*) from docentes_disciplinas where docente_id = ?', [$docente->id]);
-    //         $user = $customer->user;
-    //         // if ($totalDisciplinas == 0) {
-    //         DB::transaction(function () use ($customer, $user) {
-    //             $customer->delete();
-    //             $user->delete();
-    //         });
-    //         if ($user->photo_url) {
-    //             Storage::delete('public/photos/' . $user->photo_url);
-    //         }
-    //         $htmlMessage = "Customer #{$customer->id}
-    //                     <strong>\"{$user->name}\"</strong> was deleted with success!";
-    //         return redirect()->route('customers.index')
-    //             ->with('alert-msg', $htmlMessage)
-    //             ->with('alert-type', 'success');
+    public function destroy(Customer $customer): RedirectResponse
+    {
+        try {
+            // $totalDisciplinas = DB::scalar('select count(*) from docentes_disciplinas where docente_id = ?', [$docente->id]);
+            $user = $customer->user;
+            // if ($totalDisciplinas == 0) {
+            DB::transaction(function () use ($customer, $user) {
+                $customer->delete();
+                $user->delete();
+            });
+            if ($user->photo_url) {
+                Storage::delete('public/photos/' . $user->photo_url);
+            }
+            $htmlMessage = "Customer #{$customer->id}
+                        <strong>\"{$user->name}\"</strong> was deleted with success!";
+            return redirect()->route('customers.index')
+                ->with('alert-msg', $htmlMessage)
+                ->with('alert-type', 'success');
 
-    //     } catch (\Exception $error) {
-    //         $url = route('customers.show', ['customer' => $customer]);
-    //         $htmlMessage = "Was not possible to delete the customer <a href='$url'>#{$customer->id}</a>
-    //                     <strong>\"{$user->name}\"</strong> because an error occurred!";
-    //         $alertType = 'danger';
-    //     }
-    //     return back()
-    //         ->with('alert-msg', $htmlMessage)
-    //         ->with('alert-type', $alertType);
-    // }
+        } catch (\Exception $error) {
+            $url = route('customers.show', ['customer' => $customer]);
+            $htmlMessage = "Was not possible to delete the customer <a href='$url'>#{$customer->id}</a>
+                        <strong>\"{$user->name}\"</strong> because an error occurred!";
+            $alertType = 'danger';
+        }
+        return back()
+            ->with('alert-msg', $htmlMessage)
+            ->with('alert-type', $alertType);
+    }
 
-    // public function destroy_foto(Customer $customer): RedirectResponse
-    // {
-    //     if ($customer->user->photo_url) {
-    //         Storage::delete('public/photos/' . $customer->user->photo_url);
-    //         $customer->user->photo_url = null;
-    //         $customer->user->save();
-    //     }
-    //     return redirect()->route('customers.edit', ['customer' => $customer])
-    //         ->with('alert-msg', 'User photo "' . $customer->user->name . '" was removed!')
-    //         ->with('alert-type', 'success');
-    // }
+    public function destroy_foto(Customer $customer): RedirectResponse
+    {
+        if ($customer->user->photo_url) {
+            Storage::delete('public/photos/' . $customer->user->photo_url);
+            $customer->user->photo_url = null;
+            $customer->user->save();
+        }
+        return redirect()->route('customers.edit', ['customer' => $customer])
+            ->with('alert-msg', 'User photo "' . $customer->user->name . '" was removed!')
+            ->with('alert-type', 'success');
+    }
 }

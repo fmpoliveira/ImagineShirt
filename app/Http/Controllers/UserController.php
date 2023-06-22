@@ -16,7 +16,7 @@ class UserController extends Controller
 
     public function index(Request $request): View
     {
-        // $this->authorize('administrar');
+        $this->authorize('viewAny', User::class);
 
         $filterByUser_type = $request->user_type ?? '';
         $filterByNome = $request->nome ?? '';
@@ -38,7 +38,7 @@ class UserController extends Controller
 
     public function create()
     {
-        // $this->authorize('administrar');
+        $this->authorize('create', User::class);
 
         $user = new User();
         return view('users.create', compact('user'));
@@ -46,7 +46,7 @@ class UserController extends Controller
 
     public function store(UserRequest $request): RedirectResponse
     {
-        // $this->authorize('administrar');
+        $this->authorize('create', User::class);
 
         $formData = $request->validated();
         $user = DB::transaction(function () use ($formData, $request) {
@@ -74,29 +74,25 @@ class UserController extends Controller
 
     public function show(User $user): View
     {
+        $this->authorize('viewAny', User::class);
         return view('users.show', compact('user'));
     }
 
 
     public function edit(User $user): View
     {
-        // $this->authorize('administrar');
-        // $this->authorize('update-customer');
+
+        $this->authorize('update', User::class);
         return view('users.edit', compact('user'));
     }
 
 
     public function update(UserRequest $request, User $user): RedirectResponse
     {
-        // $this->authorize('update-customer');
+
+        $this->authorize('update', User::class);
         $formData = $request->validated();
         $user = DB::transaction(function () use ($formData, $user, $request) {
-            // $user->customer->address = $formData['address'];
-            // $user->customer->nif = $formData['nif'];
-            // $user->customer->default_payment_type = $formData['default_payment_type'];
-            // $user->customer->default_payment_ref = $formData['default_payment_ref'];
-            // $user->customer->save();
-
             $user->name = $formData['name'];
             $user->email = $formData['email'];
             $user->user_type = $formData['user_type'];
@@ -123,10 +119,11 @@ class UserController extends Controller
 
     public function destroy(User $user): RedirectResponse
     {
+        $this->authorize('delete', User::class);
         try {
             DB::transaction(function () use ($user) {
                 $user->delete();
-                if ($user->user_type == 'C'){
+                if ($user->user_type == 'C') {
                     $user->customer->delete();
                 }
             });
@@ -149,13 +146,6 @@ class UserController extends Controller
             ->with('alert-type', $alertType);
     }
 
-
-
-
-
-
-
-
     public function destroy_foto(User $user): RedirectResponse
     {
         if ($user->photo_url) {
@@ -167,7 +157,6 @@ class UserController extends Controller
             ->with('alert-msg', 'User photo "' . $user->name . '" was removed!')
             ->with('alert-type', 'success');
     }
-
 
 
     public function block(User $user): RedirectResponse
