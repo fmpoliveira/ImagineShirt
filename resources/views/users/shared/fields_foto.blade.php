@@ -11,11 +11,7 @@
     </div>
 @endif
 
-{{-- @if ($formToDelete ?? false)
-    <button type="submit" class="btn btn-danger" name="deletefoto" form="{{ $formToDelete }}">
-        Delete Photo
-    </button>
-@endif --}}
+
 
 
 @if (($allowDelete ?? false) && $user->photo_url)

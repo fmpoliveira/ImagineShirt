@@ -38,8 +38,7 @@
                         <i class="fas fa-edit"></i></a></td>
 
                 <td class="button-icon-col">
-                    <button type="button" name="delete" class="btn btn-danger" data-bs-toggle="modal"
-                        data-bs-target="#confirmationModal"
+                    <button type="button" name="delete" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmationModal"
                         data-action="{{ route('tshirts.destroy', ['tshirt' => $tshirt]) }}"
                         data-msgLine1="Do you really want to delete <strong>{{ $tshirt->name }}</strong>?">
                         <i class="fas fa-trash"></i></button>

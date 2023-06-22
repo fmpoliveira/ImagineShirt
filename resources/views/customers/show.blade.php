@@ -2,15 +2,7 @@
 
 @section('titulo', 'Customer')
 
-{{-- @section('subtitulo')
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item">Gestão</li>
-        <li class="breadcrumb-item">Curricular</li>
-        <li class="breadcrumb-item"><a href="{{ route('customers.index') }}">Customers</a></li>
-        <li class="breadcrumb-item"><strong>{{ $customer->user->name }}</strong></li>
-        <li class="breadcrumb-item active">Consultar</li>
-    </ol>
-@endsection --}}
+
 
 @section('main')
     <div>
@@ -19,13 +11,8 @@
                 @include('users.shared.fields', ['user' => $customer->user, 'readonlyData' => true, 'showUserType' => false])
                 @include('customers.shared.fields', ['customer' => $customer, 'readonlyData' => true])
                 <div class="my-1 d-flex justify-content-end">
-                    {{-- <form method="POST" action="{{ route('customers.destroy', ['customer' => $customer]) }}">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" name="delete" class="btn btn-danger">
-                            Delete Customer
-                        </button>
-                    </form> --}}
+
+                    <a href="{{ route('home') }}" class="btn btn-primary ms-3">Back</a>
                     <a href="{{ route('customers.edit', ['customer' => $customer]) }}" class="btn btn-secondary ms-3">
                         Edit Customer
                     </a>
@@ -41,14 +28,5 @@
             </div>
         </div>
     </div>
-    {{-- <div>
-        <h3>Disciplinas que leciona</h3>
-        @include('disciplinas.shared.table', [
-            'disciplinas' => $customer->disciplinas,
-            'showCurso' => true,
-            'showDetail' => true,
-            'showEdit' => false,
-            'showDelete' => false,
-        ])
-    </div> --}}
+
 @endsection

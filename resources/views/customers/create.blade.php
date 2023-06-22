@@ -1,15 +1,8 @@
-@extends('template.layout')
+{{-- @extends('template.layout')
 
 @section('titulo', 'New Customer')
 
-{{-- @section('subtitulo')
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item">Gestão</li>
-        <li class="breadcrumb-item">Curricular</li>
-        <li class="breadcrumb-item"><a href="{{ route('customers.index') }}">Customers</a></li>
-        <li class="breadcrumb-item active">Criar Novo</li>
-    </ol>
-@endsection --}}
+
 
 @section('main')
     <form id="form_customer" method="POST" action="{{ route('customers.store') }}">
@@ -35,4 +28,4 @@
             </div>
         </div>
     </form>
-@endsection
+@endsection --}}

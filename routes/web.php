@@ -11,6 +11,7 @@ use App\Http\Controllers\ColorController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\auth\ChangePasswordController;
 
 Route::view('/', 'home')->name('root');
 
@@ -60,6 +61,9 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::delete('users/{user}/foto', [UserController::class, 'destroy_foto'])
     ->name('users.foto.destroy');
 
+Route::delete('users/{user}', [UserController::class, 'destroy'])
+    ->name('users.destroy');
+
 Route::delete('customers/{customer}/foto', [CustomerController::class, 'destroy_foto'])
     ->name('customers.foto.destroy');
 
@@ -85,5 +89,5 @@ Route::delete('cart/{tshirt}', [CartController::class, 'removeFromCart'])->name(
 
 Route::delete('cart', [CartController::class, 'destroy'])->name('cart.destroy');
 
-Route::get('/password/change', [App\Http\Controllers\auth\ChangePasswordController::class, 'show'])->name('password.change.show');
-Route::post('/password/change', [App\Http\Controllers\auth\ChangePasswordController::class, 'store'])->name('password.change.store');
+Route::get('/password/change', [ChangePasswordController::class, 'show'])->name('password.change.show');
+Route::post('/password/change', [ChangePasswordController::class, 'store'])->name('password.change.store');
