@@ -34,6 +34,7 @@
             </option>
             <option {{ old('default_payment_type', $customer->default_payment_type) == 'PAYPAL' ? 'selected' : '' }} value="PAYPAL">PAYPAL
             </option>
+
         </select>
         <label for="paymentType" class="form-label">Default payment type</label>
         @error('default_payment_type')

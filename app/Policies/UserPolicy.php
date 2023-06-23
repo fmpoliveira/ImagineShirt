@@ -19,7 +19,7 @@ class UserPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Customer $customer): bool
+    public function viewCustomer(User $user): bool
     {
         return $user->user_type == 'C';
     }

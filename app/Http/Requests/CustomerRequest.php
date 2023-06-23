@@ -29,7 +29,6 @@ class CustomerRequest extends FormRequest
                 'email',
                 Rule::unique('users', 'email')->ignore($this->id),
             ],
-            // 'user_type' => 'required|in:A,E,C',
             'address' => 'sometimes',
             'nif' => 'sometimes|digits:9',
             'default_payment_type' => 'sometimes|in:VISA,MC,PAYPAL',
@@ -58,4 +57,13 @@ class CustomerRequest extends FormRequest
             'password_inicial' => 'sometimes|required',
         ];
     }
+
+
+
+
+
+
+
+
+
 }

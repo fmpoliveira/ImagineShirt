@@ -100,9 +100,7 @@
                                         <option value="VISA"
                                             {{ old('default_payment_type', 'VISA') == 'VISA' ? 'selected' : '' }}>VISA
                                         </option>
-                                        <option value=""
-                                            {{ old('default_payment_type', '') == '' ? 'selected' : '' }}>Not specified
-                                        </option>
+                                        
                                     </select>
                                     @error('default_payment_type')
                                         <span class="invalid-feedback" role="alert">

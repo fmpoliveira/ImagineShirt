@@ -74,8 +74,7 @@ class CustomerController extends Controller
      */
     public function show(Customer $customer): View
     {
-        // $customerQuery = Customer::query();
-        // $customers = $customerQuery->with('user')->get();
+        $this->authorize('viewCustomer', User::class);
 
         return view('customers.show', compact('customer'));
     }
@@ -86,6 +85,8 @@ class CustomerController extends Controller
     public function edit(Customer $customer): View
     {
 
+        $this->authorize('viewCustomer', User::class);
+
         return view('customers.edit', compact('customer'));
     }
 
@@ -94,6 +95,8 @@ class CustomerController extends Controller
      */
     public function update(CustomerRequest $request, Customer $customer): RedirectResponse
     {
+        $this->authorize('viewCustomer', User::class);
+
         $formData = $request->validated();
         $customer = DB::transaction(function () use ($formData, $customer, $request) {
             $customer->nif = $formData['nif'];
@@ -133,6 +136,8 @@ class CustomerController extends Controller
      */
     public function destroy(Customer $customer): RedirectResponse
     {
+        $this->authorize('viewAny', User::class);
+
         try {
             // $totalDisciplinas = DB::scalar('select count(*) from docentes_disciplinas where docente_id = ?', [$docente->id]);
             $user = $customer->user;
@@ -163,6 +168,7 @@ class CustomerController extends Controller
 
     public function destroy_foto(Customer $customer): RedirectResponse
     {
+
         if ($customer->user->photo_url) {
             Storage::delete('public/photos/' . $customer->user->photo_url);
             $customer->user->photo_url = null;
