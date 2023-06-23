@@ -130,7 +130,7 @@ class TshirtImageController extends Controller
             return $newTshirt;
         });
 
-        $url = route('tshirts.show', ['tshirt' => $tshirt]);
+        $url = route('privateTshirt.showPrivate', ['tshirt' => $tshirt]);
         $htmlMessage = "Tshirt <a href='$url'>#{$tshirt->id}</a>
                         <strong>\"{$tshirt->name}\"</strong> successfully created!";
         return redirect()->route('tshirts.index')

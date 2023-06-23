@@ -278,7 +278,7 @@ class CartController extends Controller
             $email = Auth::user()->email;
             Mail::to($email)->send(new OrderCreatedMail($order, Auth::user()));
 
-            $url = route('orders.show', ['order' => $order]);
+            $url = route('privateOrder.showPrivate', ['order' => $order]);
             $htmlMessage = "The order <a href='$url'>#{$order->id}</a> was confirmed to the customer #{$user->id} <strong>\"{$request->user()->name}\"</strong>";
             $alertType = 'success';
             $request->session()->forget('cart');
