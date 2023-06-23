@@ -187,9 +187,11 @@ class OrderController extends Controller
             $order->save();
 
             $pathToPDF = 'pdf_receipts/' . $pdfFilename;
-            // TODO
-            $email = Auth::user()->email;
-            Mail::to($email)->send(new OrderClosedMail($order, Auth::user(), $pathToPDF));
+
+            $user = $order->customer->user;
+            $email = $order->customer->user->email;
+            
+            Mail::to($email)->send(new OrderClosedMail($order, $user, $pathToPDF));
         }
 
         $url = route('orders.show', ['order' => $order]);

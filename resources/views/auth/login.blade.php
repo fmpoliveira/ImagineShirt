@@ -7,7 +7,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header bg-dark text-light">Access credentials</div>
+                    <div class="card-header bg-light text-white">Access credentials</div>
 
                     <div class="card-body">
                         <form method="POST" action="{{ route('login') }}">

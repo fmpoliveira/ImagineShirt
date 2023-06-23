@@ -7,7 +7,7 @@
     <title>Order Processing Notification</title>
 </head>
 
-<body>
+<body style="font-family: Arial, Helvetica, sans-serif">
     <table
         style="width: 100%; max-width: 600px; margin: 0 auto; padding: 20px; border-collapse: collapse; border: 1px solid #ccc;">
         <tr>

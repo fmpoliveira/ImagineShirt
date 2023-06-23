@@ -14,10 +14,10 @@
 </head>
 
 <body class="sb-nav-fixed">
-    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-light">
         <!-- Navbar Brand-->
         <a class="navbar-brand " href="{{ route('home') }}">
-            <img src="/img/logo.svg" alt="Logo" class="bg-dark" width="140" height="52">
+            <img src="/img/logo.svg" alt="Logo" class="bg-light" width="140" height="52">
         </a>
         <!-- Sidebar Toggle-->
         <button class="btn btn-link btn-sm order-1 order-lg-0 me-3 me-lg-0" id="sidebarToggle" href="#"><i
@@ -48,7 +48,7 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
                         data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="{{ Auth::user()->fullPhotoUrl }}" alt="Avatar" class="bg-dark rounded-circle"
+                        <img src="{{ Auth::user()->fullPhotoUrl }}" alt="Avatar" class="bg-light rounded-circle"
                             width="45" height="45">
                     </a>
 
@@ -89,7 +89,7 @@
     </nav>
     <div id="layoutSidenav">
         <div id="layoutSidenav_nav">
-            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+            <nav class="sb-sidenav accordion sb-sidenav-dark bg-light" id="sidenavAccordion">
                 <div class="sb-sidenav-menu">
                     <div class="nav">
                         <a class="nav-link {{ Route::currentRouteName() == 'tshirts.index' ? 'active' : '' }}"
@@ -108,7 +108,7 @@
 
                         {{-- Customer --}}
                         @can('viewPrivate', App\Models\Order::class)
-                            <div class="sb-sidenav-menu-heading">Private Space</div>
+                            <div style="color: rgba(224, 224, 224, 0.849)" class="sb-sidenav-menu-heading">Private Space</div>
                             <a class="nav-link {{ Route::currentRouteName() == 'privateOrder.indexPrivate' ? 'active' : '' }}"
                                 href="{{ route('privateOrder.indexPrivate') }}">
                                 <div style="width:20px" class="sb-nav-link-icon"><i class="fas fa-file-text"></i>
@@ -125,7 +125,7 @@
 
                         {{-- Admin --}}
                         @can('viewAdminAndEmployee', App\Models\TshirtImage::class)
-                            <div class="sb-sidenav-menu-heading">Admin</div>
+                            <div style="color: rgba(224, 224, 224, 0.849)" class="sb-sidenav-menu-heading">Admin</div>
                             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
                                 data-bs-target="#collapseAdminManager" aria-expanded="false"
                                 aria-controls="collapseAdminManager">

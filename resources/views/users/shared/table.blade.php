@@ -63,28 +63,22 @@
                     </td>
                 @endif
 
-
-
                 @if ($showEdit)
                     <td class="button-icon-col"><a class="btn btn-dark"
                             href="{{ route('users.edit', ['user' => $user]) }}">
                             <i class="fas fa-edit"></i></a></td>
                 @endif
 
-                @if ($user->user_type == 'C')
-                    <td></td>
-                    {{ $showDetail = false }}
-                @endif
-                
                 @if ($showDetail)
-                    <td class="button-icon-col"><a class="btn btn-secondary"
-                            href="{{ route('users.show', ['user' => $user]) }}">
-                            <i class="fas fa-eye"></i></a>
-                    </td>
+                    @if ($user->user_type == 'C')
+                        <td></td>
+                    @else
+                        <td class="button-icon-col"><a class="btn btn-secondary"
+                                href="{{ route('users.show', ['user' => $user]) }}">
+                                <i class="fas fa-eye"></i></a>
+                        </td>
+                    @endif
                 @endif
-
-
-
 
                 @if ($showBlock)
                     <td class="button-icon-col">
