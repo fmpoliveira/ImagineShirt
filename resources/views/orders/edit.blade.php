@@ -16,11 +16,19 @@
     <form method="POST" action="{{ route('orders.update', ['order' => $order]) }}">
         @csrf
         @method('PUT')
-        @include('orders.shared.fields', [
-            'order' => $order,
-            'user' => $user,
-            'readonlyData' => false
-        ])
+        @if ($order->status === 'closed' || $order->status === 'canceled')
+            @include('orders.shared.fields', [
+                'order' => $order,
+                'user' => $user,
+                'readonlyData' => true,
+            ])
+        @else
+            @include('orders.shared.fields', [
+                'order' => $order,
+                'user' => $user,
+                'readonlyData' => false,
+            ])
+        @endif
         <div class="my-4 d-flex justify-content-end">
             <button type="submit" class="btn btn-primary" name="ok">Save changes</button>
             <a href="{{ route('orders.admin') }}" class="btn btn-secondary ms-3">Cancel</a>
