@@ -7,7 +7,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header bg-dark text-light">{{ __('Register') }}</div>
+                    <div class="card-header bg-light text-white">{{ __('Register') }}</div>
 
                     <div class="card-body">
                         {{-- "novalidate" - When publishing the application, we should remove this attribute. --}}
@@ -100,7 +100,7 @@
                                         <option value="VISA"
                                             {{ old('default_payment_type', 'VISA') == 'VISA' ? 'selected' : '' }}>VISA
                                         </option>
-                                        
+
                                     </select>
                                     @error('default_payment_type')
                                         <span class="invalid-feedback" role="alert">
@@ -117,8 +117,9 @@
 
                                 <div class="col-md-6">
                                     <input id="default_payment_ref" type="text"
-                                        class="form-control @error('default_payment_ref') is-invalid @enderror" name="default_payment_ref"
-                                        value="{{ old('default_payment_ref') }}" autocomplete="default_payment_ref" autofocus>
+                                        class="form-control @error('default_payment_ref') is-invalid @enderror"
+                                        name="default_payment_ref" value="{{ old('default_payment_ref') }}"
+                                        autocomplete="default_payment_ref" autofocus>
 
                                     @error('default_payment_ref')
                                         <span class="invalid-feedback" role="alert">
